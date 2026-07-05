@@ -18,6 +18,9 @@
 # Output files from R CMD check
 /*.Rcheck/
 
+# Some Mackbook files
+.DS_Store
+
 # RStudio files
 .Rproj.user/
 

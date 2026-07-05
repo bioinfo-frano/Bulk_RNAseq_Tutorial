@@ -21,6 +21,16 @@ The tutorial starts with three dataset samples, each representing one specific e
 
 The purpose of this tutorial is educational and to promote reproducibility.
 
+## 🔬 Workflow Overview
+Overview of the bulk RNAseq pipeline in this repository.
+
+<p align="center">
+  <img src="images/Gemini_Generated_Image_l5yy5vl5yy5vl5yy.png" 
+       width="75%">
+</p>
+
+- *Image generated in collaboration with Gemini (Google AI) via iterative prompting.*
+
 ---
 
 ## Tutorial structure
@@ -29,7 +39,7 @@ The purpose of this tutorial is educational and to promote reproducibility.
 
 1. Folder structure  
 2. Finding an open dataset project   
-3. Downloading pair-reads datasets by **SRA Toolkit**   
+3. Downloading paired-end reads datasets by **SRA Toolkit**   
 4. Reference genome indexes from HISAT2
 5. Conda environments
 
