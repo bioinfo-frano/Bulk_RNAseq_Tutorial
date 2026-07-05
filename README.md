@@ -13,7 +13,7 @@ The tutorial covers the following workflow steps:
     - Alignment (`HISAT2`) & Mark duplicates (`Picard`)
     - Raw count table generation per sample (`featureCounts`)
     - Visualisation (IGV)
-- **Tertiary analysis** (RStudio):
+- **Tertiary analysis** using RStudio (**Part III**):
     - Count matrix generation
     - DESeq2 transformation
     - PCA
@@ -32,6 +32,12 @@ Overview of the bulk RNAseq pipeline in this repository.
 <p align="center">
   <img src="images/Gemini_Generated_Image_l5yy5vl5yy5vl5yy.png" 
        width="85%">
+</p>
+
+<p align="center">
+  <img src="images/Gemini_Generated_Image_l5yy5vl5yy5vl5yy.png" 
+       alt="Bulk RNA-seq Workflow" 
+       style="max-width: 800px; width: 100%;">
 </p>
 
 - *Image generated in collaboration with Gemini (Google AI) via iterative prompting.*
@@ -64,7 +70,7 @@ Overview of the bulk RNAseq pipeline in this repository.
 - Conda-based installation
 
 > [!NOTE]  
-> ≥ 16 GB RAM (or even 32 GB) would be recommended for a full-scale datasets analysis. An 8 GB RAM laptop may suffice only for a small test files such as for this tutorial)
+> ≥ 16 GB RAM (or even 32 GB) would be recommended for a full-scale datasets analysis. An 8 GB RAM laptop may suffice only for a small test files such as for this tutorial, secondary analysis).
 
 
 This repository is intended for **educational and research purposes only**.  
