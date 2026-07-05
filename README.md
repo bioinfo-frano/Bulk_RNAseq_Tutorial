@@ -31,11 +31,6 @@ Overview of the bulk RNAseq pipeline in this repository.
 
 <p align="center">
   <img src="images/Gemini_Generated_Image_l5yy5vl5yy5vl5yy.png" 
-       width="85%">
-</p>
-
-<p align="center">
-  <img src="images/Gemini_Generated_Image_l5yy5vl5yy5vl5yy.png" 
        alt="Bulk RNA-seq Workflow" 
        style="max-width: 800px; width: 100%;">
 </p>
