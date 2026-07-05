@@ -25,7 +25,7 @@ The tutorial covers the following workflow steps:
     - Volcano and heatmap plots
 
 The tutorial starts with three representative RNA-seq samples (one sample from each experimental group) from the study [DOI: 10.1038/s41467-018-07329-0](https://www.nature.com/articles/s41467-018-07329-0). Each dataset consists of paired-end (R1 and R2) FASTQ files, which are used for the secondary analysis.  
-The same RNA-seq workflow is implemented twice: first using Bash script to illustrate each analysis step, and later using Nextflow to demonstrate workflow automation and reproducibility.
+The same RNA-seq workflow is implemented twice: first using Bash script to illustrate each analysis step, and later using Nextflow to demonstrate workflow automation and reproducibility.  
 For the tertiary analysis, a larger set of raw counts from more samples per experimental group from the same study is used to enable DESeq2 to normalise and calculate differential expression (DE).
 
 > [!IMPORTANT]  
