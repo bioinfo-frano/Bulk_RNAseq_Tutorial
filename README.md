@@ -20,3 +20,20 @@ In this tutorial, you will find a step-by-step protocol for achieving a reliable
 The tutorial starts with three dataset samples, each representing one specific experimental group, from the study [DOI: 10.1038/s41467-018-07329-0](https://www.nature.com/articles/s41467-018-07329-0). Each dataset consists of paired-end FASTQ files (R1 and R2), which are used for the secondary analysis. For the tertiary analysis, a larger set of raw counts from more samples per experimental group from the same study is used to enable DESeq2 to normalise and calculate differential expression.
 
 The purpose of this tutorial is educational and to promote reproducibility.
+
+---
+
+## Tutorial structure
+
+### 1️⃣ Part I – Preparation & setup  
+
+1. Folder structure  
+2. Finding an open dataset project   
+3. Downloading pair-reads datasets by **SRA Toolkit**   
+4. Reference genome indexes from HISAT2
+5. Conda environments
+
+➡️ **Start here:**  
+👉 [Part I – Preparation & setup](README_Part1_setup_bulkrnaseq.md)
+
+---
