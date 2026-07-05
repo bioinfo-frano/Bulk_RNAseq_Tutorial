@@ -6,14 +6,14 @@ In this tutorial, you will find a step-by-step protocol for achieving a reliable
   
 The tutorial covers the following workflow steps:
 
-- **Data acquisition** from NCBI SRA using the SRA Toolkit
-- **Folder structure**
-- **Secondary analysis** using Bash (**Part I**) and Nextflow (**Part II**) scripting, including:
+- **Part I**: **Setup and data preparation** from NCBI SRA using the SRA Toolkit
+- **Part II**: **Secondary analysis** using Bash and Nextflow scripting, including:
     - Preprocessing: QC, trimming, post-trimming QC, and duplicate marking
     - Alignment (`HISAT2`) & Mark duplicates (`Picard`)
-    - Raw count table generation per sample (`featureCounts`)
+    - Determination of strandedness
+    - Raw count with gene-level paired-read quantification per sample (`featureCounts`)
     - Visualisation (IGV)
-- **Tertiary analysis** using RStudio (**Part III**):
+- **Part III**: **Tertiary analysis** using RStudio:
     - Count matrix generation
     - DESeq2 transformation
     - PCA
@@ -41,12 +41,12 @@ Overview of the bulk RNAseq pipeline in this repository.
 
 ## Tutorial structure
 
-### 1️⃣ Part I – Preparation & setup  
+### 1️⃣ Part I – Setup and data preparation  
 
 1. Folder structure  
 2. Finding an open dataset project   
 3. Downloading paired-end reads datasets by **SRA Toolkit**   
-4. Downloading pre-built reference genome indexes from HISAT2 (e.g., *Homo sapiens* GRCh38/hg38)
+4. Downloading pre-built HISAT2 genome indexes (e.g., *Homo sapiens* GRCh38/hg38)
 5. Conda environments
 
 ➡️ **Start here:**  
@@ -75,6 +75,17 @@ All analyses are performed on publicly available research datasets.
 
 ---
 
+## 🧬 Target audience
+
+This tutorial is intended for:
+- Bioinformatics students with or without biology or engineer backgrounds
+- Researchers transitioning from wet lab to computational analysis.
+- Researchers who want a **transparent, Bash/Nextflow workflow** that can be run locally
+
+Basic familiarity with Linux command line is recommended.
+
+---
+
 ## 🔎 Third-Party Tools & Resources
 
 This tutorial uses and displays output or screenshots generated from the following tools and databases:
@@ -94,3 +105,9 @@ Screenshots and outputs are shown for educational and demonstration purposes onl
 © 2026 **bioinfo-frano**
 
 This project is licensed under the **MIT License**. See the full license [here](LICENSE).
+
+
+---
+![License](https://img.shields.io/badge/license-MIT-green)
+![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-blue)
+![Status](https://img.shields.io/badge/status-work_in_progress-orange)
