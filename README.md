@@ -19,7 +19,7 @@ In this tutorial, you will find a step-by-step protocol for achieving a reliable
 
 The tutorial starts with three dataset samples, each representing one specific experimental group, from the study [DOI: 10.1038/s41467-018-07329-0](https://www.nature.com/articles/s41467-018-07329-0). Each dataset consists of paired-end FASTQ files (R1 and R2), which are used for the secondary analysis. For the tertiary analysis, a larger set of raw counts from more samples per experimental group from the same study is used to enable DESeq2 to normalise and calculate differential expression.
 
-> [IMPORTANT!]: 
+>[!IMPORTANT]:  
 > DESeq2 requires biological replicates to estimate dispersion. Analyzing 1 sample per condition (n=1) is statistically invalid for differential expression. The 3 samples in Part I are strictly for demonstrating the alignment and counting pipeline (due to file size limits). The actual DE analysis uses a separate, larger count matrix (included in the repo) with at least 3 biological replicates per group.
 
 The purpose of this tutorial is educational and to promote reproducibility.
