@@ -7,7 +7,7 @@ In this tutorial, you will find a step-by-step protocol for achieving a reliable
 The tutorial covers the following workflow steps:
 
 - **Data acquisition** from NCBI SRA using the SRA Toolkit
-- **Folder structure** setup
+- **Folder structure**
 - **Secondary analysis** using Bash (**Part I**) and Nextflow (**Part II**) scripting, including:
     - Preprocessing: QC, trimming, post-trimming QC, and duplicate marking
     - Alignment (`HISAT2`) & Mark duplicates (`Picard`)
@@ -63,7 +63,7 @@ Overview of the bulk RNAseq pipeline in this repository.
 - macOS Big Sur 11.7.11 (Intel)
 - Conda-based installation
 
-> [!DISCLAIMER]  
+> [!NOTE]  
 > ≥ 16 GB RAM (or even 32 GB) would be recommended for a full-scale datasets analysis. An 8 GB RAM laptop may suffice only for a small test files such as for this tutorial)
 
 
