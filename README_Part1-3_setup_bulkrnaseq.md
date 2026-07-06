@@ -50,8 +50,8 @@ IV. Download a pre-built HISAT2 genome indexes (e.g., Homo sapiens GRCh38/hg38)
 > This guide was developed and tested on macOS running on Intel processors. Users on Apple Silicon (M1/M2/…/M5) or Linux systems may need to adapt certain steps.
 
 
-> [!IMPORTANT] **Conda prerequisites:**  
-> This guide assumes that Miniconda3 is already installed on your computer. If not, please consult the official [documentation](https://docs.conda.io/projects/conda/en/stable/user-guide/install/macos.html) or watch this [YouTube](https://www.youtube.com/watch?v=OH0E7FIHyQo) video.
+> [!IMPORTANT]  
+> **Conda prerequisites**: This guide assumes that Miniconda3 is already installed on your computer. If not, please consult the official [documentation](https://docs.conda.io/projects/conda/en/stable/user-guide/install/macos.html) or watch this [YouTube](https://www.youtube.com/watch?v=OH0E7FIHyQo) video.  
 
 When Miniconda is already installed, you should see the `(base)` environment activated in your Terminal.
 
