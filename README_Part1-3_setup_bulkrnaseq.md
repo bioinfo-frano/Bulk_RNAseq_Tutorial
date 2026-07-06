@@ -3,13 +3,13 @@
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Creating the computing environment for bulk RNA-seq analysis](#creating-the-computing-environment-for-bulk-rna-seq-analysis)
-    - [I. Create a folder structure](#i-create-a-folder-structure)
-    - [II. Find & download paired-end RNA-seq datasets](#ii-find--download-paired-end-rna-seq-datasets)
+- [Creating the computing environment for bulk RNA-seq analysis](#creating-the-computing-environment-for-bulk-rna-seq-analysis)  
+    - [I. Create a folder structure](#i-create-a-folder-structure)  
+    - [II. Find & download paired-end RNA-seq datasets](#ii-find--download-paired-end-rna-seq-datasets)  
     - [III. Download a pre-built HISAT2 genome index](#iii-download-a-pre-built-hisat2-genome-index)  
     - [IV. Create a Conda environment](#iv-create-a-conda-environment)  
-    - [V. Create a BED12 file](#v-create-a-bed12-file)
-    [VI. Final folder structure: before starting bulk RNA-seq analysis](#vi-final-folder-structure-before-starting-bulk-rna-seq-analysis)
+    - [V. Create a BED12 file](#v-create-a-bed12-file)  
+    - [VI. Final folder structure: before starting bulk RNA-seq analysis](#vi-final-folder-structure-before-starting-bulk-rna-seq-analysis)
 
 ## Introduction
 
@@ -475,8 +475,9 @@ Bulk_rnaseq/
 
 ---
 
-If you have reached the end of **PART I**, I invite you to continue with the 👉 [Part II – Somatic analysis](README_Part2-3_somatic_analysis.md), where the DNA analysis will be explained step-by-step.
+If you have reached the end of **PART I**, I congratulate you!!  
+Continue to the 👉 [Part II – Secondary analysis](README_Part2-3_secondary_bulkrnaseq.md), where you'll start with the preprocessing analysis to alignment till the generation of raw counts tables, using bash and nextflow scripting explained step-by-step.
 
-Go back to the top of 👉 [Part I – Preparation & setup](README_Part1-3_setup.md#part-i--preparation--setup)
+Go back to the top of 👉 [Part I – Setup & data preparation](README_Part1-3_setup_bulkrnaseq.md#part-i--setup--data-preparation)
 
-Go to the main page 👉 [Bash_pipeline_NGS](README.md)
+Go to the main page 👉 [Bulk RNA-seq Tutorial](README.md)
