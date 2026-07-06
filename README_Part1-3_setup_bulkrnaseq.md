@@ -3,20 +3,18 @@
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Creating the computing environment for NGS - DNA analysis](#creating-the-computing-environment-for-ngs---dna-analysis)
-    - [I. Create a specific conda environment called DNA](#i-create-a-specific-conda-environment-called-dna)
-    - [II. Create the folder structure](#ii-create-the-folder-structure)
-    - [III. Find & download small-sized FASTQ datasets for cancer gene panels](#iii-find--download-small-sized-fastq-datasets-for-cancer-gene-panels)
-    - [IV. Download a reference human genome (GRCh38) and indexes](#iv-download-a-reference-human-genome-grch38-and-indexes)
-- [Reference Genome](#reference-genome)
-- [(Final) Folder structure: before starting the analysis](#final-folder-structure-before-starting-the-analysis)
+- [Creating the computing environment for bulk RNAseq analysis](#creating-the-computing-environment-for-bulk-rnaseq-analysis)
+    - [I. Create a folder structure](#i-create-a-folder-structure)
+    - [II. Create a Conda environment](#ii-create-a-conda-environment)
+    - [III. Find & download FASTQ datasets](#iii-find--download-fastq-datasets)
+    - [IV. Download a pre-built HISAT2 genome index](#iv-download-a-pre-built-hisat2-genome-index)
 
 
 
 ## Introduction
 
-The analysis of transcriptomic datasets independently can be quite difficult if you don't have the proper guidance and, importantly, the enough patience, time and computational resources. At the end, you would have to send your datasets to an external bioinformatician or try other options all of which imply financial costs. This is the logical solution when the statistics, tables and plots are urgently needed for the submission of scientific manuscripts or when preparing seminars.  
-The purpose of this tutorial is to show that you can analyse your data by yourself (independently) relying on your personal computer (e.g., laptop) or workstation, which has limited computational resources.  
+The analysis of transcriptomic datasets independently can be quite difficult if you don't have the proper guidance and, importantly, enough patience, time and computational resources. At the end, you would have to send your datasets to an external bioinformatician or try other options all of which imply financial costs. This is the logical solution when the statistics, tables and plots are urgently needed for the submission of scientific manuscripts or when preparing seminars.  
+The purpose of this tutorial is to show that you can independently analyse your data relying on a personal computer (e.g., laptop) or workstation, which has limited computational resources.  
 For the sake of learning, how to analyse your RNAseq datasets, ideally, you should have some basic knowledge on command line, bash scripting, R programming, and python. However, if you don't have it, don't worry, **learn by doing it!**
 
 I would strongly suggest the following tutorials, so that you train yourself in these topics.
@@ -31,74 +29,22 @@ Optional, but highly recommended too:
 - [R programming in one hour - a crash course for beginners - R Programming 101 - YouTube](https://www.youtube.com/watch?v=eR-XRSKsuR4&t=176s)   
 - [Python Full Course for Beginners - Programming with Mosh - YouTube](https://www.youtube.com/watch?v=K5KVEU3aaeQ)   
   
-Before starting, I would also recommend you to read the [Introduction](https://github.com/bioinfo-frano/NGS_Workflow_Tutorial/blob/main/README_Part1-3_setup.md), where you can read a bit more about cloud computing alternatives and on what **FASTQ** files are.
+Before starting, I would also recommend you to read the [Part I - Preparation & setup -  Introduction](https://github.com/bioinfo-frano/NGS_Workflow_Tutorial/blob/main/README_Part1-3_setup.md), where you can read a bit more about cloud computing alternatives and on what **FASTQ** files are.
+
+With that foundational knowledge in mind, let's now set up our local environment for the actual analysis.  
+  
+From all analyses in this tutorial, the **alignment step** is the most <u>**computational demanding**</u>. Therefore, since we are limited in terms of computational power, this tutorial will provide pipelines for the analysis of small numbers of RNA datasets that can be processed comfortably on standard workstations or laptops. Later on, when working in **R**, it will be possible to expand the amount of RNA datasets by downloading a pre-aligned raw counts. Let's start.
 
 
+## Creating the computing environment for bulk RNAseq analysis
 
+I.	Create a folder structure  
 
+II.	Create conda environment
 
+III.	Find & download FASTQ datasets from a published scientific paper
 
-
-
-These constraints can make it challenging to run secondary and tertiary NGS analyses starting from FASTQ files through variant annotation.
-
-One alternative is to use cloud-based resources:
-
-- **AWS EC2 instances**: Virtual machines with configurable RAM, CPU, and storage, where software dependencies can be installed via Conda. 
-- **Terra.bio**: A cloud-native platform built on Google Cloud that provides pre-configured workflows, data management tools, and collaborative features specifically for biomedical research. Terra offers ready-to-use implementations of GATK and other genomics pipelines without requiring extensive infrastructure setup.
-- **Cancer Genomics Cloud (CGC)**: A cloud platform powered by **Seven Bridges** that provides specialized workflows for cancer genomics, including TCGA and other cancer datasets access, pre-configured analysis pipelines, and collaborative workspaces optimized for cancer research.
-
-
-However, **cloud services incur financial costs**. See below **Table 1** showing the costs for each cloud platform.
-
-**Table 1**: Cloud platform and fees
-| Platform | Website | Fee Structure & Requirements | Estimated WGS Cost (per sample) | Key Considerations & Additional Costs |
-|----------|---------|-----------------------------|--------------------------------|--------------------------------------|
-| **AWS** | [aws.amazon.com](https://aws.amazon.com/) | Pay-as-you-go for EC2 (compute) and S3 (storage). No platform fee. Requires AWS account and technical setup. | **$8 – $25** | • Highly instance-dependent<br>• Can drop to $3-5 with spot instances<br>• Data transfer/egress fees apply<br>• Free Tier: 12 months of limited resources |
-| **Terra.bio** | [terra.bio](https://terra.bio) | Direct passthrough of **GCP (Google Cloud Platform)** rates with **no markup**. Requires active Google Cloud billing account. Optional premium features may have separate fees. | **$6 – $15** | • Costs match GCP rates exactly<br>• Preemptible VMs reduce costs by 70-80%<br>• Free Trial: $300 credit for new GCP users |
-| **CGC (Cancer Genomics Cloud)** | [cancergenomicscloud.org](https://www.cancergenomicscloud.org) | Google/AWS cloud costs **plus 15-30% platform fee**. Often covered by NIH/NCI Cloud Credits for cancer researchers. Requires platform account. | **$15 – $40** | • Includes workflow management & support<br>• Optimized cancer genomics pipelines<br>• NCI Cloud Credits: Up to $10,000 annually for qualified researchers |
-
->**Note on Cloud Cost Estimates**: The costs above are approximate and can vary significantly based on pipeline efficiency, data volume, storage strategy, and regional pricing. Cloud platforms charge for **actual compute resource consumption per second**, storage per GB-month, and data transfer per GB, **not per sample**. These estimates are based on typical resource usage for WGS analysis and help with budgeting. All three platforms offer free tiers or credits for new users: AWS Free Tier (12 months), Google Cloud Free Trial ($300 credit), and NCI Cloud Credits for cancer researchers. For educational purposes, consider starting with small datasets or using free credits before scaling to full WGS analyses.
-
-Therefore, for learners who prefer to work locally — typically with 8–16 GB RAM and limited disk storage (<60 GB) — it becomes essential to carefully select small sequencing datasets and design lightweight Conda environments. Equally important is the creation of a simple and efficient analysis pipeline and a well-defined folder structure.
-
-Before we talk about FASTQ files, which contain the raw sequenced fragments (known as **reads**) of a DNA sample produced by a sequencer, I recommend reading more about them on these websites:
-
-- [FASTQ files explained](https://support.illumina.com.cn/bulletins/2016/04/fastq-files-explained.html)
-- [FASTQ format](https://en.wikipedia.org/wiki/FASTQ_format)
-
-In practice, FASTQ file sizes vary widely depending on the sequencing strategy and target region. Small targeted sequencing panels may generate FASTQ files smaller than 1 GB, whereas larger experiments such as whole-exome sequencing (WES) or whole-genome sequencing (WGS) can easily produce tens to hundreds of gigabytes per sample. For users working on local machines with limited RAM and disk space, this variability has a direct impact on dataset selection and pipeline feasibility. **Table 2** provides representative examples of FASTQ file sizes from cancer-related datasets deposited in the NCBI Sequence Read Archive (SRA).
-
-**Table 2. Representative FASTQ file sizes from cancer-related SRA datasets**
-
-| **Size Category** | **Estimated FASTQ Download Size (GB)** | **Sequencing Strategy** | **Example SRA Run (approx.)** | **Cancer Type / Comments** |
-|------------------|----------------------------------------|-------------------------|-------------------------------|---------------------------|
-| Small            | ~0.05 – 0.2                            | Targeted gene panel     | [SRX11805868](https://www.ncbi.nlm.nih.gov/sra/SRX11805868) (~0.2 GB) | Panel targeting ~95 cancer genes |
-| Small            | ~0.05 – 0.1                            | Targeted gene panel     | [SRX18078826](https://www.ncbi.nlm.nih.gov/sra/SRX18078826) (~0.05 GB) | Adult breast cancer |
-| Small            | ~0.06 – 0.07                           | Targeted gene panel     | [SRX18078666](https://www.ncbi.nlm.nih.gov/sra/SRX18078666) (~0.065 GB) | Adult breast cancer |
-| Medium           | ~3 – 7                                 | Targeted panel / DNA-seq| [SRX28185140](https://www.ncbi.nlm.nih.gov/sra/SRX28185140) (~6 GB) | SCLC tumor sample |
-| Medium / Large   | ~3 – 12                                | WES                     | [SRX29598354](https://www.ncbi.nlm.nih.gov/sra/SRX29598354) (~3.4 GB raw) | TNBC tumor |
-| Large            | >50                                    | WGS                     | [SRX160842](https://www.ncbi.nlm.nih.gov/sra/SRX160842) (>>50 GB) | Acute Lymphoblastic Leukemia (ALL) Phase II |
-
-For this reason, the examples and pipelines in this repository focus on small targeted sequencing datasets that can be processed comfortably on standard workstations or laptops.
-
-
-## Creating the computing environment for NGS - DNA analysis
-
-I.	Create conda environment
-
-II.	Create a folder structure
-
-III.	Find & download small-sized FASTQ datasets
-
-IV. Download a reference human genome and indexes
-
-V.	Bash shell scripting for NGS - DNA analysis
-
-
-## Purpose of this tutorial
-
-This tutorial provides a minimal, reproducible guide for running a DNA-seq (NGS) analysis pipeline locally, from FASTQ files to variant calling and annotation, using modest computational resources.
+IV. Download a pre-built HISAT2 genome indexes (e.g., Homo sapiens GRCh38/hg38)
 
 > **Note:**  
 > This guide was developed and tested on macOS running on Intel processors. Users on Apple Silicon (M1/M2/…/M5) or Linux systems may need to adapt certain steps.
@@ -107,8 +53,9 @@ This tutorial provides a minimal, reproducible guide for running a DNA-seq (NGS)
 > **IMPORTANT – Conda prerequisites:**  
 > This guide assumes that Miniconda3 is already installed on your computer. If not, please consult the official [documentation](https://docs.conda.io/projects/conda/en/stable/user-guide/install/macos.html) or watch this [YouTube](https://www.youtube.com/watch?v=OH0E7FIHyQo) video.
 
-
 When Miniconda is already installed, you should see the `(base)` environment activated in your Terminal.
+
+## I. Create a folder structure  
 
 
 ## I. Create a specific conda environment called `DNA`
