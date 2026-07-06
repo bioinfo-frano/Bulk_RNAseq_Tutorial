@@ -59,11 +59,9 @@ Overview of the bulk RNA-seq pipeline in this repository.
 5. Conda environments
 
 ➡️ **Start here:**  
-👉 [Part I – Setup & data preparatio](README_Part1_setup_bulkrnaseq.md)
+👉 [Part I – Setup & data preparation](README_Part1_setup_bulkrnaseq.md)
 
----
-
----
+--- ---
 
 ## 🧪 Tested Environment
 
