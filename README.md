@@ -23,6 +23,8 @@ The tutorial covers the following workflow steps:
     - DESeq2 transformation
     - PCA
     - Volcano and heatmap plots
+- **Part IV**: Pseudoalignment
+    - Alignment vs pseudoalignment
 
 The tutorial starts with three representative RNA-seq samples (one sample from each experimental group) from the study [DOI: 10.1038/s41467-018-07329-0](https://www.nature.com/articles/s41467-018-07329-0). Each dataset consists of paired-end (R1 and R2) FASTQ files, which are used for the secondary analysis.  
 The same RNA-seq workflow is implemented twice: first using Bash script to illustrate each analysis step, and later using Nextflow to demonstrate workflow automation and reproducibility.  
@@ -57,7 +59,7 @@ Overview of the bulk RNA-seq pipeline in this repository.
 5. Conda environments
 
 ➡️ **Start here:**  
-👉 [Part I – Preparation & setup](README_Part1_setup_bulkrnaseq.md)
+👉 [Part I – Setup & data preparatio](README_Part1_setup_bulkrnaseq.md)
 
 ---
 
