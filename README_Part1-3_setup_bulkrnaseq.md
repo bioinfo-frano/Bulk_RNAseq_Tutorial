@@ -7,7 +7,8 @@
     - [I. Create a folder structure](#i-create-a-folder-structure)
     - [II. Find & download paired-end RNA-seq datasets](#ii-find--download-paired-end-rna-seq-datasets)
     - [III. Download a pre-built HISAT2 genome index](#iii-download-a-pre-built-hisat2-genome-index)  
-    - [IV. Create a Conda environment](#iv-create-a-conda-environment)
+    - [IV. Create a Conda environment](#iv-create-a-conda-environment)  
+    - [V. Create a BED12 file](#v-create-a-bed12-file)
 
 
 ## Introduction
@@ -93,15 +94,16 @@ mkdir -p Bulk_rnaseq/{data,scripts,reference/intervals}
   - GEO accession: [**GSE111546**](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE111546)
   - BioProject: [**PRJNA437330**](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA437330)  
   
-  
+---
+
 ### 2. Select the datasets:
 
-1. Go to GEO accession: [**GSE111546**](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE111546)  
+2.1. Go to GEO accession: [**GSE111546**](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE111546)  
 
 ![GEO. Choose "bulk RNA-seq" option](images/geo_bulkrnaseq_salmo1.png)   
    
 
-2. Click on ![**SRA Run Selector**](images/geo_bulkrnaseq_sraselector_salmo3.png)   
+2.2. Click on ![**SRA Run Selector**](images/geo_bulkrnaseq_sraselector_salmo3.png)   
   
 This will send you to the **SRA Run Selector**, BioProject **PRJNA437330**.  
 Note down the SRA Runs:  
@@ -168,22 +170,310 @@ for DATASET in "${DATASETS[@]}"; do
 done
 
 ```
-  
+
+---
+
+
 ## III. Download a pre-built HISAT2 genome index  
 
+The reference indexes have both the DNA sequence and an annotation file (GTF). They contain a lookup table of all known splice sites and exon-exon junctions, allowing HISAT2 to do a transcriptome-aware or splice-aware alignment.
 
+1. **Setup directory**:
 
+```bash
+# Navigate to your project reference directory
+mkdir -p ~/Bulk_rnaseq/reference/hisat2_index
+cd ~/Bulk_rnaseq/reference/hisat2_index
+```
 
+2. Download and extract indexes:
 
+Go to: <http://daehwankimlab.github.io/hisat2/download/#h-sapiens>
 
+Copy link “***genome_tran***” → grch38_tran.tar.gz
 
+Download the HISAT2 indexes using `wget` followed by `tar` decompression
 
+```bash
+# Download the compressed index folder
+wget -nc https://genome-idx.s3.amazonaws.com/hisat/grch38_tran.tar.gz
 
+# 2. Decompress AND extract the archive
+tar -zxf grch38_tran.tar.gz
+```
+sra_PRJNA437330.sh
+Expected output:
 
-
+```bash
+Bulk_rnaseq/
+├── data
+│   ├── sra_PRJNA437330.sh
+│   └── PRJNA437330
+│       ├── SRR6815993
+│       │   └── raw_fastq
+│       │       ├── SRR6815993_1.fastq.gz
+│       │       └── SRR6815993_2.fastq.gz
+│       ├── SRR6816003
+│       │   └── raw_fastq
+│       │       ├── SRR6816003_1.fastq.gz
+│       │       └── SRR6816003_2.fastq.gz
+│       └── SRR6816017
+│           └── raw_fastq
+│               ├── SRR6816017_1.fastq.gz
+│               └── SRR6816017_2.fastq.gz
+├── reference
+│   ├── hisat2_index
+│   │   ├── grch38_tran
+│   │   │   ├── genome_tran.1.ht2
+│   │   │   ├── genome_tran.2.ht2
+│   │   │   ├── genome_tran.3.ht2
+│   │   │   ├── genome_tran.4.ht2
+│   │   │   ├── genome_tran.5.ht2
+│   │   │   ├── genome_tran.6.ht2
+│   │   │   ├── genome_tran.7.ht2
+│   │   │   ├── genome_tran.8.ht2
+│   │   │   └── make_grch38_tran.sh
+│   │   └── grch38_tran.tar.gz
+│   └── intervals
+└── scripts
+```
 
 > [!IMPORTANT]  
-> 
+> In the HISAT2 website, choose the option **genome_tran** → `grch38_tran.tar.gz` because it has Genome + transcript annotations (exons + splice junctions).  
+This is the recommended index for RNA‑seq, because HISAT2 can use known splice sites to improve alignment accuracy.  
+Other alteratives such as **genome** and **genome_snp** are used when you **don't** need splice‑aware improvements from transcript annotations and when you consider known human SNPs during alignment, respectively.  
+The alternative **genome_snp_tran** is when you want both variant‑aware mapping and splice‑aware mapping. Too heavy.  
+The indexes **genome_rep(above 2.2.0)** and **genome_snp_rep(above 2.2.0)** correspond to studies nvolving repetitive elements (TEs, LINEs, SINEs) and Genome + SNPs + repeat annotations, respectively.
+
+---
+
+## IV. Create a Conda environment `RNA1`
+
+1. Create `.yml` file with all dependencies for conda `RNA1` environment. Use `touch` or script/text editor  
+
+1.1. Save it as: `RNA1_environment.yml`  
+1.2. Save it in path: `~/Bulk_rnaseq/scripts`  
+
+```yml
+name: RNA1
+
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+
+dependencies:
+  - python=3.11
+  
+  # Pipeline engine
+  - nextflow=25.10.4
+
+  # QC
+  - fastqc=0.12.1
+  - multiqc=1.28
+
+  # Trimming
+  - cutadapt=5.2
+
+  # Alignment
+  - star=2.7.11b
+  - hisat2=2.2.1
+  - samtools=1.22.1
+  
+  # Duplicate marking
+  - picard=3.4.0
+
+  # Quantification
+  - subread=2.1.1
+  - salmon=1.10.3
+  - kallisto=0.51.1
+  
+  # BED12 file generation
+  - ucsc-gtftogenepred
+  - ucsc-genepredtobed
+  - rseqc
+  - bedops
+
+  # Annotation
+  - gffread=0.12.7
+  - biopython=1.85
+
+  # Utilities
+  - pigz
+  - pbzip2
+  - wget
+  - curl
+```
+
+2. Create `RNA1` environment
+
+2.1 Go to Conda `base`  
+2.1 Navigate to `~/Bulk_rnaseq/scripts`  
+2.2. Run conda env create:
+
+```bash
+conda env create -f RNA1_environment.yml
+```
+
+Expected output:
+
+```bash
+Downloading and Extracting Packages:
+                                                                                                                                                                                     
+Preparing transaction: done                      
+Verifying transaction: done                                
+Executing transaction: done     
+#                           
+# To activate this environment, use                                    
+#            
+#     $ conda activate RNA1       
+#                       
+# To deactivate an active environment, use        
+#                     
+#     $ conda deactivate  
+```
+
+3. Verify `RNA1`
+
+3.1 Activate `RNA1`
+
+```bash
+conda activate `RNA1`
+```
+
+---
+
+## V. Create a BED12 file
+
+The **BED12** is a 12 columns table used to determine the strandedness of the bulk RNA-seq datasets. This determination is an essential information that must be given to `featureCounts` for the generation of the ***raw count matrix***.
+The **BED12** file derives from the `gencode.v38.annotation.gtf.gz` GTF file.
+
+1. Download the GTF file into `Bulk_rnaseq/reference/intervals`
+
+Go to [**GENCODE**](https://www.gencodegenes.org/human/release_38.html)  
+  
+Download GTF: Regions: CHR → **This is the main annotation file for most users**  
+
+On **CHR GTF**, right click on GTF and copy the link.  
+
+Navigate to `Bulk_rnaseq/reference/intervals` and download there the GTF file using `wget`  
+
+```bash
+# Go to:
+cd ~/Bulk_rnaseq/reference/intervals
+# Download GTF
+wget https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_38/gencode.v38.annotation.gtf.gz
+```
+
+2. Create the **BED12** file
+
+```bash
+gtfToGenePred gencode.v38.annotation.gtf.gz gencode.v38.annotation.genepred
+genePredToBed gencode.v38.annotation.genepred gencode.v38.annotation.bed
+```
+
+3. Verify **BED12** file  
+
+```bash
+cd ~/Bulk_rnaseq/reference/intervals
+
+head -2 gencode.v38.annotation.bed
+
+grep "chrM" gencode.v38.annotation.bed | head -2
+grep "chrY" gencode.v38.annotation.bed | head -1
+grep "chrX" gencode.v38.annotation.bed | head -1
+```
+
+Expected output:
+
+```bash
+chr1	11868	14409	ENST00000456328.2	0	+	14409	14409	0	3	359,109,1189,	0,744,1352,
+chr1	12009	13670	ENST00000450305.2	0	+	13670	13670	0	6	48,49,85,78,154,218,	0,169,603,965,1211,1443,
+
+chrM	576	647	ENST00000387314.1	0	+	647	647	0	1	71,	0,
+chrM	647	1601	ENST00000389680.2	0	+	1601	1601	0	1	954,	0,
+chrY	253742	255091	ENST00000431238.7_PAR_Y	0	+	255091	255091	0	2	104,155,	0,1194,
+chrX	253742	255091	ENST00000431238.7	0	+	255091	255091	0	2	104,155,	0,1194,
+```
+
+> [!IMPORTANT]  
+> It's advisabe to have two versions of the **BED12** file: one with and the other without the prefix "**chr**". This is because the chromosome naming must match between the HISAT2 alignment file (`.bam`) and the annotation file (**BED12**). Also, the "chrM", "chrX" and "chrY" should change to "MT", "X" and "Y", respectively.  
+
+4. Create a **BED12** file without the prefix "**chr**" and changing "chrM" to "MT"
+
+4.1. Use `sed` command: replace ‘chrM’ to ‘MT’ and strip ‘chr’
+
+```bash
+sed -E 's/^chrM/MT/; s/^chr//' gencode.v38.annotation.bed > gencode.v38.annotation.nochr.bed
+```
+
+4.2. Verify the new BED12 `gencode.v38.annotation.nochr.bed`  
+
+```bash
+head -2 gencode.v38.annotation.nochr.bed
+grep "^MT" gencode.v38.annotation.nochr.bed | head -2
+grep "^Y" gencode.v38.annotation.nochr.bed | head -1
+```
+
+Expected output:
+
+```bash
+1	11868	14409	ENST00000456328.2	0	+	14409	14409	0	3	359,109,1189,	0,744,1352,
+1	12009	13670	ENST00000450305.2	0	+	13670	13670	0	6	48,49,85,78,154,218,	0,169,603,965,1211,1443,
+MT	576	647	ENST00000387314.1	0	+	647	647	0	1	71,	0,
+MT	647	1601	ENST00000389680.2	0	+	1601	1601	0	1	954,	0,
+Y	253742	255091	ENST00000431238.7_PAR_Y	0	+	255091	255091	0	2	104,155,	0,1194,
+X	253742	255091	ENST00000431238.7	0	+	255091	255091	0	2	104,155,	0,1194,
+```
+
+---
+
+## VI. Folder structure before starting bulk RNA-seq analysis
+
+```bash
+Bulk_rnaseq/
+├── data
+│   └── PRJNA437330
+│       ├── SRR6815993
+│       │   └── raw_fastq
+│       │       └── SRR6815993_{1,2}.fastq.gz
+│       ├── SRR6816003
+│       │   └── raw_fastq
+│       │       └── SRR6816003_{1,2}.fastq.gz
+│       └── SRR6816017
+│           └── raw_fastq
+│               └── SRR6816017_{1,2}.fastq.gz
+├── reference
+│   ├── hisat2_index
+│   │   ├── grch38_tran
+│   │   │   └── genome_tran.{1,2,3,4,5,6,7,8}.ht2
+│   │   └── grch38_tran.tar.gz
+│   └── intervals
+│       ├── gencode.v38.annotation.gtf.gz
+│       ├── gencode.v38.annotation.bed
+│       └── gencode.v38.annotation.nochr.bed
+└── scripts
+    └── RNA1_environment.yml
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## I. Create a specific conda environment called `DNA`
 
