@@ -6,8 +6,8 @@
 - [Creating the computing environment for bulk RNA-seq analysis](#creating-the-computing-environment-for-bulk-rnaseq-analysis)
     - [I. Create a folder structure](#i-create-a-folder-structure)
     - [III. Find & download paired-end RNA-seq datasets](#iii-find--download-paired---end-rna---seq-datasets)
-    - [III. Create a Conda environment](#ii-create-a-conda-environment)
-    - [IV. Download a pre-built HISAT2 genome index](#iv-download-a-pre-built-hisat2-genome-index)
+    - [III. Download a pre-built HISAT2 genome index](#iv-download-a-pre-built-hisat2-genome-index)  
+    - [IV. Create a Conda environment](#ii-create-a-conda-environment)
 
 
 ## Introduction
@@ -169,7 +169,7 @@ done
 
 ```
   
-### III. Download pre-built HISAT2 genome indexes (e.g., *Homo sapiens* GRCh38/hg38)  
+### III. Download a pre-built HISAT2 genome index  
 
 
 
