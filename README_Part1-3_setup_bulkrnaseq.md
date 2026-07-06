@@ -3,9 +3,9 @@
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Creating the computing environment for bulk RNA-seq analysis](#creating-the-computing-environment-for-bulk-rna---seq-analysis)
+- [Creating the computing environment for bulk RNA-seq analysis](#creating-the-computing-environment-for-bulk-rna-seq-analysis)
     - [I. Create a folder structure](#i-create-a-folder-structure)
-    - [II. Find & download paired-end RNA-seq datasets](#ii-find--download-paired---end-rna---seq-datasets)
+    - [II. Find & download paired-end RNA-seq datasets](#ii-find--download-paired-end-rna-seq-datasets)
     - [III. Download a pre-built HISAT2 genome index](#iii-download-a-pre-built-hisat2-genome-index)  
     - [IV. Create a Conda environment](#iv-create-a-conda-environment)
 
@@ -32,7 +32,7 @@ Before starting, I would also recommend you to read the [Part I - Preparation & 
 
 With that foundational knowledge in mind, let's now set up our local environment for the actual analysis.  
   
-From all analyses in this tutorial, the **alignment step** is the most <u>**computational demanding**</u>. Therefore, since we are limited in terms of computational power, this tutorial will provide pipelines for the analysis of small numbers of RNA datasets that can be processed comfortably on standard workstations or laptops. Later on, when working in **R**, it will be possible to expand the amount of RNA datasets by downloading a pre-aligned raw counts. Let's start.
+From all analyses in this tutorial, the **alignment step** is the most **computational demanding**. Therefore, since we are limited in terms of computational power, this tutorial will provide pipelines for the analysis of small numbers of RNA datasets that can be processed comfortably on standard workstations or laptops. Later on, when working in **R**, it will be possible to expand the amount of RNA datasets by downloading a pre-aligned raw counts. Let's start.
 
 
 ## Creating the computing environment for bulk RNA-seq analysis
@@ -74,7 +74,7 @@ In Terminal, create all directories at once::
 mkdir -p Bulk_rnaseq/{data,scripts,reference/intervals}  
 ```
 
-## II.	Find & download paired-end RNA-seq datasets 
+## II. Find & download paired-end RNA-seq datasets 
 
 ### 1. Finding a bulk RNA-seq dataset in PubMed
 
