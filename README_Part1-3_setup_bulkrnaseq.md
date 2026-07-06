@@ -1,4 +1,4 @@
-# Part I – Preparation & setup
+# Part I – Setup & data preparation
 
 ## Table of Contents
 
@@ -15,7 +15,29 @@
 
 ## Introduction
 
-Many students and scientists who want to learn genomic data analysis independently often rely on personal computers (e.g., laptops) with limited computational resources. These constraints can make it challenging to run secondary and tertiary NGS analyses starting from FASTQ files through variant annotation.
+The analysis of transcriptomic datasets independently can be quite difficult if you don't have enough patience, time and computational resources. At the end, the datasets are sent to an external bioinformatician. This is the logical solution when the plots are urgently needed for the submission of scientific manuscripts or when preparing seminars. The purpose of this tutorial is to show you that you can analyse your data by yourself (independently) relying on your personal computer (e.g., laptops), which has limited computational resources.  
+For the sake of learning, how to analyse your RNAseq datasets, ideally, you should have some basic knowledge on command line, R programming, python, and bash scripting. However, if you don't have it, don't worry, **learn by doing it!**
+
+I would suggest the following tutorials, so that you train yourself in these topics.
+
+- [Learn Mac Terminal Basics - macmostvideo - YouTube](https://www.youtube.com/watch?v=ZkoEHvG3GI8)   
+- [Command Line Basics for Beginners - Full Course - freeCodeCamp.org - YouTube](https://www.youtube.com/watch?v=mABpAI-pCw0)    
+- [MASTERING Command Prompt Basics! | Tutorial (for Windows) - Skill Foundry - YouTube](https://www.youtube.com/watch?v=QBWX_4ho8D4)   
+- [Windows PowerShell Introduction - John Hammond - YouTube](https://www.youtube.com/watch?v=TUNNmVeyjW0)   
+- [Bash Scripting Tutorial for Beginners  - TechWorld with Nana - YouTube](https://www.youtube.com/watch?v=PNhq_4d-5ek)   
+- [R programming in one hour - a crash course for beginners - R Programming 101 - YouTube](https://www.youtube.com/watch?v=eR-XRSKsuR4&t=176s)   
+- [Python Full Course for Beginners - Programming with Mosh - YouTube](https://www.youtube.com/watch?v=K5KVEU3aaeQ)   
+
+
+
+
+
+
+
+
+
+
+These constraints can make it challenging to run secondary and tertiary NGS analyses starting from FASTQ files through variant annotation.
 
 One alternative is to use cloud-based resources:
 
