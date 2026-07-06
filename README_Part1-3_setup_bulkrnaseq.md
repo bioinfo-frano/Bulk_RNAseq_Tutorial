@@ -3,7 +3,7 @@
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Creating the computing environment for bulk RNA-seq analysis](#creating-the-computing-environment-for-bulk-rnaseq-analysis)
+- [Creating the computing environment for bulk RNA-seq analysis](#creating-the-computing-environment-for-bulk-rnaseq---analysis)
     - [I. Create a folder structure](#i-create-a-folder-structure)
     - [III. Find & download paired-end RNA-seq datasets](#iii-find--download-paired---end-rna---seq-datasets)
     - [III. Download a pre-built HISAT2 genome index](#iv-download-a-pre-built-hisat2-genome-index)  
