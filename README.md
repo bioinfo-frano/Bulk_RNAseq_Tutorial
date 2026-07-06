@@ -31,7 +31,7 @@ The same RNA-seq workflow is implemented twice: first using Bash script to illus
 For the tertiary analysis, a larger set of raw counts from more samples per experimental group from the same study is used to enable DESeq2 to normalise and calculate differential expression (DE).
 
 > [!IMPORTANT]  
-> **DESeq2** requires biological replicates to estimate dispersion. Analyzing 1 sample per condition (n=1) is statistically invalid for differential expression. The 3 samples in **Part I** are strictly for demonstrating the QC, trimming, alignment, and counting pipeline (due to file size limits). The actual DE analysis uses a separate, larger count matrix (included in the repo) with at least 3 biological replicates per group.
+> **DESeq2** requires biological replicates to estimate dispersion. Analyzing 1 sample per condition (n=1) is statistically invalid for differential expression. The two samples in **Part I** are strictly for demonstrating the QC, trimming, alignment, and counting pipeline (due to file size limits). The actual DE analysis uses a separate, larger count matrix (included in the repo) with at least 3 biological replicates per group.
 
 The purpose of this tutorial is educational and to promote reproducibility.
 
