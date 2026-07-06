@@ -23,7 +23,7 @@ The tutorial covers the following workflow steps:
     - DESeq2 transformation
     - PCA
     - Volcano and heatmap plots
-- **Part IV**: Pseudoalignment
+- **Part IV**: Pseudoalignment (`salmon`)
     - Alignment vs pseudoalignment
 
 The tutorial starts with three representative RNA-seq samples (one sample from each experimental group) from the study [DOI: 10.1038/s41467-018-07329-0](https://www.nature.com/articles/s41467-018-07329-0). Each dataset consists of paired-end (R1 and R2) FASTQ files, which are used for the secondary analysis.  
