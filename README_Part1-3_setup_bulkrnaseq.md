@@ -75,30 +75,41 @@ In Terminal, create all directories at once::
 mkdir -p Bulk_rnaseq/{data/logs,scripts,reference/intervals}  
 ```
 
-##. II.	Find & download paired-end RNA-seq datasets 
+## II.	Find & download paired-end RNA-seq datasets 
 
-- Pubmed keywords: dendritic cells, Salmonella, invasive, evasion, T cells
-- Title: Invasive Salmonella exploits divergent immune evasion strategies in infected and bystander dendritic cell subsets
+### 1. Finding a bulk RA-seq dataset in biomedical database
+
+- **PubMed keywords**: dendritic cells, Salmonella, invasive, evasion, T cells
+- **Title**: Invasive Salmonella exploits divergent immune evasion strategies in infected and bystander dendritic cell subsets
 - [DOI: 10.1038/s41467-018-07329-0](https://www.nature.com/articles/s41467-018-07329-0)
 
 ![Figure 1: Finding a scientific paper with bulk RNA-seq samples](images/finding_dataset_pubmed1.png)  
 
 
-- Scientific question/hypothesis: DCs differentially respond to genetically similar S. typhimurium strains
-- Scientific goal: to survey the transcriptome of DCs challenged with invasive or non-invasive Salmonella
-- Method: scRNA-seq complemented by bulk RNA-seq for population-level transcriptional profiling
-- Conclusion: "… these observations contribute to a better understanding of the pathogenesis and dissemination of invasive Salmonelosis"
-- Data availability: Gene Expression Omnibus: 
+- **Scientific question/hypothesis**: DCs differentially respond to genetically similar S. typhimurium strains
+- **Scientific goal**: to survey the transcriptome of DCs challenged with invasive or non-invasive Salmonella
+- **Method**: scRNA-seq complemented by bulk RNA-seq for population-level transcriptional profiling
+- **Conclusion**: "… these observations contribute to a better understanding of the pathogenesis and dissemination of invasive Salmonelosis"
+- **Data availability**: Gene Expression Omnibus (GEO): 
   - GEO accession: [**GSE111546**](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE111546)
-  - BioProject: [PRJNA437330](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA437330)
-
-To download the datasets:
+  - BioProject: [**PRJNA437330**](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA437330)  
+  
+  
+### 2. Download the datasets:
 
 1. Go to GEO accession: [**GSE111546**](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE111546)  
 
-![Figure 2: GEO. Choose "bulk RNA-seq" option](images/geo_bulkrnaseq_salmo1.png)  
+![GEO. Choose "bulk RNA-seq" option](images/geo_bulkrnaseq_salmo1.png)  
 
 
+2. Click on ![**SRA Run Selector**](images/geo_bulkrnaseq_sraselector_salmo3.png) 
+
+This will send you to the **SRA Run Selector**, BioProject **PRJNA437330**.  
+Note down the SRA Runs:  
+- `SRR6815993` (status: Uninfected; time: 6h)   
+- `SRR6816017` (status: Infected  ; time: 6h)   
+
+![SRA Run Selector. Bulk RNA-seq samples for downloading](images/geo_bulkrnaseq_sraselector_salmo3.png) 
 
 
 
