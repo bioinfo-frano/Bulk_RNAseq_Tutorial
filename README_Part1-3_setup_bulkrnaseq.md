@@ -312,6 +312,8 @@ dependencies:
 2.2. Run conda env create:
 
 ```bash
+cd ~/Bulk_rnaseq/scripts
+
 conda env create -f RNA1_environment.yml
 ```
 
@@ -339,6 +341,20 @@ Executing transaction: done
 
 ```bash
 conda activate `RNA1`
+
+conda list
+
+# Verify installations
+fastqc --version
+multiqc --version
+cutadapt --version
+STAR --version
+hisat2 --version
+samtools --version
+featureCounts -v
+infer_experiment.py --help   # from rseqc
+gtfToGenePred                # from ucsc-gtftogenepred
+genePredToBed                # from ucsc-genepredtobed
 ```
 
 ---
