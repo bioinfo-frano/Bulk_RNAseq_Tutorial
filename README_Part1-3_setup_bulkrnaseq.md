@@ -15,20 +15,23 @@
 
 ## Introduction
 
-The analysis of transcriptomic datasets independently can be quite difficult if you don't have enough patience, time and computational resources. At the end, the datasets are sent to an external bioinformatician. This is the logical solution when the plots are urgently needed for the submission of scientific manuscripts or when preparing seminars. The purpose of this tutorial is to show you that you can analyse your data by yourself (independently) relying on your personal computer (e.g., laptops), which has limited computational resources.  
-For the sake of learning, how to analyse your RNAseq datasets, ideally, you should have some basic knowledge on command line, R programming, python, and bash scripting. However, if you don't have it, don't worry, **learn by doing it!**
+The analysis of transcriptomic datasets independently can be quite difficult if you don't have the proper guidance and, importantly, the enough patience, time and computational resources. At the end, you would have to send your datasets to an external bioinformatician or try other options all of which imply financial costs. This is the logical solution when the statistics, tables and plots are urgently needed for the submission of scientific manuscripts or when preparing seminars.  
+The purpose of this tutorial is to show that you can analyse your data by yourself (independently) relying on your personal computer (e.g., laptop) or workstation, which has limited computational resources.  
+For the sake of learning, how to analyse your RNAseq datasets, ideally, you should have some basic knowledge on command line, bash scripting, R programming, and python. However, if you don't have it, don't worry, **learn by doing it!**
 
-I would suggest the following tutorials, so that you train yourself in these topics.
-
+I would strongly suggest the following tutorials, so that you train yourself in these topics.
+  
 - [Learn Mac Terminal Basics - macmostvideo - YouTube](https://www.youtube.com/watch?v=ZkoEHvG3GI8)   
 - [Command Line Basics for Beginners - Full Course - freeCodeCamp.org - YouTube](https://www.youtube.com/watch?v=mABpAI-pCw0)    
 - [MASTERING Command Prompt Basics! | Tutorial (for Windows) - Skill Foundry - YouTube](https://www.youtube.com/watch?v=QBWX_4ho8D4)   
-- [Windows PowerShell Introduction - John Hammond - YouTube](https://www.youtube.com/watch?v=TUNNmVeyjW0)   
 - [Bash Scripting Tutorial for Beginners  - TechWorld with Nana - YouTube](https://www.youtube.com/watch?v=PNhq_4d-5ek)   
+
+Optional, but highly recommended too:   
+  
 - [R programming in one hour - a crash course for beginners - R Programming 101 - YouTube](https://www.youtube.com/watch?v=eR-XRSKsuR4&t=176s)   
 - [Python Full Course for Beginners - Programming with Mosh - YouTube](https://www.youtube.com/watch?v=K5KVEU3aaeQ)   
-
-
+  
+Before starting, I would also recommend you to read the [Introduction](https://github.com/bioinfo-frano/NGS_Workflow_Tutorial/README_Part1-3_setup.md), where you can read a bit more about cloud computing alternatives and on what **FASTQ** files are.
 
 
 
