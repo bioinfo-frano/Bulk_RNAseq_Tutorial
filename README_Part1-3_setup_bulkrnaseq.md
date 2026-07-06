@@ -3,11 +3,11 @@
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Creating the computing environment for bulk RNA-seq analysis](#creating-the-computing-environment-for-bulk-rnaseq---analysis)
+- [Creating the computing environment for bulk RNA-seq analysis](#creating-the-computing-environment-for-bulk-rna---seq-analysis)
     - [I. Create a folder structure](#i-create-a-folder-structure)
-    - [III. Find & download paired-end RNA-seq datasets](#iii-find--download-paired---end-rna---seq-datasets)
-    - [III. Download a pre-built HISAT2 genome index](#iv-download-a-pre-built-hisat2-genome-index)  
-    - [IV. Create a Conda environment](#ii-create-a-conda-environment)
+    - [II. Find & download paired-end RNA-seq datasets](#ii-find--download-paired---end-rna---seq-datasets)
+    - [III. Download a pre-built HISAT2 genome index](#iii-download-a-pre-built-hisat2-genome-index)  
+    - [IV. Create a Conda environment](#iv-create-a-conda-environment)
 
 
 ## Introduction
@@ -110,7 +110,7 @@ Note down the SRA Runs:
   
 ### 3. Make a bash script to downloading the samples using **SRA Toolkit**
   
-3.1. Go to Terminal, navigate to `Bulk_rnaseq/data` and create file `sra_PRJNA437330.sh` using `nano` or any script editor (e.g. Atom, Sublime) or use command `touch`. After that, provide permission.
+3.1. Go to Terminal, navigate to `Bulk_rnaseq/data` and create the file `sra_PRJNA437330.sh` using `nano` or any script/text editor (e.g. Atom, Sublime) or use command `touch`. After that, provide permission.
 
 ```bash
 cd Bulk_rnaseq/data
@@ -169,7 +169,7 @@ done
 
 ```
   
-### III. Download a pre-built HISAT2 genome index  
+## III. Download a pre-built HISAT2 genome index  
 
 
 
