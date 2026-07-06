@@ -39,11 +39,11 @@ From all analyses in this tutorial, the **alignment step** is the most <u>**comp
 
 I.	Create a folder structure  
 
-II.	Find & download paired-end RNA-seq datasets from a published scientific paper
+II.	Find & download paired-end RNA-seq datasets from a published scientific paper  
 
-III.	Create conda environment `RNA1`
+III. Download pre-built HISAT2 genome indexes (e.g., *Homo sapiens* GRCh38/hg38)  
 
-IV. Download pre-built HISAT2 genome indexes (e.g., *Homo sapiens* GRCh38/hg38)
+IV.	Create conda environment `RNA1`  
 
 > [!NOTE]   
 > This guide was developed and tested on macOS running on Intel processors. Users on Apple Silicon (M1/M2/…/M5) or Linux systems may need to adapt certain steps.
@@ -61,7 +61,6 @@ All FASTQ files, reference genome indexes and scripts should be located into spe
 ```bash
 Bulk_rnaseq/
 ├── data
-│   └── logs 
 ├── reference
 │   └── intervals
 └── scripts
@@ -72,12 +71,12 @@ Multiple samples can be processed by creating one directory per SRA accession un
 In Terminal, create all directories at once::
 
 ```bash
-mkdir -p Bulk_rnaseq/{data/logs,scripts,reference/intervals}  
+mkdir -p Bulk_rnaseq/{data,scripts,reference/intervals}  
 ```
 
 ## II.	Find & download paired-end RNA-seq datasets 
 
-### 1. Finding a bulk RA-seq dataset in biomedical database
+### 1. Finding a bulk RNA-seq dataset in PubMed
 
 - **PubMed keywords**: dendritic cells, Salmonella, invasive, evasion, T cells
 - **Title**: Invasive Salmonella exploits divergent immune evasion strategies in infected and bystander dendritic cell subsets
@@ -95,21 +94,85 @@ mkdir -p Bulk_rnaseq/{data/logs,scripts,reference/intervals}
   - BioProject: [**PRJNA437330**](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA437330)  
   
   
-### 2. Download the datasets:
+### 2. Select the datasets:
 
 1. Go to GEO accession: [**GSE111546**](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE111546)  
 
-![GEO. Choose "bulk RNA-seq" option](images/geo_bulkrnaseq_salmo1.png)  
+![GEO. Choose "bulk RNA-seq" option](images/geo_bulkrnaseq_salmo1.png)   
+   
 
-
-2. Click on ![**SRA Run Selector**](images/geo_bulkrnaseq_sraselector_salmo3.png) 
-
+2. Click on ![**SRA Run Selector**](images/geo_bulkrnaseq_sraselector_salmo3.png)   
+  
 This will send you to the **SRA Run Selector**, BioProject **PRJNA437330**.  
 Note down the SRA Runs:  
 - `SRR6815993` (status: Uninfected; time: 6h)   
 - `SRR6816017` (status: Infected  ; time: 6h)   
+  
+### 3. Make a bash script to downloading the samples using **SRA Toolkit**
+  
+3.1. Go to Terminal, navigate to `Bulk_rnaseq/data` and create file `sra_PRJNA437330.sh` using `nano` or any script editor (e.g. Atom, Sublime) or use command `touch`. After that, provide permission.
 
-![SRA Run Selector. Bulk RNA-seq samples for downloading](images/geo_bulkrnaseq_sraselector_salmo3.png) 
+```bash
+cd Bulk_rnaseq/data
+touch sra_PRJNA437330.sh
+chmod u+x sra_PRJNA437330.sh
+```
+  
+3.2. Activate conda `sra`.  
+
+```bash
+conda activate sra
+```
+You should see `(sra)` appear followed by the user name and directory.  
+
+> [!IMPORTANT]  
+> If you don't have installed the conda environment `sra`, which contains the SRA Toolkit and other dependencies, then go here 👉 [Part I - Preparation & setup - Find & download small-sized FASTQ datasets for cancer gene panels](https://github.com/bioinfo-frano/NGS_Workflow_Tutorial/blob/main/README_Part1-3_setup.md)
+
+3.3. Open `sra_PRJNA437330.sh` and copy/paste the bash script here below that includes in this order:
+
+- prefetch  
+- vdb-validate  
+- fasterq-dump  
+
+```bash
+#!/bin/bash
+
+set -euo pipefail
+
+DATASETS=(SRR6815993 SRR6816017)
+
+for DATASET in "${DATASETS[@]}"; do
+  echo
+  echo "Processing dataset: $DATASET"
+  echo "Downloading '$DATASET' with prefetch..."
+  prefetch "$DATASET"
+  echo "Validating integrity of dataset: $DATASET"
+  vdb-validate "$DATASET" || { echo "Validation failed for $DATASET"; exit 1; }
+
+  echo "Validation passed"
+
+  fasterq-dump "$DATASET" \
+  --split-files \
+  --threads 4 \
+  --outdir PRJNA437330/"$DATASET"/raw_fastq
+
+  echo "Dataset $DATASET downloaded successfully to $PWD"
+
+  echo "Dataset $DATASET downloaded successfully to $PWD"
+  echo "Removing $DATASET"
+  rm -rf "$DATASET"
+  echo "Compressing"
+  pigz -p 4 PRJNA437330/"$DATASET"/raw_fastq/*.fastq
+  echo "Compression of $DATASET done!"
+
+done
+
+```
+  
+### III. Download pre-built HISAT2 genome indexes (e.g., *Homo sapiens* GRCh38/hg38)  
+
+
+
 
 
 
