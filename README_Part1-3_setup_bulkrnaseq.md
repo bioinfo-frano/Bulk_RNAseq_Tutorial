@@ -31,7 +31,7 @@ Optional, but highly recommended too:
 - [R programming in one hour - a crash course for beginners - R Programming 101 - YouTube](https://www.youtube.com/watch?v=eR-XRSKsuR4&t=176s)   
 - [Python Full Course for Beginners - Programming with Mosh - YouTube](https://www.youtube.com/watch?v=K5KVEU3aaeQ)   
   
-Before starting, I would also recommend you to read the [Introduction](https://github.com/bioinfo-frano/NGS_Workflow_Tutorial/README_Part1-3_setup.md), where you can read a bit more about cloud computing alternatives and on what **FASTQ** files are.
+Before starting, I would also recommend you to read the [Introduction](https://github.com/bioinfo-frano/NGS_Workflow_Tutorial/blob/main/README_Part1-3_setup.md), where you can read a bit more about cloud computing alternatives and on what **FASTQ** files are.
 
 
 
