@@ -3,19 +3,18 @@
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Creating the computing environment for bulk RNAseq analysis](#creating-the-computing-environment-for-bulk-rnaseq-analysis)
+- [Creating the computing environment for bulk RNA-seq analysis](#creating-the-computing-environment-for-bulk-rnaseq-analysis)
     - [I. Create a folder structure](#i-create-a-folder-structure)
-    - [II. Create a Conda environment](#ii-create-a-conda-environment)
-    - [III. Find & download FASTQ datasets](#iii-find--download-fastq-datasets)
+    - [III. Find & download paired-end RNA-seq datasets](#iii-find--download-paired---end-rna---seq-datasets)
+    - [III. Create a Conda environment](#ii-create-a-conda-environment)
     - [IV. Download a pre-built HISAT2 genome index](#iv-download-a-pre-built-hisat2-genome-index)
-
 
 
 ## Introduction
 
 The analysis of transcriptomic datasets independently can be quite difficult if you don't have the proper guidance and, importantly, enough patience, time and computational resources. At the end, you would have to send your datasets to an external bioinformatician or try other options all of which imply financial costs. This is the logical solution when the statistics, tables and plots are urgently needed for the submission of scientific manuscripts or when preparing seminars.  
 The purpose of this tutorial is to show that you can independently analyse your data relying on a personal computer (e.g., laptop) or workstation, which has limited computational resources.  
-For the sake of learning, how to analyse your RNAseq datasets, ideally, you should have some basic knowledge on command line, bash scripting, R programming, and python. However, if you don't have it, don't worry, **learn by doing it!**
+For the sake of learning, how to analyse your RNA-seq datasets, ideally, you should have some basic knowledge on command line, bash scripting, R programming, and python. However, if you don't have it, don't worry, **learn by doing it!**
 
 I would strongly suggest the following tutorials, so that you train yourself in these topics.
   
@@ -36,15 +35,15 @@ With that foundational knowledge in mind, let's now set up our local environment
 From all analyses in this tutorial, the **alignment step** is the most <u>**computational demanding**</u>. Therefore, since we are limited in terms of computational power, this tutorial will provide pipelines for the analysis of small numbers of RNA datasets that can be processed comfortably on standard workstations or laptops. Later on, when working in **R**, it will be possible to expand the amount of RNA datasets by downloading a pre-aligned raw counts. Let's start.
 
 
-## Creating the computing environment for bulk RNAseq analysis
+## Creating the computing environment for bulk RNA-seq analysis
 
 I.	Create a folder structure  
 
-II.	Create conda environment
+II.	Find & download paired-end RNA-seq datasets from a published scientific paper
 
-III.	Find & download FASTQ datasets from a published scientific paper
+III.	Create conda environment `RNA1`
 
-IV. Download a pre-built HISAT2 genome indexes (e.g., Homo sapiens GRCh38/hg38)
+IV. Download pre-built HISAT2 genome indexes (e.g., *Homo sapiens* GRCh38/hg38)
 
 > [!NOTE]   
 > This guide was developed and tested on macOS running on Intel processors. Users on Apple Silicon (M1/M2/…/M5) or Linux systems may need to adapt certain steps.
@@ -57,6 +56,60 @@ When Miniconda is already installed, you should see the `(base)` environment act
 
 ## I. Create a folder structure  
 
+All FASTQ files, reference genome indexes and scripts should be located into specific folders. Below is a recommended folder structure:
+
+```bash
+Bulk_rnaseq/
+├── data
+│   └── logs 
+├── reference
+│   └── intervals
+└── scripts
+```
+
+Multiple samples can be processed by creating one directory per SRA accession under `data/`.
+
+In Terminal, create all directories at once::
+
+```bash
+mkdir -p Bulk_rnaseq/{data/logs,scripts,reference/intervals}  
+```
+
+##. II.	Find & download paired-end RNA-seq datasets 
+
+- Pubmed keywords: dendritic cells, Salmonella, invasive, evasion, T cells
+- Title: Invasive Salmonella exploits divergent immune evasion strategies in infected and bystander dendritic cell subsets
+- [DOI: 10.1038/s41467-018-07329-0](https://www.nature.com/articles/s41467-018-07329-0)
+
+![Figure 1: Finding a scientific paper with bulk RNA-seq samples](images/finding_dataset_pubmed1.png)  
+
+
+- Scientific question/hypothesis: DCs differentially respond to genetically similar S. typhimurium strains
+- Scientific goal: to survey the transcriptome of DCs challenged with invasive or non-invasive Salmonella
+- Method: scRNA-seq complemented by bulk RNA-seq for population-level transcriptional profiling
+- Conclusion: "… these observations contribute to a better understanding of the pathogenesis and dissemination of invasive Salmonelosis"
+- Data availability: Gene Expression Omnibus: 
+  - GEO accession: [**GSE111546**](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE111546)
+  - BioProject: [PRJNA437330](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA437330)
+
+To download the datasets:
+
+1. Go to GEO accession: [**GSE111546**](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE111546)  
+
+![Figure 2: GEO. Choose "bulk RNA-seq" option](images/geo_bulkrnaseq_salmo1.png)  
+
+
+
+
+
+
+
+
+
+
+
+> [!IMPORTANT]  
+> 
 
 ## I. Create a specific conda environment called `DNA`
 
