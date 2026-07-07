@@ -46,7 +46,7 @@ Optional, but highly recommended too:
 >  
 >  WSL2 provides a genuine Linux environment inside Windows, ensuring compatibility with Conda, Bash scripts, bioinformatics software, and Nextflow workflows used throughout this tutorial.  
 >
-> Please, watch this [YouTube](https://www.youtube.com/watch?v=1XuoUlaIEFo) video to learn how to install **WSL2** on your Windows. >
+> Please, watch this [YouTube](https://www.youtube.com/watch?v=1XuoUlaIEFo) video to learn how to install **WSL2** on your Windows. >  
 > Alternatives such as **Git Bash** or **Cygwin** may work for some basic commands, but **they are not recommended** for running the complete pipelines described in this tutorial.  
 >  
 > Once you have completed the **WSL2** installation, you can continue following this tutorial.  
