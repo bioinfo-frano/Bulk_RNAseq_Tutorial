@@ -13,7 +13,7 @@
 
 ## Introduction
 
-The analysis of transcriptomic datasets independently can be quite difficult if you don't have the proper guidance and, importantly, enough patience, time and computational resources. At the end, you would have to send your datasets to an external bioinformatician or try other options all of which imply financial costs. This is the logical solution when the statistics, tables and plots are urgently needed for the submission of scientific manuscripts or when preparing seminars.  
+Analysing transcriptomic datasets independently can be quite difficult if you don't have the proper guidance and, importantly, enough patience, time and computationally resources. At the end, you would have to send your datasets to an external bioinformatician or try other options all of which imply financial costs. This is the logical solution when the statistics, tables and plots are urgently needed for the submission of scientific manuscripts or when preparing seminars.  
 The purpose of this tutorial is to show that you can independently analyse your data relying on a personal computer (e.g., laptop) or workstation, which has limited computational resources.  
 For the sake of learning, how to analyse your RNA-seq datasets, ideally, you should have some basic knowledge on command line, bash scripting, R programming, and python. However, if you don't have it, don't worry, **learn by doing it!**
 
@@ -33,7 +33,7 @@ Before starting, I would also recommend you to read the [Part I - Preparation & 
 
 With that foundational knowledge in mind, let's now set up our local environment for the actual analysis.  
   
-From all analyses in this tutorial, the **alignment step** is the most **computational demanding**. Therefore, since we are limited in terms of computational power, this tutorial will provide pipelines for the analysis of small numbers of RNA datasets that can be processed comfortably on standard workstations or laptops. Later on, when working in **R**, it will be possible to expand the amount of RNA datasets by downloading a pre-aligned raw counts. Let's start.
+From all analyses in this tutorial, the **alignment step** is the most **computational demanding**. Therefore, since we are limited in terms of computational power, this tutorial will provide pipelines for the analysis of small numbers of RNA datasets that can be processed comfortably on standard workstations or laptops. Later on, when working in **R**, it will be possible to expand the number of RNA datasets by downloading pre-aligned raw counts. Let's start.
 
 
 ## Creating the computing environment for bulk RNA-seq analysis
@@ -96,7 +96,7 @@ mkdir -p Bulk_rnaseq/{data,scripts,reference/intervals}
   
 ---
 
-### 2. Select the datasets:
+### 2. Select the datasets
 
 2.1. Go to GEO accession: [**GSE111546**](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE111546)  
 
@@ -112,7 +112,13 @@ Note down the SRA Runs:
   
 ### 3. Make a bash script to downloading the samples using **SRA Toolkit**
   
-3.1. Go to Terminal, navigate to `Bulk_rnaseq/data` and create the file `sra_PRJNA437330.sh` using `nano` or any script/text editor (e.g. Atom, Sublime) or use command `touch`. After that, provide permission.
+3.1. Go to Terminal, navigate to `Bulk_rnaseq/data`  
+
+3.2. Create the file `sra_PRJNA437330.sh`. You can use:
+  - `nano` or any script/text editor (e.g. Atom, Sublime)
+  - `touch`.
+
+3.3. After that, provide permission.
 
 ```bash
 cd Bulk_rnaseq/data
@@ -120,7 +126,7 @@ touch sra_PRJNA437330.sh
 chmod u+x sra_PRJNA437330.sh
 ```
   
-3.2. Activate conda `sra`.  
+3.3. Activate conda `sra`.  
 
 ```bash
 conda activate sra
@@ -129,9 +135,9 @@ You should see `(sra)` appear followed by the user name and directory.
 
 > [!IMPORTANT]  
 > If you don't have installed the conda environment `sra`, which contains the SRA Toolkit and other dependencies,  
-then go here 👉 [Part I - Preparation & setup - Find & download small-sized FASTQ datasets for cancer gene panels](https://github.com/bioinfo-frano/NGS_Workflow_Tutorial/blob/main/README_Part1-3_setup.md)
+then install it here 👉 [Part I - Preparation & setup - Find & download small-sized FASTQ datasets for cancer gene panels](https://github.com/bioinfo-frano/NGS_Workflow_Tutorial/blob/main/README_Part1-3_setup.md)
 
-3.3. Open `sra_PRJNA437330.sh` and copy/paste the bash script here below that includes in this order:
+3.3. Open `sra_PRJNA437330.sh` and copy/paste the bash script here below, which includes in this order:
 
 - prefetch  
 - vdb-validate  
@@ -160,12 +166,10 @@ for DATASET in "${DATASETS[@]}"; do
   --outdir PRJNA437330/"$DATASET"/raw_fastq
 
   echo "Dataset $DATASET downloaded successfully to $PWD"
-
-  echo "Dataset $DATASET downloaded successfully to $PWD"
   echo "Removing $DATASET"
   rm -rf "$DATASET"
   echo "Compressing"
-  pigz -p 4 PRJNA437330/"$DATASET"/raw_fastq/*.fastq
+  gzip PRJNA437330/"$DATASET"/raw_fastq/*.fastq
   echo "Compression of $DATASET done!"
 
 done
@@ -214,10 +218,6 @@ Bulk_rnaseq/
 │       │   └── raw_fastq
 │       │       ├── SRR6815993_1.fastq.gz
 │       │       └── SRR6815993_2.fastq.gz
-│       ├── SRR6816003
-│       │   └── raw_fastq
-│       │       ├── SRR6816003_1.fastq.gz
-│       │       └── SRR6816003_2.fastq.gz
 │       └── SRR6816017
 │           └── raw_fastq
 │               ├── SRR6816017_1.fastq.gz
@@ -249,7 +249,7 @@ The indexes **genome_rep(above 2.2.0)** and **genome_snp_rep(above 2.2.0)** corr
 
 ## IV. Create a Conda environment
 
-1. Create `.yml` file with all dependencies for conda `RNA1` environment. Use `touch` or script/text editor  
+### 1. Create `.yml` file with all dependencies for conda `RNA1` environment. Use `touch` or script/text editor  
 
 1.1. Save it as: `RNA1_environment.yml`  
 1.2. Save it in path: `~/Bulk_rnaseq/scripts`  
@@ -305,7 +305,7 @@ dependencies:
   - curl
 ```
 
-2. Create `RNA1` environment
+### 2. Create `RNA1` environment
 
 2.1 Go to Conda `base`  
 2.1 Navigate to `~/Bulk_rnaseq/scripts`  
@@ -335,12 +335,12 @@ Executing transaction: done
 #     $ conda deactivate  
 ```
 
-3. Verify `RNA1`
+### 3. Verify `RNA1`
 
 3.1 Activate `RNA1`
 
 ```bash
-conda activate `RNA1`
+conda activate RNA1
 
 conda list
 
@@ -361,7 +361,7 @@ genePredToBed                # from ucsc-genepredtobed
 
 ## V. Create a BED12 file
 
-The **BED12** is a 12 columns table used to determine the strandedness of the bulk RNA-seq datasets. This determination is an essential information that must be given to `featureCounts` for the generation of the ***raw count matrix***.
+The **BED12** is a 12 columns table used to determine the strandedness of the bulk RNA-seq datasets. This determination is essential information that must be given to `featureCounts` for the generation of the ***raw count matrix***.
 The **BED12** file derives from the `gencode.v38.annotation.gtf.gz` GTF file.
 
 1. Download the GTF file into `Bulk_rnaseq/reference/intervals`
@@ -413,7 +413,7 @@ chrX	253742	255091	ENST00000431238.7	0	+	255091	255091	0	2	104,155,	0,1194,
 ```
 
 > [!IMPORTANT]  
-> It's advisabe to have two versions of the **BED12** file: one with and the other without the prefix "**chr**". This is because the chromosome naming must match between the HISAT2 alignment file (`.bam`) and the annotation file (**BED12**). Also, the "chrM", "chrX" and "chrY" should change to "MT", "X" and "Y", respectively.  
+> It's advisable to have two versions of the **BED12** file: one with and the other without the prefix "**chr**". This is because the chromosome naming must match between the HISAT2 alignment file (`.bam`) and the annotation file (**BED12**). Also, the "chrM", "chrX" and "chrY" should change to "MT", "X" and "Y", respectively.  
 
 4. Create a **BED12** file without the prefix "**chr**" and changing "chrM" to "MT"
 
@@ -453,9 +453,6 @@ Bulk_rnaseq/
 │       ├── SRR6815993
 │       │   └── raw_fastq
 │       │       └── SRR6815993_{1,2}.fastq.gz
-│       ├── SRR6816003
-│       │   └── raw_fastq
-│       │       └── SRR6816003_{1,2}.fastq.gz
 │       └── SRR6816017
 │           └── raw_fastq
 │               └── SRR6816017_{1,2}.fastq.gz
