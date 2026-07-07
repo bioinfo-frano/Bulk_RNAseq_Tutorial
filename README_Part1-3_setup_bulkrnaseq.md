@@ -29,14 +29,15 @@ Optional, but highly recommended too:
 - [R programming in one hour - a crash course for beginners - R Programming 101 - YouTube](https://www.youtube.com/watch?v=eR-XRSKsuR4&t=176s)   
 - [Python Full Course for Beginners - Programming with Mosh - YouTube](https://www.youtube.com/watch?v=K5KVEU3aaeQ)   
   
-  
+<br>
+<br>
 > [!IMPORTANT]
 > **For Windows Users**: This tutorial relies on a Linux environment. You must install Windows Subsystem for Linux (WSL2) with Ubuntu to follow along. All steps, from installing Miniconda to running the analysis scripts, must be performed inside your WSL2 terminal.  
 > Please, follow this YouTube video, where you can learn how to install Linux-Ubuntu on your Windows:  
-> <https://www.youtube.com/watch?v=1XuoUlaIEFo>
+> <https://www.youtube.com/watch?v=1XuoUlaIEFo>   
 > Once you finish the full installation of **WSL2**, you can continue learning and following this tutorial.  
 
-
+<br>
   
 Before starting, I would also recommend you to read the [Part I - Preparation & setup -  Introduction](https://github.com/bioinfo-frano/NGS_Workflow_Tutorial/blob/main/README_Part1-3_setup.md), where you can read a bit more about cloud computing alternatives and on what **FASTQ** files are.
 
