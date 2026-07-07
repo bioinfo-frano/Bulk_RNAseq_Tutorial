@@ -126,7 +126,7 @@ touch sra_PRJNA437330.sh
 chmod u+x sra_PRJNA437330.sh
 ```
   
-3.3. Activate conda `sra`.  
+3.4. Activate conda `sra`.  
 
 ```bash
 conda activate sra
@@ -307,9 +307,9 @@ dependencies:
 
 ### 2. Create `RNA1` environment
 
-2.1 Go to Conda `base`  
-2.1 Navigate to `~/Bulk_rnaseq/scripts`  
-2.2. Run conda env create:
+2.1. Go to Conda `base`  
+2.1. Navigate to `~/Bulk_rnaseq/scripts`  
+2.2. Run conda env create:  
 
 ```bash
 cd ~/Bulk_rnaseq/scripts
@@ -337,7 +337,7 @@ Executing transaction: done
 
 ### 3. Verify `RNA1`
 
-3.1 Activate `RNA1`
+3.1. Activate `RNA1`
 
 ```bash
 conda activate RNA1
