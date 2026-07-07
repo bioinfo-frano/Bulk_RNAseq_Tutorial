@@ -31,10 +31,13 @@ Optional, but highly recommended too:
   
   
 > [!IMPORTANT]
-> **For Windows Users**: This tutorial relies on a Linux environment. You must install Windows Subsystem for Linux (WSL2) with Ubuntu to follow along. All steps, from installing Miniconda to running the analysis scripts, must be performed inside your WSL2 terminal
+> **For Windows Users**: This tutorial relies on a Linux environment. You must install Windows Subsystem for Linux (WSL2) with Ubuntu to follow along. All steps, from installing Miniconda to running the analysis scripts, must be performed inside your WSL2 terminal.  
+> Please, follow this YouTube video, where you can learn how to install Linux-Ubuntu on your Windows:  
+> <https://www.youtube.com/watch?v=1XuoUlaIEFo>
+> Once you finish the full installation of **WSL2**, you can continue learning and following this tutorial.  
 
 
-
+  
 Before starting, I would also recommend you to read the [Part I - Preparation & setup -  Introduction](https://github.com/bioinfo-frano/NGS_Workflow_Tutorial/blob/main/README_Part1-3_setup.md), where you can read a bit more about cloud computing alternatives and on what **FASTQ** files are.
 
 With that foundational knowledge in mind, let's now set up our local environment for the actual analysis.  
