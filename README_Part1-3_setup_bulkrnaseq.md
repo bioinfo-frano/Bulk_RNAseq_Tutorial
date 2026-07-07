@@ -54,7 +54,7 @@ Optional, but highly recommended too:
 >  
 > Once you have completed the **WSL2** installation, you can continue following this tutorial.  
 >
-> **For Windows 7 or 8 users**: Upgrading to Windows 10 (version 2004, Build 19041 or higher, Home or Pro) or Windows 11 is strongly recommended to use WSL2. The upgrade is free, and you will need a valid Windows license key for activation. Please also ensure your system meets the minimum hardware requirements.  
+> **For Windows 7 or 8 users**: Upgrading to Windows 10 (version 2004, Build 19041 or higher, Home or Pro) or Windows 11 is strongly recommended to use **WSL2**. The upgrade is free, and you will need a valid Windows license key for activation. Please also ensure your system meets the minimum hardware requirements.  
 
 <br>  
   
