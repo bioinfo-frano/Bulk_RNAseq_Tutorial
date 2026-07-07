@@ -98,6 +98,8 @@ In Terminal, create all directories at once:
 mkdir -p Bulk_rnaseq/{data,scripts,reference/intervals}  
 ```
 
+---
+
 ## II. Find & download paired-end RNA-seq datasets 
 
 ### 1. Finding a bulk RNA-seq dataset in PubMed
@@ -117,7 +119,6 @@ mkdir -p Bulk_rnaseq/{data,scripts,reference/intervals}
   - GEO accession: [**GSE111546**](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE111546)
   - BioProject: [**PRJNA437330**](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA437330)  
   
----
 
 ### 2. Select the datasets
 
