@@ -204,13 +204,14 @@ done
 
 ## III. Download a pre-built HISAT2 genome index  
 
-The reference indexes have:  
+The reference indexes consist in:  
 
-- the DNA genome sequence  
-- splice-site information  
-- exon information  
+- the DNA reference genome sequence (**GRCh38**) 
+- splice-site junctions (canonical & alternative splice sites, and exon–exon junctions)
+- transcript annotations (extracted from the **GENCODE** GTF) 
+- organised into eight `.ht2` files
    
-The **genome_tran** indexes were built using both the reference genome sequence and transcript annotations, allowing HISAT2 to perform splice-aware alignment.
+These `.ht2` files or indexes allow HISAT2 to perform fast and splice-aware alignment.
 
 1. **Setup directory**:
 
