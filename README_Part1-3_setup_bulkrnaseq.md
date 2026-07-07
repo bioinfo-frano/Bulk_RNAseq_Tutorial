@@ -13,9 +13,9 @@
 
 ## Introduction
 
-Analysing transcriptomic datasets independently can be quite difficult if you don't have the proper guidance and, importantly, enough patience, time and computationally resources. At the end, you would have to send your datasets to an external bioinformatician or try other options all of which imply financial costs. This is the logical solution when the statistics, tables and plots are urgently needed for the submission of scientific manuscripts or when preparing seminars.  
-The purpose of this tutorial is to show that you can independently analyse your data relying on a personal computer (e.g., laptop) or workstation, which has limited computational resources.  
-For the sake of learning, how to analyse your RNA-seq datasets, ideally, you should have some basic knowledge on command line, bash scripting, R programming, and python. However, if you don't have it, don't worry, **learn by doing it!**
+Analysing transcriptomic datasets independently can be quite difficult if you don't have the proper guidance and, importantly, enough patience, time, and computational resources. At the end, you would have to send your datasets to an external bioinformatician or try other options all of which may involve additional costs. This is the logical solution when the statistics, tables and plots are urgently needed for the submission of scientific manuscripts or when preparing seminars.  
+The purpose of this tutorial is to show that you can independently analyse your data using a personal computer (e.g., laptop) or workstation, which has limited computational resources.  
+For the sake of learning, how to analyse your RNA-seq datasets, ideally, you should have some basic knowledge on command line, bash scripting, R programming, and python. However, if you don't have it, don't worry, **learn by doing!**
 
 I would strongly suggest the following tutorials, so that you train yourself in these topics.
   
@@ -45,9 +45,9 @@ Optional, but highly recommended too:
 > **For Windows Users**: This tutorial relies on a Linux environment. I would **strongly** recommend that you install **Windows Subsystem for Linux (WSL2) with Ubuntu** to follow along with this tutorial. Once you open the WSL2 Ubuntu terminal on Windows, all steps from installing Miniconda (**Linux version**), creating conda environments, to running the bash scripts and Nextflow pipelines, must be performed inside your WSL2 Ubuntu terminal.  
 >  
 > Please, watch this [YouTube](https://www.youtube.com/watch?v=1XuoUlaIEFo) video to learn how to install **WSL2** on your Windows.  
-> There are other alternatives like Git Bash or Cygwin are **not sufficient** for running the full pipelines in this tutorial.   
+> Alternatives such as Git Bash or Cygwin are **not sufficient** for running the full pipelines in this tutorial.   
 >  
-> Once you finish have completed the **WSL2** installation, you can continue following this tutorial.  
+> Once you have completed the **WSL2** installation, you can continue following this tutorial.  
 
 <br>  
   
@@ -55,7 +55,7 @@ Before starting, I would also recommend you to read the [Part I - Preparation & 
 
 With that foundational knowledge in mind, let's now set up our local environment for the actual analysis.  
   
-From all analyses in this tutorial, the **alignment step** is the most **computational demanding**. Therefore, since we are limited in terms of computational power, this tutorial will provide pipelines for the analysis of small numbers of RNA datasets that can be processed comfortably on standard workstations or laptops. Later on, when working in **R**, it will be possible to expand the number of RNA datasets by downloading pre-aligned raw counts. Let's start.
+From all analyses in this tutorial, the **alignment** is the most **computationally demanding** step. Therefore, since we are limited in terms of computational power, this tutorial will provide pipelines for the analysis of small numbers of RNA datasets that can be processed comfortably on standard workstations or laptops. Later on, when working in **R**, it will be possible to expand the number of RNA datasets by directly downloading raw counts, skipping all the preprocessing and alignment steps. Let's start.
 
 
 ## Creating the computing environment for bulk RNA-seq analysis
@@ -73,7 +73,7 @@ V. Create a BED12 file
 
 ## I. Create a folder structure  
 
-All FASTQ files, reference genome indexes and scripts should be located into specific folders. Below is a recommended folder structure:
+All FASTQ files, reference genome indexes and scripts should be organised into specific folders. Below is a recommended folder structure:
 
 ```bash
 Bulk_rnaseq/
@@ -85,7 +85,7 @@ Bulk_rnaseq/
 
 Multiple samples can be processed by creating one directory per SRA accession under `data/`.
 
-In Terminal, create all directories at once::
+In Terminal, create all directories at once:
 
 ```bash
 mkdir -p Bulk_rnaseq/{data,scripts,reference/intervals}  
@@ -126,7 +126,7 @@ Note down the SRA Runs:
 - `SRR6815993` (status: Uninfected; time: 6h)   
 - `SRR6816017` (status: Infected  ; time: 6h)   
   
-### 3. Make a bash script to downloading the samples using **SRA Toolkit**
+### 3. Create a Bash script to download the samples using **SRA Toolkit**
   
 3.1. Go to Terminal, navigate to `Bulk_rnaseq/data`  
 
@@ -134,7 +134,7 @@ Note down the SRA Runs:
   - `nano` or any script/text editor (e.g. Atom, Sublime)
   - `touch`.
 
-3.3. After that, provide permission.
+3.3. Grant execute permissions:
 
 ```bash
 cd Bulk_rnaseq/data
@@ -197,7 +197,13 @@ done
 
 ## III. Download a pre-built HISAT2 genome index  
 
-The reference indexes have both the DNA sequence and an annotation file (GTF). They contain a lookup table of all known splice sites and exon-exon junctions, allowing HISAT2 to do a transcriptome-aware or splice-aware alignment.
+The reference indexes have:  
+
+- the DNA genome sequence  
+- splice-site information  
+- exon information  
+   
+The **genome_tran** indexes were built using both the reference genome sequence and transcript annotations, allowing HISAT2 to perform splice-aware alignment.
 
 1. **Setup directory**:
 
@@ -258,9 +264,13 @@ Bulk_rnaseq/
 > [!IMPORTANT]  
 > In the HISAT2 website, choose the option **genome_tran** → `grch38_tran.tar.gz` because it has Genome + transcript annotations (exons + splice junctions). This is the recommended index for RNA‑seq, because HISAT2 can use known splice sites to improve alignment accuracy.  
 Other alteratives such as **genome** and **genome_snp** are used when you **don't** need splice‑aware improvements from transcript annotations and when you consider known human SNPs during alignment, respectively.  
-The alternative **genome_snp_tran** is when you want both variant‑aware mapping and splice‑aware mapping. Too heavy.  
+The alternative **genome_snp_tran** is when you want both variant‑aware mapping and splice‑aware mapping. It's substantially larger and might be unnecessary for this bulk RNA-seq workflow.  
 The indexes **genome_rep(above 2.2.0)** and **genome_snp_rep(above 2.2.0)** correspond to studies nvolving repetitive elements (TEs, LINEs, SINEs) and Genome + SNPs + repeat annotations, respectively.
 
+  
+> [!NOTE]  
+> Building a human HISAT2 index from scratch can take considerable time and disk space, so we use the pre-built indexes provided by the HISAT2 developers.
+  
 ---
 
 ## IV. Create a Conda environment
@@ -323,9 +333,9 @@ dependencies:
 
 ### 2. Create `RNA1` environment
 
-2.1. Go to Conda `base`  
+2.1. Activate `base` Conda environment   
 2.1. Navigate to `~/Bulk_rnaseq/scripts`  
-2.2. Run conda env create:  
+2.2. Run `conda env create` using the `.yml`:  
 
 ```bash
 cd ~/Bulk_rnaseq/scripts
@@ -377,7 +387,8 @@ genePredToBed                # from ucsc-genepredtobed
 
 ## V. Create a BED12 file
 
-The **BED12** is a 12 columns table used to determine the strandedness of the bulk RNA-seq datasets. This determination is essential information that must be given to `featureCounts` for the generation of the ***raw count matrix***.
+A **BED12** file is a 12-column tab-delimited annotation file required by **RSeQC** (`infer_experiment.py`) to determine library **strandedness**. Once strandedness has been identified, the appropriate parameter can be supplied to `featureCounts` during read quantification for the generation of the **raw count matrix**.  
+  
 The **BED12** file derives from the `gencode.v38.annotation.gtf.gz` GTF file.
 
 1. Download the GTF file into `Bulk_rnaseq/reference/intervals`
@@ -457,6 +468,10 @@ MT	647	1601	ENST00000389680.2	0	+	1601	1601	0	1	954,	0,
 Y	253742	255091	ENST00000431238.7_PAR_Y	0	+	255091	255091	0	2	104,155,	0,1194,
 X	253742	255091	ENST00000431238.7	0	+	255091	255091	0	2	104,155,	0,1194,
 ```
+
+> [!NOTE]  
+> The **BED12** file will be used later in **Part II** of the tutorial to determine library strandedness before read quantification.  
+  
 
 ---
 
