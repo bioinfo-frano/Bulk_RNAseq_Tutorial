@@ -77,6 +77,7 @@ IV.	Create conda environment `RNA1`
 
 V. Create a BED12 file   
   
+---
 
 ## I. Create a folder structure  
 
