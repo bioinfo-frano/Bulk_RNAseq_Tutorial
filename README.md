@@ -63,8 +63,8 @@ Here you'll start stepwise the preprocessing and secondary analysis of datasets,
 2. Alignment (`HISAT2`)
 3. Flagging duplicates (`Picard`)
 4. Determination of strandedness
-5. Gene-level paired-end read quantification (raw counts) using (`featureCounts`)
-6. Visualisation (`IGV`)
+5. Gene-level quantification (`featureCounts`)
+6. Visualization (`IGV`)
 
 ➡️ **Start here:**  
 👉 [Part II – Preprocessing & Secondary analysi](README_Part2-3_preprocess_secanalysis_bulkrnaseq.md)

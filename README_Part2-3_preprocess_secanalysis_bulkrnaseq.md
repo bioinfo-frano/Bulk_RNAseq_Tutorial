@@ -2,14 +2,17 @@
 
 ## Table of Contents
 
-- [Introduction](#introduction)
-- [Creating the computing environment for bulk RNA-seq analysis](#creating-the-computing-environment-for-bulk-rna-seq-analysis)  
-    - [I. Create a folder structure](#i-create-a-folder-structure)  
-    - [II. Find & download paired-end RNA-seq datasets](#ii-find--download-paired-end-rna-seq-datasets)  
-    - [III. Download a pre-built HISAT2 genome index](#iii-download-a-pre-built-hisat2-genome-index)  
-    - [IV. Create a Conda environment](#iv-create-a-conda-environment)  
-    - [V. Create a BED12 file](#v-create-a-bed12-file)  
-    - [VI. Final folder structure: before starting bulk RNA-seq analysis](#vi-final-folder-structure-before-starting-bulk-rna-seq-analysis)
+- [Introduction](#introduction)  
+- [Bash script](#bash-script)  
+    - [I. Bash: Preprocessing](#i-bash-preprocessing)  
+    - [II. Bash: Alignment and mark duplicates](#ii-bash-alignment-and-mark-duplicates)  
+    - [III. Bash: Gene-level paired-end read quantification](#iii-bash-gene-level-paired-end-read-quantification)  
+- [Nextflow pipeline](#nextflow-pipeline)  
+    - [I. Nextflow: Preprocessing](#i-nextflow-preprocessing)  
+    - [II. Nextflow: Alignment and mark duplicates](#ii-nextflow-alignment-and-mark-duplicates)  
+    - [III. Nextflow: Gene-level paired-end read quantification](#iii-nextflow-gene-level-paired-end-read-quantification)  
+- [Visualization](#visualization)
+
 
 ## Introduction
 
