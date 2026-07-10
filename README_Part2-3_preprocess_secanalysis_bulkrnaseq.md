@@ -16,6 +16,34 @@
 
 ## Introduction
 
+In this second part of bulk RNA-seq analysis, the two datasets downloaded in [Part I](README_Part1-3_setup_bulkrnaseq.md#part-i--setup--data-preparation) will be analysed with a series of bioinformatic tools within the conda `RNA1` environment. These tools are used in a predetermined order to evaluate and improve the quality of paired-reads of each dataset before the alignment-based quantification of gene expression takes place.  
+
+In more details, the **preprocessing** consist in the quality control (QC) of read and, depending on this, the reads are trimmed, length- & quality phred- filtered in order to keep reads with higher quality with the lowest amount of adapter contamination. After this QC steps, start the **secondary analysis** in which the quality-improved datasets are mapped or aligned to the reference genome followed by the flagging of PCR duplicates and the quantification of aligned pair-reads.
+
+The way to assign all these processes in a predetermined order is by drafting a bioinformatic pipeline. Such pipelines can be implemented using a variety of workflow systems, for example:
+
+- **Bash**: simple, transparent, ideal for small workflows  
+
+- **Nextflow** & **Snakemake**: reproducible, scalable, cloud‑ready, container‑friendly  
+
+- **CWL** (Common Workflow Language) — standardized, portable workflows across platforms  
+
+- **WDL + Cromwell** — used by Broad Institute; strong support for large genomics pipelines  
+
+- **Galaxy**: GUI‑based workflow system for non‑programmers (GUI: Graphical User Interphase)  
+
+
+In the next part, we will go through a bulk RNA-seq pipeline implemented in Bash and in Nextflow. Both pipelines will have **preprocessing** and **secondary analysis** of datasets.
+
+## Bash script
+
+
+
+(and take a decision whether to trim away bad quality bases and adapter sequences, as well as filter out reads based on bp length)
+
+
+
+
 Analysing transcriptomic datasets independently can be quite difficult if you don't have the proper guidance and, importantly, enough patience, time, and computational resources. At the end, you would have to send your datasets to an external bioinformatician or try other options all of which may involve additional costs. This is the logical solution when the statistics, tables and plots are urgently needed for the submission of scientific manuscripts or when preparing seminars.  
 The purpose of this tutorial is to show that you can independently analyse your data using a personal computer (e.g., laptop) or workstation, which has limited computational resources.  
 For the sake of learning, how to analyse your RNA-seq datasets, ideally, you should have some basic knowledge on command line, bash scripting, R programming, and python. However, if you don't have it, don't worry, **learn by doing!**
