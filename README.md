@@ -12,11 +12,7 @@ The tutorial covers the following workflow steps:
 
 - **Part I**: **Setup and data preparation**
 - **Part II**: **Preprocessing & Secondary analysis**
-- **Part III**: **Tertiary analysis** using **R**:
-    - Count matrix generation
-    - DESeq2 transformation
-    - PCA
-    - Volcano and heatmap plots
+- **Part III**: **Tertiary analysis**
 - **Part IV**: Pseudoalignment (`salmon`)
     - Alignment vs pseudoalignment
 
@@ -59,7 +55,7 @@ This section will teach you how to prepare your computer for Bulk RNA-seq analys
 
 ---
 
-###   Part II - Preprocessing & Secondary analysis
+### 2️⃣ Part II - Preprocessing & Secondary analysis
 
 Here you'll start stepwise the preprocessing and secondary analysis of datasets, following a Bash and Nextflow pipelines:
 
@@ -68,7 +64,20 @@ Here you'll start stepwise the preprocessing and secondary analysis of datasets,
 3. Flagging duplicates (`Picard`)
 4. Determination of strandedness
 5. Gene-level paired-end read quantification (raw counts) using (`featureCounts`)
-6. Visualisation (IGV)
+6. Visualisation (`IGV`)
+
+---
+
+###  Part III: Tertiary analysis
+
+At this point, you'll start getting your first visualizations using **R** 
+
+1. Downloading raw counts
+2. Count matrix generation
+3. DESeq2 transformation
+4. PCA
+5. Volcano and heatmap plots
+6. GO & GSEA
 
 ---
 
