@@ -66,9 +66,12 @@ Here you'll start stepwise the preprocessing and secondary analysis of datasets,
 5. Gene-level paired-end read quantification (raw counts) using (`featureCounts`)
 6. Visualisation (`IGV`)
 
+➡️ **Start here:**  
+👉 [Part II – Preprocessing & Secondary analysi](README_Part2-3_preprocess_secanalysis_bulkrnaseq.md)
+
 ---
 
-###  Part III: Tertiary analysis
+### 3️⃣ Part III: Tertiary analysis
 
 At this point, you'll start getting your first visualizations using **R** 
 
