@@ -11,7 +11,7 @@ In this tutorial, you will find a step-by-step protocol for achieving a reliable
 The tutorial covers the following workflow steps:
 
 - **Part I**: **Setup and data preparation** from NCBI SRA using the SRA Toolkit
-- **Part II**: **Secondary analysis** using Bash scripting and Nextflow workflows, including:
+- **Part II**: **Preprocessing & Secondary analysis** using Bash scripting and Nextflow workflows, including:
     - Preprocessing: QC, trimming, post-trimming QC
     - Alignment (`HISAT2`)
     - Flagging duplicates (`Picard`)
@@ -26,7 +26,7 @@ The tutorial covers the following workflow steps:
 - **Part IV**: Pseudoalignment (`salmon`)
     - Alignment vs pseudoalignment
 
-The tutorial starts with two representative RNA-seq samples (one sample from each experimental group) from the study [DOI: 10.1038/s41467-018-07329-0](https://www.nature.com/articles/s41467-018-07329-0). Each dataset consists of paired-end (R1 and R2) FASTQ files, which are used for the secondary analysis.  
+The tutorial starts with two representative RNA-seq samples (one sample from each experimental group) from the study [DOI: 10.1038/s41467-018-07329-0](https://www.nature.com/articles/s41467-018-07329-0). Each dataset consists of paired-end (R1 and R2) FASTQ files, which are used for the preprocessing and secondary analysis.  
 The same RNA-seq workflow is implemented twice: first using Bash script to illustrate each analysis step, and later using Nextflow to demonstrate workflow automation and reproducibility.  
 For the tertiary analysis, a larger set of raw counts from more samples per experimental group from the same study is used to enable DESeq2 to normalise and calculate differential expression (DE).
 
@@ -71,7 +71,7 @@ Overview of the bulk RNA-seq pipeline in this repository.
 - Conda-based installation
 
 > [!NOTE]  
-> ≥ 16 GB RAM (or even 32 GB) would be recommended for a full-scale dataset analysis. An 8 GB RAM laptop may suffice only for small test datasets such as those used in this tutorial for secondary analysis.
+> ≥ 16 GB RAM (or even 32 GB) would be recommended for a full-scale dataset analysis. An 8 GB RAM laptop may suffice only for small test datasets such as those used in this tutorial.
 
 
 This repository is intended for **educational and research purposes only**.  
