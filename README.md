@@ -10,14 +10,8 @@ In this tutorial, you will find a step-by-step protocol for achieving a reliable
   
 The tutorial covers the following workflow steps:
 
-- **Part I**: **Setup and data preparation** from NCBI SRA using the SRA Toolkit
-- **Part II**: **Preprocessing & Secondary analysis** using Bash scripting and Nextflow workflows, including:
-    - Preprocessing: QC, trimming, post-trimming QC
-    - Alignment (`HISAT2`)
-    - Flagging duplicates (`Picard`)
-    - Determination of strandedness
-    - Gene-level paired-end read quantification (raw counts) using (`featureCounts`)
-    - Visualisation (IGV)
+- **Part I**: **Setup and data preparation**
+- **Part II**: **Preprocessing & Secondary analysis**
 - **Part III**: **Tertiary analysis** using **R**:
     - Count matrix generation
     - DESeq2 transformation
@@ -50,15 +44,31 @@ Overview of the bulk RNA-seq pipeline in this repository.
 
 ## Tutorial structure
 
-### 1️⃣ Part I – Setup and data preparation  
+### 1️⃣ Part I – Setup and data preparation 
 
-1. Folder structure  
+This section will teach you how to prepare your computer for Bulk RNA-seq analysis, following these steps:
+
+1. Create a folder structure  
 2. Find & download paired-end RNA-seq datasets   
-3. Downloading pre-built HISAT2 genome indexes (e.g., *Homo sapiens* GRCh38/hg38)   
-5. Conda environments  
+3. Download pre-built HISAT2 genome indexes  
+4. Set up Conda environments  
+5. Create a BED12 file
 
 ➡️ **Start here:**  
 👉 [Part I – Setup & data preparation](README_Part1-3_setup_bulkrnaseq.md)
+
+---
+
+###   Part II - Preprocessing & Secondary analysis
+
+Here you'll start stepwise the preprocessing and secondary analysis of datasets, following a Bash and Nextflow pipelines:
+
+1. Preprocessing: QC, trimming, post-trimming QC
+2. Alignment (`HISAT2`)
+3. Flagging duplicates (`Picard`)
+4. Determination of strandedness
+5. Gene-level paired-end read quantification (raw counts) using (`featureCounts`)
+6. Visualisation (IGV)
 
 ---
 

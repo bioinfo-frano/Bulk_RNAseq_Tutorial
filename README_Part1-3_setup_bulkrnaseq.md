@@ -160,7 +160,7 @@ You should see `(sra)` appear followed by the user name and directory.
 
 > [!IMPORTANT]  
 > If you don't have installed the conda environment `sra`, which contains the SRA Toolkit and other dependencies,  
-then install it here 👉 [Part I - Preparation & setup - Find & download small-sized FASTQ datasets for cancer gene panels](https://github.com/bioinfo-frano/NGS_Workflow_Tutorial/blob/main/README_Part1-3_setup.md)
+then follow instructions right here 👉 [Part I - Preparation & setup - Find & download small-sized FASTQ datasets for cancer gene panels](https://github.com/bioinfo-frano/NGS_Workflow_Tutorial/blob/main/README_Part1-3_setup.md)
 
 3.3. Open `sra_PRJNA437330.sh` and copy/paste the bash script here below, which includes in this order:
 
@@ -482,6 +482,50 @@ X	253742	255091	ENST00000431238.7	0	+	255091	255091	0	2	104,155,	0,1194,
 > [!NOTE]  
 > The **BED12** file will be used later in **Part II** of the tutorial to determine library strandedness before read quantification.  
   
+4.3. Verify whether **BED12** file has empty lines (rows)
+
+For some bioinformatic tools, the presence of empty lines in the **BED12** file might stop any analysis.
+
+4.3.1. Count the number of empty lines
+
+```bash
+grep -c '^$' gencode.v38.annotation.nochr.bed
+```
+Output: **There's exactly 1 empty line**
+
+```bash
+1
+```
+
+4.3.2. Find where this empty line is
+
+```bash
+grep -n '^$' gencode.v38.annotation.nochr.bed
+```
+
+Output: **The empty line is at line 237013**
+
+```bash
+237013:
+```
+
+4.3.3. Remove the empty line and save it as clean **BED12**
+
+```bash
+sed '/^$/d' gencode.v38.annotation.nochr.bed > gencode.v38.annotation.nochr.clean.bed
+```
+
+4.3.4. Verify
+
+```bash
+grep -c '^$' gencode.v38.annotation.nochr.clean.bed
+```
+
+Output: There's no empty line
+
+```bash
+0
+```
 
 ---
 
@@ -505,7 +549,8 @@ Bulk_rnaseq/
 │   └── intervals
 │       ├── gencode.v38.annotation.gtf.gz
 │       ├── gencode.v38.annotation.bed
-│       └── gencode.v38.annotation.nochr.bed
+│       ├── gencode.v38.annotation.nochr.bed
+│       └── gencode.v38.annotation.nochr.clean.bed
 └── scripts
     └── RNA1_environment.yml
 ```
