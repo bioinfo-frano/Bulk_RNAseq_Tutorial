@@ -23,7 +23,7 @@ In more details, **preprocessing** consists of quality control (QC) of raw reads
 The way to assign all these processes in a predetermined order, ensuring that each step in these processes is consistent across data and platforms is by drafting a bioinformatic pipeline. Such pipelines utilize a programming or workflow language, allowing these processes to be portable, (if possible) parallelizable, consistent, and interoperable. These pipelines can be implemented using a variety of workflow systems, for example:
 
 - **Bash**: simple, transparent, ideal for small workflows. More details:  
-    -[How to write a bash script](https://www.youtube.com/watch?v=F-gskSl4pwQ)
+    - [How to write a bash script](https://www.youtube.com/watch?v=F-gskSl4pwQ)
     
 - **Nextflow** & **Snakemake**: reproducible, scalable, cloud‑ready, container‑friendly. More details:  
     - [An introduction to Nextflow](https://www.commonwl.org)  
