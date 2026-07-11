@@ -18,22 +18,38 @@
 
 In this second part of bulk RNA-seq analysis, the two datasets downloaded in [Part I](README_Part1-3_setup_bulkrnaseq.md#part-i--setup--data-preparation) will be analysed with a series of bioinformatic tools within the conda `RNA1` environment. These tools are used in a predetermined order to evaluate and improve the quality of paired-reads of each dataset before the alignment-based quantification of gene expression takes place.  
 
-In more details, the **preprocessing** consist in the quality control (QC) of read and, depending on this, the reads are trimmed, length- & quality phred- filtered in order to keep reads with higher quality with the lowest amount of adapter contamination. After this QC steps, start the **secondary analysis** in which the quality-improved datasets are mapped or aligned to the reference genome followed by the flagging of PCR duplicates and the quantification of aligned pair-reads.
+In more details, **preprocessing** consists of quality control (QC) of raw reads and, depending on this, the reads are trimmed, length- & quality phred-filtered in order to keep reads with higher quality with the lowest amount of adapter contamination. After this QC steps, start the **secondary analysis** in which the quality-improved datasets are mapped or aligned to the reference genome followed by the flagging of PCR duplicates and the quantification of aligned pair-reads.
 
-The way to assign all these processes in a predetermined order is by drafting a bioinformatic pipeline. Such pipelines can be implemented using a variety of workflow systems, for example:
+The way to assign all these processes in a predetermined order, ensuring that each step in these processes is consistent across data and platforms is by drafting a bioinformatic pipeline. Such pipelines utilize a programming or workflow language, allowing these processes to be portable, (if possible) parallelizable, consistent, and interoperable. These pipelines can be implemented using a variety of workflow systems, for example:
 
-- **Bash**: simple, transparent, ideal for small workflows  
+- **Bash**: simple, transparent, ideal for small workflows. More details:  
+    -[How to write a bash script](https://www.youtube.com/watch?v=F-gskSl4pwQ)
+    
+- **Nextflow** & **Snakemake**: reproducible, scalable, cloud‑ready, container‑friendly. More details:  
+    - [An introduction to Nextflow](https://www.commonwl.org)  
+    - [An introduction to Snakemake](https://www.youtube.com/watch?v=tUTcfoMQl98&t=136s)
+- **CWL** (Common Workflow Language) — standardized, portable workflows across platforms. More details:  
+    - <https://www.commonwl.org>
 
-- **Nextflow** & **Snakemake**: reproducible, scalable, cloud‑ready, container‑friendly  
+- **WDL** (Workflow Description Language) + **Cromwell** — used by Broad Institute; strong support for large genomics pipelines. More details:   
+    - <https://github.com/broadinstitute/cromwell>  
+    - <https://www.youtube.com/watch?v=w0IUd-x_9NU>
 
-- **CWL** (Common Workflow Language) — standardized, portable workflows across platforms  
+- **Galaxy**: GUI*‑based workflow system for non‑programmers who would like to learn bioinformatics
+(*GUI: Graphical User Interface). More details:  
+    - <https://www.youtube.com/watch?v=k6fTVIR4GME>
 
-- **WDL + Cromwell** — used by Broad Institute; strong support for large genomics pipelines  
+In this tutorial, we will implement the pipeline using **Bash** and **Nextflow** for the **preprocessing** and **secondary analysis** of datasets. **Bash** is ideal for learning the underlying commands and logic of each step. **Nextflow** adds reproducibility, scalability, and the ability to resume failed jobs—valuable skills for real-world research.
 
-- **Galaxy**: GUI‑based workflow system for non‑programmers (GUI: Graphical User Interphase)  
+> [!IMPORTANT]  
+> **By the end of Part II, you will have:**
+> - Cleaned, trimmed FASTQ files ready for alignment
+> - Aligned reads in BAM format, sorted and indexed
+> - Duplicate-marked BAM files for accurate quantification
+> - A raw count matrix (`raw_counts.txt`) ready for differential expression analysis
+> - Experience running the same pipeline with **Bash** and **Nextflow**
 
 
-In the next part, we will go through a bulk RNA-seq pipeline implemented in Bash and in Nextflow. Both pipelines will have **preprocessing** and **secondary analysis** of datasets.
 
 ## Bash script
 
