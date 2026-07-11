@@ -18,7 +18,7 @@
 
 In this second part of bulk RNA-seq analysis, the two datasets downloaded in [Part I](README_Part1-3_setup_bulkrnaseq.md#part-i--setup--data-preparation) will be analysed with a series of bioinformatic tools within the conda `RNA1` environment. These tools are used in a predetermined order to evaluate and improve the quality of paired-reads of each dataset before the alignment-based quantification of gene expression takes place.  
 
-In more details, **preprocessing** consists of quality control (QC) of raw reads and, depending on this, the reads are trimmed, length- & quality phred-filtered in order to keep reads with higher quality with the lowest amount of adapter contamination. After this QC steps, start the **secondary analysis** in which the quality-improved datasets are mapped or aligned to the reference genome followed by the flagging of PCR duplicates and the quantification of aligned pair-reads.
+In more details, **preprocessing** consists of quality control (QC) of raw reads and, depending on the results, the reads are trimmed and filtered by length and quality (Phred score) to retain only high quality reads with minimal adapter contamination. After these QC steps, the **secondary analysis** starts in which the quality-improved datasets are mapped (aligned) to the reference genome, followed by flagging of PCR duplicates and quantifying aligned pair-end reads.
 
 The way to assign all these processes in a predetermined order, ensuring that each step in these processes is consistent across data and platforms is by drafting a bioinformatic pipeline. Such pipelines utilize a programming or workflow language, allowing these processes to be portable, (if possible) parallelizable, consistent, and interoperable. These pipelines can be implemented using a variety of workflow systems, for example:
 
@@ -39,7 +39,9 @@ The way to assign all these processes in a predetermined order, ensuring that ea
 (*GUI: Graphical User Interface). More details:  
     - <https://www.youtube.com/watch?v=k6fTVIR4GME>
 
-In this tutorial, we will implement the pipeline using **Bash** and **Nextflow** for the **preprocessing** and **secondary analysis** of datasets. **Bash** is ideal for learning the underlying commands and logic of each step. **Nextflow** adds reproducibility, scalability, and the ability to resume failed jobs—valuable skills for real-world research.
+In this tutorial, we will implement the pipeline using **Bash** and **Nextflow**. **Bash** is ideal for learning the underlying commands and logic of each step. **Nextflow** adds reproducibility, scalability, and the ability to resume failed jobs—valuable skills for real-world research.  
+
+Both pipelines will cover **preprocessing** and **secondary analysis** of the datasets.  
 
 > [!IMPORTANT]  
 > **By the end of Part II, you will have:**
