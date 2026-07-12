@@ -55,28 +55,23 @@ Both pipelines will cover **preprocessing** and **secondary analysis** of the da
 
 ## Bash script
 
-This diagram shows the whole pipeline of **preprocessing** and **secondary analysis** of datasets:
+The following table summarizes the steps, tools, inputs, and outputs, and description of the bulk RNA-seq pipeline implemented in this tutorial:
 
-<div style="display: flex; justify-content: center; margin: 0; padding: 0;">
-<div style="width: auto; max-width: 100%; background: #f5f5f5; border-radius: 20px; padding: 0px 20px; margin: 0;">
 
-Raw FASTQ  
- ↓    
-QC                `FastQC` & `MultiQC`
- ↓
-Trimming          `Cutadapt`
- ↓    
-Post-trimming QC  `FastQC` & `MultiQC`
- ↓
-Alignment         `HISAT2`
- ↓  
-Mark duplicates   `Picard`      <span style="color: red;">  👉 VCF file </span>  
- ↓  
-Strandedness determination  `RSeQC`  
- ↓  
-Gene expression quantificatio → Raw counts  `featureCounts`
+### Pipeline Overview
 
-</div></div>
+| **Step** | **Tool** | **Input** | **Output** | **Description** |
+| :--- | :--- | :--- | :--- | :--- |
+| 1. QC (Raw) | `FastQC` + `MultiQC` | Raw FASTQ files | QC reports (HTML + ZIP) | Assess raw read quality, GC content, adapter contamination, and overrepresented sequences |
+| 2. Trimming | `Cutadapt` | Raw FASTQ files | Trimmed FASTQ (`.fastq.gz`) | Remove adapter sequences, trim low-quality bases, and filter reads by length |
+| 3. QC (Trimmed) | `FastQC` + `MultiQC` | Trimmed FASTQ files | QC reports (HTML + ZIP) | Re-evaluate read quality after trimming to confirm improvement |
+| 4. Alignment | `HISAT2` + `samtools sort` | Trimmed FASTQ files | Sorted BAM (`.sorted.bam`) | Align trimmed reads to the reference genome (GRCh38) and sort the resulting BAM files |
+| 5. Duplicate Marking | `Picard MarkDuplicates` | Sorted BAM | Dedup BAM (`.dedup.bam`) + metrics | Flag PCR duplicates in aligned BAM files (without removing them, as required for RNA-seq) |
+| 6. Strandedness | `RSeQC (infer_experiment.py)` | Dedup BAM + BED12 | Strandedness report (`.txt`) | Determine library strandedness to set the correct `-s` parameter for quantification |
+| 7. Quantification | `featureCounts` | Dedup BAM + GTF | Raw count matrix (`raw_counts.txt`) | Count paired-end reads mapping to genes to generate a raw count matrix |
+| 8. Post-Alignment QC | `RSeQC` + `MultiQC` | Dedup BAM + BED12 | QC reports + MultiQC summary | Assess alignment quality, read distribution, and splice junction annotation |
+| 9. Visualization | `IGV` | Dedup BAM + BAI | Interactive genome browser view | Visualize aligned reads, splice junctions, and coverage across genomic regions |
+
 
 Before the start of **prepro
 
