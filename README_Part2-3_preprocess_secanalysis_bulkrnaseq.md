@@ -19,7 +19,7 @@
 
 In this second part of bulk RNA-seq analysis, the two datasets downloaded in [Part I](README_Part1-3_setup_bulkrnaseq.md#part-i--setup--data-preparation) will be analysed with a series of bioinformatic tools within the conda `RNA1` environment. These tools are used in a predetermined order to evaluate and improve the quality of paired-reads of each dataset before the alignment-based quantification of gene expression takes place.  
 
-In more details, **preprocessing** consists of quality control (QC) of raw reads and, depending on the results, the reads are trimmed and filtered by length and quality (Phred score) to retain only high quality reads with minimal adapter contamination. After these QC steps, the **secondary analysis** starts in which the quality-improved datasets are mapped (aligned) to the reference genome, followed by flagging of PCR duplicates and quantifying aligned pair-end reads.
+In more details, **preprocessing** consists of quality control (QC) of raw reads and, depending on the results, the reads are trimmed and filtered by length and quality (Phred score) to retain only high quality reads with minimal adapter contamination. After these QC steps, the **secondary analysis** starts with the mapping or alignment of the quality-improved datasets to the reference genome, followed by flagging of PCR duplicates and quantification of aligned pair-end reads.
 
 The way to assign all these processes in a predetermined order, ensuring that each step in these processes is consistent across data and platforms is by drafting a bioinformatic pipeline. Such pipelines utilize a programming or workflow language, allowing these processes to be portable, (if possible) parallelizable, consistent, and interoperable. These pipelines can be implemented using a variety of workflow systems, for example:
 
@@ -53,7 +53,6 @@ Both pipelines will cover **preprocessing** and **secondary analysis** of the da
 > - Experience running the same pipeline with **Bash** and **Nextflow**
 
 
-
 ## Pipeline overview
 
 The following table summarizes the steps, tools, inputs, and outputs, and description of the bulk RNA-seq pipeline implemented in this tutorial:
@@ -64,7 +63,7 @@ The following table summarizes the steps, tools, inputs, and outputs, and descri
 | 1. QC (Raw) | `FastQC` + `MultiQC` | Raw FASTQ files | QC reports (HTML + ZIP) | Assess raw read quality, GC content, adapter contamination, and overrepresented sequences |
 | 2. Trimming | `Cutadapt` | Raw FASTQ files | Trimmed FASTQ (`.fastq.gz`) | Remove adapter sequences, trim low-quality bases, and filter reads by length |
 | 3. QC (Trimmed) | `FastQC` + `MultiQC` | Trimmed FASTQ files | QC reports (HTML + ZIP) | Re-evaluate read quality after trimming to confirm improvement |
-| 4. Alignment | `HISAT2` + `samtools sort` | Trimmed FASTQ files | Sorted BAM (`.sorted.bam`) | Align trimmed reads to the reference genome (GRCh38) and sort the resulting BAM files |
+| 4. Alignment | `HISAT2` +<br>`samtools sort` | Trimmed FASTQ files | Sorted BAM (`.sorted.bam`) | Align trimmed reads to the reference genome (GRCh38) and sort the resulting BAM files |
 | 5. Duplicate Marking | `Picard MarkDuplicates` | Sorted BAM | Dedup BAM (`.dedup.bam`) + metrics | Flag PCR duplicates in aligned BAM files (without removing them, as required for RNA-seq) |
 | 5.5. BAM Indexing | `samtools index` | Dedup BAM (`.dedup.bam`) | BAM index file (`.dedup.bam.bai`) | Create an index for the deduplicated BAM file to enable fast random access for downstream tools and visualization |
 | 6. Strandedness | `RSeQC (infer_experiment.py)` | Dedup BAM + BED12 | Strandedness report (`.txt`) | Determine library strandedness to set the correct `-s` parameter for quantification |
@@ -73,72 +72,215 @@ The following table summarizes the steps, tools, inputs, and outputs, and descri
 | 9. Visualization | `IGV` | Dedup BAM + BAI | Interactive genome browser view | Visualize aligned reads, splice junctions, and coverage across genomic regions |
 
 
-Before the start of **prepro
+## Bash: Preprocessing
 
-(and take a decision whether to trim away bad quality bases and adapter sequences, as well as filter out reads based on bp length)
+### Create and prepare the `.sh` file  
+
+1. Navigate to `Bulk_rnaseq/scripts`  
+2. Create `RNA1_01_bulkrnaseq_preprocessing.sh`  
+3. Make it executable  
+
+```bash
+cd path/to/Bulk_rnaseq/scripts
+touch RNA1_01_bulkrnaseq_preprocessing.sh
+chmod u+x RNA1_01_bulkrnaseq_preprocessing.sh
+```
+
+4. Open the `.sh`. Use a text/script editor, e.g. nano, vim, etc. to draft the bash script  
+
+### Deliver input paths, create output folders, and execute `FastQC`, `MultiQC` and `Cutadapt`   
+
+1. Follow the script below   
+2. To run the script, go to `Bulk_rnaseq/scripts` and run it with the working directory `Bulk_rnaseq`
+
+```bash
+cd path/to/Bulk_rnaseq/scripts
+./RNA1_01_bulkrnaseq_preprocessing.sh /path/to/Bulk_rnaseq
+```
+
+**Bash preprocessing script**  
+
+```bash
+#!/bin/bash
+
+set -euo pipefail
+
+# Set variables as path
+DATA_DIR="$1"               # /path/to/Bulk_rnaseq
+PROJECT="PRJNA437330"
+PROJECT_PATH="$DATA_DIR/data/$PROJECT"
+THREADS=4
+RESULTS="$DATA_DIR/results"
+QC_DIR="$RESULTS/qc_raw"
+QC_DIR_FASTQC="$QC_DIR/fastq_raw"
+QC_DIR_MULTIQC="$QC_DIR/multiqc_raw"
+QC_DIR_FASTQC_TRIM="$RESULTS/qc_trimmed/fastq_trimmed"
+QC_DIR_MULTIQC_TRIM="$RESULTS/qc_trimmed/multiqc_trimmed"
+RAW_FASTQ_DIR=$PROJECT_PATH/*/raw_fastq     # To expand the '*' (placeholder for "SRR..." datasets) do not use quotation marks
+TRIMMED="$RESULTS/trimmed"
+LOGS="$RESULTS/logs"
 
 
+# ------- QC fastq files -------
+
+# Create a QC folder for raw fastq files
+mkdir -p "$QC_DIR_FASTQC"
+mkdir -p "$QC_DIR_MULTIQC"
+
+echo "####################"
+echo "## Running FASTQC ##"
+echo "####################"
+
+for fastq in $RAW_FASTQ_DIR/*.fastq.gz; do
+    fastqc \
+        --threads "$THREADS" \
+        --outdir "$QC_DIR_FASTQC" \
+        "$fastq"
+done
+
+# MultiQC report from raw fastq files
+  echo "#####################"
+  echo "## Running MultiQC ##"
+  echo "#####################"
+
+multiqc \
+  "$QC_DIR_FASTQC" \
+  -o "$QC_DIR_MULTIQC"    # \ --no-data-dir
 
 
-Analysing transcriptomic datasets independently can be quite difficult if you don't have the proper guidance and, importantly, enough patience, time, and computational resources. At the end, you would have to send your datasets to an external bioinformatician or try other options all of which may involve additional costs. This is the logical solution when the statistics, tables and plots are urgently needed for the submission of scientific manuscripts or when preparing seminars.  
-The purpose of this tutorial is to show that you can independently analyse your data using a personal computer (e.g., laptop) or workstation, which has limited computational resources.  
-For the sake of learning, how to analyse your RNA-seq datasets, ideally, you should have some basic knowledge on command line, bash scripting, R programming, and python. However, if you don't have it, don't worry, **learn by doing!**
+# ------- Trimming & filtering -------
 
-I would strongly suggest the following tutorials, so that you train yourself in these topics.
-  
-- [Learn Mac Terminal Basics - macmostvideo - YouTube](https://www.youtube.com/watch?v=ZkoEHvG3GI8)   
-- [Command Line Basics for Beginners - Full Course - freeCodeCamp.org - YouTube](https://www.youtube.com/watch?v=mABpAI-pCw0)    
-- [MASTERING Command Prompt Basics! | Tutorial (for Windows) - Skill Foundry - YouTube](https://www.youtube.com/watch?v=QBWX_4ho8D4)   
-- [Bash Scripting Tutorial for Beginners  - TechWorld with Nana - YouTube](https://www.youtube.com/watch?v=PNhq_4d-5ek)   
+# Create a trimming folder
+mkdir -p "$TRIMMED"
+mkdir -p "$LOGS"
 
-Optional, but highly recommended too:   
-  
-- [R programming in one hour - a crash course for beginners - R Programming 101 - YouTube](https://www.youtube.com/watch?v=eR-XRSKsuR4&t=176s)   
-- [Python Full Course for Beginners - Programming with Mosh - YouTube](https://www.youtube.com/watch?v=K5KVEU3aaeQ)   
-  
-> [!NOTE]  
-> This guide was developed and tested on macOS running on Intel processors. Users on Apple Silicon (M1/M2/…/M5) or Linux systems may need to adapt certain steps.
-  
-<br> 
+# For looping each sample (SRR accession), process both R1 and R2
+for SAMPLE_DIR in $PROJECT_PATH/*; do
+  # Extract the sample name from the directory path (e.g., SRR6815993). 'basename' strips directory path and returns only the last component
+  SAMPLE=$(basename "$SAMPLE_DIR")
 
-> [!IMPORTANT]
-> **Conda prerequisites:**   
-> This guide assumes that Miniconda3 is already installed on your computer. If not, please consult the official [documentation](https://docs.conda.io/projects/conda/en/stable/index.html) or watch this [YouTube](https://www.youtube.com/watch?v=hDGSZMLS5F4&t=67s) video.  
-> When Miniconda is already installed, you should see the `(base)` environment activated in your Terminal.
-  
-<br>    
+  echo "######################"
+  echo "## Running Cutadapt ##"
+  echo "## Sample: $SAMPLE  ##"
+  echo "######################"
+
+  echo "$SAMPLE_DIR"
+
+  # Define input and output file paths
+  R1_IN="$SAMPLE_DIR/raw_fastq/${SAMPLE}_1.fastq.gz"
+  R2_IN="$SAMPLE_DIR/raw_fastq/${SAMPLE}_2.fastq.gz"
+  R1_OUT="$TRIMMED/${SAMPLE}_R1.trimmed.fastq.gz"
+  R2_OUT="$TRIMMED/${SAMPLE}_R2.trimmed.fastq.gz"
+
+  cutadapt \
+    -j "$THREADS" \
+    -u 5 -U 5 \
+    -q 24,24 \
+    -m 30 \
+    --poly-a \
+    -a CTGTCTCTTATACACATCT \
+    -A CTGTCTCTTATACACATCT \
+    -b GTATCAACGCAGAGTACTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT \
+    -b TATCAACGCAGAGTACTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT \
+    -b GGTATCAACGCAGAGTACTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT \
+    -o "$R1_OUT" \
+    -p "$R2_OUT" \
+    "$R1_IN" "$R2_IN" \
+    > "$LOGS/cutadapt_${SAMPLE}.log" 2>&1
+
+    echo "✅ Trimming complete for $SAMPLE"
+    echo "   R1 output: $R1_OUT"
+    echo "   R2 output: $R2_OUT"
+    echo
+
+done
+
+# ------- QC fastq files -------
+
+# Create a QC folder for raw fastq files
+mkdir -p "$QC_DIR_FASTQC_TRIM"
+mkdir -p "$QC_DIR_MULTIQC_TRIM"
+
+# No looping for FASTQC this time because the trimmed files are all in $TRIMMED
+echo "####################"
+echo "## Running FASTQC ##"
+echo "####################"
+
+fastqc \
+  --threads "$THREADS" \
+  --outdir "$QC_DIR_FASTQC_TRIM" \
+  $TRIMMED/*.trimmed.fastq.gz
 
 
+# MultiQC report from raw fastq files
+echo "#####################"
+echo "## Running MultiQC ##"
+echo "#####################"
 
-## VI. Final folder structure: before starting bulk RNA-seq analysis
+multiqc \
+  $QC_DIR_FASTQC_TRIM \
+  -o $QC_DIR_MULTIQC_TRIM
+
+```
+
+<br>
+### Folder structure: **preprocessing**
 
 ```bash
 Bulk_rnaseq/
 ├── data
-│   └── PRJNA437330
-│       ├── SRR6815993
-│       │   └── raw_fastq
-│       │       └── SRR6815993_{1,2}.fastq.gz
-│       └── SRR6816017
-│           └── raw_fastq
-│               └── SRR6816017_{1,2}.fastq.gz
+│   ├── PRJNA437330
+│   │   ├── SRR6815993
+│   │   │   └── raw_fastq
+│   │   │       ├── SRR6815993_1.fastq.gz
+│   │   │       └── SRR6815993_2.fastq.gz
+│   │   └── SRR6816017
+│   │       └── raw_fastq
+│   │           ├── SRR6816017_1.fastq.gz
+│   │           └── SRR6816017_2.fastq.gz
+│   └── sra_PRJNA437330.sh
 ├── reference
 │   ├── hisat2_index
 │   │   ├── grch38_tran
-│   │   │   └── genome_tran.{1,2,3,4,5,6,7,8}.ht2
+│   │   │   ├── genome_tran.{1,2,3,4,5,6,7,8}.ht2
+│   │   │   └── make_grch38_tran.sh
 │   │   └── grch38_tran.tar.gz
 │   └── intervals
-│       ├── gencode.v38.annotation.gtf.gz
-│       ├── gencode.v38.annotation.bed
-│       ├── gencode.v38.annotation.nochr.bed
-│       └── gencode.v38.annotation.nochr.clean.bed
+│       ├── gencode.v38.annotation.{gtf.gz,bed,nochr.bed,nochr.clean.bed}
+├── results
+│   ├── logs
+│   │   ├── cutadapt_SRR6815993.log
+│   │   └── cutadapt_SRR6816017.log
+│   ├── qc_raw
+│   │   ├── fastq_raw
+│   │   │   ├── SRR6815993_{1,2}_fastqc.html
+│   │   │   ├── SRR6815993_{1,2}_fastqc.zip
+│   │   │   ├── SRR6816017_{1,2}_fastqc.html
+│   │   │   ├── SRR6816017_{1,2}_fastqc.zip
+│   │   └── multiqc_raw
+│   │       ├── multiqc_data
+│   │       └── multiqc_report.html
+│   ├── qc_trimmed
+│   │   ├── fastq_trimmed
+│   │   │   ├── SRR6815993_{R1,R2}.trimmed_fastqc.html
+│   │   │   ├── SRR6815993_{R1,R2}.trimmed_fastqc.zip
+│   │   │   ├── SRR6816017_{R1,R2}.trimmed_fastqc.html
+│   │   │   ├── SRR6816017_{R1,R2}.trimmed_fastqc.zip
+│   │   └── multiqc_trimmed
+│   │       ├── multiqc_data
+│   │       └── multiqc_report.html
+│   └── trimmed
+│       ├── SRR6815993_R1.trimmed.fastq.gz
+│       ├── SRR6815993_R2.trimmed.fastq.gz
+│       ├── SRR6816017_R1.trimmed.fastq.gz
+│       └── SRR6816017_R2.trimmed.fastq.gz
 └── scripts
-    └── RNA1_environment.yml
+    └── RNA1_01_bulkrnaseq_preprocessing.sh
 ```
 
-
 ---
-
+<br>
+<br>
 If you have reached the end of **PART I**, I congratulate you!!  
 Continue to the 👉 [Part II – Secondary analysis](README_Part2-3_secondary_bulkrnaseq.md), where you'll start with the preprocessing analysis to alignment till the generation of raw counts tables, using bash and nextflow scripting explained step-by-step.
 
