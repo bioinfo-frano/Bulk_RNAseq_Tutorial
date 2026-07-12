@@ -55,7 +55,30 @@ Both pipelines will cover **preprocessing** and **secondary analysis** of the da
 
 ## Bash script
 
+This diagram shows the whole pipeline of **preprocessing** and **secondary analysis** of datasets:
 
+<div style="display: flex; justify-content: center; margin: 0; padding: 0;">
+<div style="width: auto; max-width: 100%; background: #f5f5f5; border-radius: 20px; padding: 0px 20px; margin: 0;">
+
+Raw FASTQ  
+ ↓    
+QC                `FastQC` & `MultiQC`
+ ↓
+Trimming          `Cutadapt`
+ ↓    
+Post-trimming QC  `FastQC` & `MultiQC`
+ ↓
+Alignment         `HISAT2`
+ ↓  
+Mark duplicates   `Picard`      <span style="color: red;">  👉 VCF file </span>  
+ ↓  
+Strandedness determination  `RSeQC`  
+ ↓  
+Gene expression quantificatio → Raw counts  `featureCounts`
+
+</div></div>
+
+Before the start of **prepro
 
 (and take a decision whether to trim away bad quality bases and adapter sequences, as well as filter out reads based on bp length)
 
