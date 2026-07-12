@@ -81,6 +81,7 @@ Follow these steps. They are simple: once created the executable `.sh`, copy/pas
 3. Grant execute permissions  
 
 ```bash
+# Run these commands one by one
 cd path/to/Bulk_rnaseq/scripts
 touch RNA1_01_bulkrnaseq_preprocessing.sh
 chmod u+x RNA1_01_bulkrnaseq_preprocessing.sh
@@ -95,7 +96,7 @@ cd path/to/Bulk_rnaseq/scripts
 ./RNA1_01_bulkrnaseq_preprocessing.sh /path/to/Bulk_rnaseq
 ```
 
-**Bash preprocessing script**  
+**Bash script**  
 
 ```bash
 #!/bin/bash
@@ -147,6 +148,7 @@ multiqc \
 ```
 
 <br>
+
 ### Folder structure: Output files from **preprocessing**
 
 ```bash
