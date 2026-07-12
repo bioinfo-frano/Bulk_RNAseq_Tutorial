@@ -165,13 +165,6 @@ Bulk_rnaseq/
 │   │           └── SRR6816017_2.fastq.gz
 │   └── sra_PRJNA437330.sh
 ├── reference
-│   ├── hisat2_index
-│   │   ├── grch38_tran
-│   │   │   ├── genome_tran.{1,2,3,4,5,6,7,8}.ht2
-│   │   │   └── make_grch38_tran.sh
-│   │   └── grch38_tran.tar.gz
-│   └── intervals
-│       ├── gencode.v38.annotation.{gtf.gz,bed,nochr.bed,nochr.clean.bed}
 ├── results
 │   ├── qc_raw
 │   │   ├── fastq_raw
