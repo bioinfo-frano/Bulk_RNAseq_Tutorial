@@ -72,13 +72,13 @@ The following table summarizes the steps, tools, inputs, and outputs, and descri
 | 9. Visualization | `IGV` | Dedup BAM + BAI | Interactive genome browser view | Visualize aligned reads, splice junctions, and coverage across genomic regions |
 
 
-## Bash: Preprocessing
+## Bash: Preprocessing  
 
-### Create and prepare the `.sh` file  
+Follow these steps. They are simple: once created the executable `.sh`, copy/paste/save the bash script below. Then, run it from `Bulk_rnaseq/scripts`.
 
 1. Navigate to `Bulk_rnaseq/scripts`  
 2. Create `RNA1_01_bulkrnaseq_preprocessing.sh`  
-3. Make it executable  
+3. Grant execute permissions  
 
 ```bash
 cd path/to/Bulk_rnaseq/scripts
@@ -86,12 +86,9 @@ touch RNA1_01_bulkrnaseq_preprocessing.sh
 chmod u+x RNA1_01_bulkrnaseq_preprocessing.sh
 ```
 
-4. Open the `.sh`. Use a text/script editor, e.g. nano, vim, etc. to draft the bash script  
-
-### Deliver input paths, create output folders, and execute `FastQC`, `MultiQC` and `Cutadapt`   
-
-1. Follow the script below   
-2. To run the script, go to `Bulk_rnaseq/scripts` and run it with the working directory `Bulk_rnaseq`
+4. Open the `.sh`. Use a text/script editor, e.g. nano, vim, etc. and copy/paste/save the bash script below   
+  
+5. Run the script: go to `Bulk_rnaseq/scripts` and run it with the working directory `Bulk_rnaseq`
 
 ```bash
 cd path/to/Bulk_rnaseq/scripts
@@ -147,7 +144,56 @@ multiqc \
   "$QC_DIR_FASTQC" \
   -o "$QC_DIR_MULTIQC"    # \ --no-data-dir
 
+```
 
+<br>
+### Folder structure: Output files from **preprocessing**
+
+```bash
+Bulk_rnaseq/
+├── data
+│   ├── PRJNA437330
+│   │   ├── SRR6815993
+│   │   │   └── raw_fastq
+│   │   │       ├── SRR6815993_1.fastq.gz
+│   │   │       └── SRR6815993_2.fastq.gz
+│   │   └── SRR6816017
+│   │       └── raw_fastq
+│   │           ├── SRR6816017_1.fastq.gz
+│   │           └── SRR6816017_2.fastq.gz
+│   └── sra_PRJNA437330.sh
+├── reference
+│   ├── hisat2_index
+│   │   ├── grch38_tran
+│   │   │   ├── genome_tran.{1,2,3,4,5,6,7,8}.ht2
+│   │   │   └── make_grch38_tran.sh
+│   │   └── grch38_tran.tar.gz
+│   └── intervals
+│       ├── gencode.v38.annotation.{gtf.gz,bed,nochr.bed,nochr.clean.bed}
+├── results
+│   ├── qc_raw
+│   │   ├── fastq_raw
+│   │   │   ├── SRR6815993_{1,2}_fastqc.html
+│   │   │   ├── SRR6815993_{1,2}_fastqc.zip
+│   │   │   ├── SRR6816017_{1,2}_fastqc.html
+│   │   │   ├── SRR6816017_{1,2}_fastqc.zip
+│   │   └── multiqc_raw
+│   │       ├── multiqc_data
+│   │       └── multiqc_report.html
+└── scripts
+    └── RNA1_01_bulkrnaseq_preprocessing.sh
+```
+
+
+### FastQC and MultiQC reports
+
+
+
+
+
+---
+
+```bash
 # ------- Trimming & filtering -------
 
 # Create a trimming folder
@@ -223,62 +269,12 @@ multiqc \
 
 ```
 
-<br>
-### Folder structure: **preprocessing**
 
-```bash
-Bulk_rnaseq/
-├── data
-│   ├── PRJNA437330
-│   │   ├── SRR6815993
-│   │   │   └── raw_fastq
-│   │   │       ├── SRR6815993_1.fastq.gz
-│   │   │       └── SRR6815993_2.fastq.gz
-│   │   └── SRR6816017
-│   │       └── raw_fastq
-│   │           ├── SRR6816017_1.fastq.gz
-│   │           └── SRR6816017_2.fastq.gz
-│   └── sra_PRJNA437330.sh
-├── reference
-│   ├── hisat2_index
-│   │   ├── grch38_tran
-│   │   │   ├── genome_tran.{1,2,3,4,5,6,7,8}.ht2
-│   │   │   └── make_grch38_tran.sh
-│   │   └── grch38_tran.tar.gz
-│   └── intervals
-│       ├── gencode.v38.annotation.{gtf.gz,bed,nochr.bed,nochr.clean.bed}
-├── results
-│   ├── logs
-│   │   ├── cutadapt_SRR6815993.log
-│   │   └── cutadapt_SRR6816017.log
-│   ├── qc_raw
-│   │   ├── fastq_raw
-│   │   │   ├── SRR6815993_{1,2}_fastqc.html
-│   │   │   ├── SRR6815993_{1,2}_fastqc.zip
-│   │   │   ├── SRR6816017_{1,2}_fastqc.html
-│   │   │   ├── SRR6816017_{1,2}_fastqc.zip
-│   │   └── multiqc_raw
-│   │       ├── multiqc_data
-│   │       └── multiqc_report.html
-│   ├── qc_trimmed
-│   │   ├── fastq_trimmed
-│   │   │   ├── SRR6815993_{R1,R2}.trimmed_fastqc.html
-│   │   │   ├── SRR6815993_{R1,R2}.trimmed_fastqc.zip
-│   │   │   ├── SRR6816017_{R1,R2}.trimmed_fastqc.html
-│   │   │   ├── SRR6816017_{R1,R2}.trimmed_fastqc.zip
-│   │   └── multiqc_trimmed
-│   │       ├── multiqc_data
-│   │       └── multiqc_report.html
-│   └── trimmed
-│       ├── SRR6815993_R1.trimmed.fastq.gz
-│       ├── SRR6815993_R2.trimmed.fastq.gz
-│       ├── SRR6816017_R1.trimmed.fastq.gz
-│       └── SRR6816017_R2.trimmed.fastq.gz
-└── scripts
-    └── RNA1_01_bulkrnaseq_preprocessing.sh
-```
 
----
+
+
+
+
 <br>
 <br>
 If you have reached the end of **PART I**, I congratulate you!!  
