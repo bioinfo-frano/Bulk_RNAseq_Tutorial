@@ -253,7 +253,7 @@ Bulk_rnaseq/
 │   │       └── raw_fastq
 │   │           ├── SRR6816017_1.fastq.gz
 │   │           └── SRR6816017_2.fastq.gz
-│   └── sra_PRJNA437330.sh
+│   └── sra_PRJNA437330.sh 
 ├── reference
 │   ├── hisat2_index
 │   │   ├── grch38_tran
