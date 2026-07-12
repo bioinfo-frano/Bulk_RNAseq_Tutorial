@@ -201,6 +201,20 @@ done
 
 ```
 
+3.4. Execute `sra_PRJNA437330.sh`
+
+```bash
+cd path/to/Bulk_rnaseq/data
+./sra_PRJNA437330.sh
+```
+
+Expected output:  
+
+In `Bulk_rnaseq/data`, these subfolders and dataset should appear:  
+
+- `PRJNA437330/SRR6816017/raw_fastq/*.fastq`  
+- `PRJNA437330/SRR6815993/raw_fastq/*.fastq`  
+<br>
 ---
 
 
