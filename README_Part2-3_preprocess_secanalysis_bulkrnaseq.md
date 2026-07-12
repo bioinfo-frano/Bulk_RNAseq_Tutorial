@@ -3,11 +3,12 @@
 ## Table of Contents
 
 - [Introduction](#introduction)  
-- [Bash script](#bash-script)  
+- [Pipeline overview](#pipeline-overview)  
+- [Bash pipeline](#bash-pipeline)
     - [I. Bash: Preprocessing](#i-bash-preprocessing)  
     - [II. Bash: Alignment and mark duplicates](#ii-bash-alignment-and-mark-duplicates)  
     - [III. Bash: Gene-level paired-end read quantification](#iii-bash-gene-level-paired-end-read-quantification)  
-- [Nextflow pipeline](#nextflow-pipeline)  
+
     - [I. Nextflow: Preprocessing](#i-nextflow-preprocessing)  
     - [II. Nextflow: Alignment and mark duplicates](#ii-nextflow-alignment-and-mark-duplicates)  
     - [III. Nextflow: Gene-level paired-end read quantification](#iii-nextflow-gene-level-paired-end-read-quantification)  
@@ -53,12 +54,10 @@ Both pipelines will cover **preprocessing** and **secondary analysis** of the da
 
 
 
-## Bash script
+## Pipeline overview
 
 The following table summarizes the steps, tools, inputs, and outputs, and description of the bulk RNA-seq pipeline implemented in this tutorial:
 
-
-### Pipeline Overview
 
 | **Step** | **Tool** | **Input** | **Output** | **Description** |
 | :--- | :--- | :--- | :--- | :--- |
@@ -67,6 +66,7 @@ The following table summarizes the steps, tools, inputs, and outputs, and descri
 | 3. QC (Trimmed) | `FastQC` + `MultiQC` | Trimmed FASTQ files | QC reports (HTML + ZIP) | Re-evaluate read quality after trimming to confirm improvement |
 | 4. Alignment | `HISAT2` + `samtools sort` | Trimmed FASTQ files | Sorted BAM (`.sorted.bam`) | Align trimmed reads to the reference genome (GRCh38) and sort the resulting BAM files |
 | 5. Duplicate Marking | `Picard MarkDuplicates` | Sorted BAM | Dedup BAM (`.dedup.bam`) + metrics | Flag PCR duplicates in aligned BAM files (without removing them, as required for RNA-seq) |
+| 5.5. BAM Indexing | `samtools index` | Dedup BAM (`.dedup.bam`) | BAM index file (`.dedup.bam.bai`) | Create an index for the deduplicated BAM file to enable fast random access for downstream tools and visualization |
 | 6. Strandedness | `RSeQC (infer_experiment.py)` | Dedup BAM + BED12 | Strandedness report (`.txt`) | Determine library strandedness to set the correct `-s` parameter for quantification |
 | 7. Quantification | `featureCounts` | Dedup BAM + GTF | Raw count matrix (`raw_counts.txt`) | Count paired-end reads mapping to genes to generate a raw count matrix |
 | 8. Post-Alignment QC | `RSeQC` + `MultiQC` | Dedup BAM + BED12 | QC reports + MultiQC summary | Assess alignment quality, read distribution, and splice junction annotation |
