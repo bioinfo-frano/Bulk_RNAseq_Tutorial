@@ -541,7 +541,7 @@ grep "^MT" gencode.v38.annotation.nochr.bed | head -2
 grep "^Y" gencode.v38.annotation.nochr.bed | head -1
 ```
 
-Expected output:
+**Expected output**:
 
 ```bash
 1	11868	14409	ENST00000456328.2	0	+	14409	14409	0	3	359,109,1189,	0,744,1352,
@@ -555,11 +555,11 @@ X	253742	255091	ENST00000431238.7	0	+	255091	255091	0	2	104,155,	0,1194,
 > [!NOTE]  
 > The **BED12** file will be used later in **Part II** of the tutorial to determine library strandedness before read quantification.  
   
-3.3. Verify whether **BED12** file has empty lines (rows)
+### 4. Verify whether **BED12** file has empty lines (rows)
 
 For some bioinformatic tools, the presence of empty lines in the **BED12** file might stop any analysis.
 
-3.3.1. Count the number of empty lines
+4.1. Count the number of empty lines
 
 ```bash
 grep -c '^$' gencode.v38.annotation.nochr.bed
@@ -571,7 +571,7 @@ Output:
 ```
 **There's exactly 1 empty line**  
   
-3.3.2. Find where this empty line is
+4.2. Find where this empty line is
 
 ```bash
 grep -n '^$' gencode.v38.annotation.nochr.bed
@@ -584,13 +584,13 @@ Output:
 ```
 **The line 237013 is the empty one**  
   
-3.3.3. Remove the empty line and save it as clean **BED12**
+4.3. Remove the empty line and save it as clean **BED12**
 
 ```bash
 sed '/^$/d' gencode.v38.annotation.nochr.bed > gencode.v38.annotation.nochr.clean.bed
 ```
 
-3.3.4. Verify
+4.4. Verify
 
 ```bash
 grep -c '^$' gencode.v38.annotation.nochr.clean.bed
