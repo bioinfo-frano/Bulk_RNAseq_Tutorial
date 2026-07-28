@@ -147,6 +147,11 @@ Note down the SRA Runs:
 
 ![**SRA Run Selector**](images/geo_bulkrnaseq_sraselector_salmo3.png)   
 
+<br>  
+> [!NOTE]  
+> The SRA runs will be sometimes called just simply "**samples**"
+
+
 ### 3. Create a Bash script to download the samples using **SRA Toolkit**
   
 3.1. Go to Terminal, navigate to `Bulk_rnaseq/data`  
