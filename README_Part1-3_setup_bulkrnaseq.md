@@ -52,8 +52,9 @@ Optional, but highly recommended too:
 >  
 > Alternatives such as **Git Bash** or **Cygwin** may work for some basic commands, but **they are not recommended** for running the complete pipelines described in this tutorial.  
 >  
-> Once you have completed the **WSL2** installation, you can continue following this tutorial.  
->
+> Once you have completed the **WSL2** installation, you can continue following this tutorial. This means:   
+> Once you open the **WSL2 Ubuntu terminal** on Windows, all steps—from installing Miniconda (**Linux version**), creating conda environments, to running the bash scripts and Nextflow pipelines—must be performed within your **WSL2 Ubuntu terminal**.  
+>  
 > **For Windows 7 or 8 users**: Upgrading to Windows 10 (version 2004, Build 19041 or higher, Home or Pro) or Windows 11 is strongly recommended to use **WSL2**. The upgrade is free, and you will need a valid Windows license key for activation. Please also ensure your system meets the minimum hardware requirements.  
 
 <br>  
@@ -138,7 +139,7 @@ Scroll down and click on **SRA Experiments** as shown below:
 
 ![**BioProject - SRA Experiments**](images/bioproject_sra_1.png)  
    
-2.5. You are in SRA. Here, there are gathered all samples from BioProject	**PRJNA437330**.  
+2.5. You are in SRA. All samples from BioProject **PRJNA437330** are gathered here. 
 
 Click on any link.  
   
@@ -262,6 +263,8 @@ In `Bulk_rnaseq/data`, these subfolders and dataset should appear:
 
 ## III. Download a pre-built HISAT2 genome index  
 
+A **pre-built HISAT2 genome index** is a ready-to-use reference file package that allows **HISAT2** to rapidly align RNA-seq reads to a reference genome.
+
 The reference indexes consist in:  
 
 - the DNA reference genome sequence (**GRCh38**) 
@@ -269,7 +272,7 @@ The reference indexes consist in:
 - transcript annotations (extracted from the **GENCODE** GTF) 
 - organised into eight `.ht2` files
    
-These `.ht2` files or indexes allow HISAT2 to perform fast and splice-aware alignment.
+These `.ht2` files or indexes allow **HISAT2** to perform fast and splice-aware alignment of RNA-seq reads.  
 
 1. **Setup directory**:
 
