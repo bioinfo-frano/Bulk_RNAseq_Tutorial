@@ -48,7 +48,7 @@ Optional, but highly recommended too:
 >  
 >  WSL2 provides a genuine Linux environment inside Windows, ensuring compatibility with Conda, Bash scripts, bioinformatics software, and Nextflow workflows used throughout this tutorial.  
 >
-> Please watch this [YouTube](https://www.youtube.com/watch?v=1XuoUlaIEFo) video to learn how to install **WSL2** on your Windows.
+> Please watch this [YouTube](https://www.youtube.com/watch?v=1XuoUlaIEFo) video to learn how to install **WSL2** and Linux Ubuntu on your Windows.
 >  
 > Alternatives such as **Git Bash** or **Cygwin** may work for some basic commands, but **they are not recommended** for running the complete pipelines described in this tutorial.  
 >  
@@ -112,7 +112,7 @@ mkdir -p Bulk_rnaseq/{data,scripts,reference/intervals}
 ![Figure 1: Finding a scientific paper with bulk RNA-seq samples](images/finding_dataset_pubmed1.png)  
 
 
-- **Scientific question/hypothesis**: DCs differentially respond to genetically similar S. typhimurium strains
+- **Scientific question/hypothesis**: DCs differentially respond to genetically similar *S. typhimurium* strains
 - **Scientific goal**: to survey the transcriptome of DCs challenged with invasive or non-invasive Salmonella
 - **Method**: scRNA-seq complemented by bulk RNA-seq for population-level transcriptional profiling
 - **Conclusion**: "… these observations contribute to a better understanding of the pathogenesis and dissemination of invasive Salmonelosis"
