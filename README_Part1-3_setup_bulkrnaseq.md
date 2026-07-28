@@ -257,8 +257,8 @@ In `Bulk_rnaseq/data`, these subfolders and dataset should appear:
 - `PRJNA437330/SRR6816017/raw_fastq/*.fastq`  
 - `PRJNA437330/SRR6815993/raw_fastq/*.fastq`  
 <br>
+  
 ---
-
 
 ## III. Download a pre-built HISAT2 genome index  
 
