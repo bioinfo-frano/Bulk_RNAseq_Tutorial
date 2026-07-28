@@ -142,6 +142,7 @@ Note down the SRA Runs:
 - `SRR6815993` (status: Uninfected; time: 6h)   
 - `SRR6816017` (status: Infected  ; time: 6h)   
 <br>  
+
 ![**SRA Run Selector**](images/geo_bulkrnaseq_sraselector_salmo3.png)   
 
 ### 3. Create a Bash script to download the samples using **SRA Toolkit**
