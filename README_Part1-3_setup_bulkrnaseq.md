@@ -503,8 +503,6 @@ genePredToBed gencode.v38.annotation.genepred gencode.v38.annotation.bed
 2.2. Verify **BED12** file  
 
 ```bash
-cd ~/Bulk_rnaseq/reference/intervals
-
 head -2 gencode.v38.annotation.bed
 
 grep "chrM" gencode.v38.annotation.bed | head -2
@@ -527,7 +525,7 @@ chrX	253742	255091	ENST00000431238.7	0	+	255091	255091	0	2	104,155,	0,1194,
 > [!IMPORTANT]  
 > It's advisable to have two versions of the **BED12** file: one with and the other without the prefix "**chr**". This is because the chromosome naming must match between the HISAT2 alignment file (`.bam`) and the annotation file (**BED12**). Also, the "chrM", "chrX" and "chrY" should change to "MT", "X" and "Y", respectively.  
 
-### 3. Create a **BED12** file without the prefix "**chr**" and change "**chrM**" to "**MT**"
+### 3. Create a **BED12** file without the prefix "**chr**" and replaced "**chrM**" to "**MT**"
 
 3.1. Use `sed` command: replace ‘chrM’ to ‘MT’ and strip ‘chr’
 
@@ -566,24 +564,26 @@ For some bioinformatic tools, the presence of empty lines in the **BED12** file 
 ```bash
 grep -c '^$' gencode.v38.annotation.nochr.bed
 ```
-Output: **There's exactly 1 empty line**
+Output: 
 
 ```bash
 1
 ```
-
+**There's exactly 1 empty line**  
+  
 3.3.2. Find where this empty line is
 
 ```bash
 grep -n '^$' gencode.v38.annotation.nochr.bed
 ```
 
-Output: **The empty line is at line 237013**
+Output:
 
 ```bash
 237013:
 ```
-
+**The line 237013 is the empty one**  
+  
 3.3.3. Remove the empty line and save it as clean **BED12**
 
 ```bash
@@ -596,11 +596,12 @@ sed '/^$/d' gencode.v38.annotation.nochr.bed > gencode.v38.annotation.nochr.clea
 grep -c '^$' gencode.v38.annotation.nochr.clean.bed
 ```
 
-Output: There's no empty line
+Output: 
 
 ```bash
 0
 ```
+**There's no empty line**  
 
 <br>  
 
