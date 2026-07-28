@@ -150,7 +150,7 @@ Note down the SRA Runs:
 <br>  
 
 > [!NOTE]  
-> The SRA runs will be sometimes called just simply "**samples**"
+> An SRA run will be sometimes called just simply "**sample**" or "**dataset**, which is a folder with the paired-ends R1 and R2 **FASTQ** files.
 
 
 ### 3. Create a Bash script to download the samples using **SRA Toolkit**
