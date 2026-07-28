@@ -40,7 +40,7 @@ The way to assign all these processes in a predetermined order, ensuring that ea
 (*GUI: Graphical User Interface). More details:  
     - [What is Galaxy?](https://www.youtube.com/watch?v=k6fTVIR4GME)
 
-In this tutorial, we will implement the pipeline using **Bash** and **Nextflow**. **Bash** is ideal for learning the underlying commands and logic of each step. **Nextflow** adds reproducibility, scalability, and the ability to resume failed jobs—valuable skills for real-world research.  
+In this tutorial, we will implement the pipeline using **Bash** and **Nextflow**. **Bash** is ideal for learning the underlying commands, bioinformatics tools, and the logic of each step. **Nextflow** adds reproducibility, scalability, and the ability to resume failed jobs, which are valuable skills for real-world research.  
 
 Both pipelines will cover **preprocessing** and **secondary analysis** of the datasets.  
 
