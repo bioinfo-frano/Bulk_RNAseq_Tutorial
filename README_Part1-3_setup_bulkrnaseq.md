@@ -354,7 +354,7 @@ The indexes **genome_rep(above 2.2.0)** and **genome_snp_rep(above 2.2.0)** corr
 <br>  
 1.2. Save it as: `RNA1_environment.yml`
 <br>  
-1.3. Copy/paste the script here below in to the `.yml` file. Then, save it.
+1.3. Copy/paste the script here below into the `.yml` file. Then, save it.
 
 ```yml
 name: RNA1
@@ -465,19 +465,22 @@ genePredToBed                # from ucsc-genepredtobed
 
 ## V. Create a BED12 file
 
-A **BED12** file is a 12-column tab-delimited annotation file required by **RSeQC** (`infer_experiment.py`) to determine library **strandedness**. Once strandedness has been identified, the appropriate parameter can be supplied to `featureCounts` during read quantification for the generation of the **raw count matrix**.  
+A **BED12** file is a 12-column tab-delimited annotation file required by **RSeQC** (`infer_experiment.py`) to determine library **strandedness** of the samples. Once strandedness has been identified, the appropriate parameter can be supplied to `featureCounts` during read quantification for the generation of the **raw count matrix**.  
   
 The **BED12** file derives from the `gencode.v38.annotation.gtf.gz` GTF file.
 
-1. Download the GTF file into `Bulk_rnaseq/reference/intervals`
+### 1. Downloading the **GTF** file
 
-Go to [**GENCODE**](https://www.gencodegenes.org/human/release_38.html)  
+1.1. Navigate to `Bulk_rnaseq/reference/intervals`
+
+1.2. Go to [**GENCODE**](https://www.gencodegenes.org/human/release_38.html) website  
   
-Download GTF: Regions: CHR → **This is the main annotation file for most users**  
+1.3. Find the GTF  
 
-On **CHR GTF**, right click on GTF and copy the link.  
+- Regions: **CHR** → **This is the main annotation file for most users**  
+- On **Download**, copy the **GTF** link (by right-clicking).  
 
-Navigate to `Bulk_rnaseq/reference/intervals` and download there the GTF file using `wget`  
+1.4. Download GTF file using `wget`  
 
 ```bash
 # Go to:
@@ -486,14 +489,18 @@ cd ~/Bulk_rnaseq/reference/intervals
 wget https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_38/gencode.v38.annotation.gtf.gz
 ```
 
-2. Create the **BED12** file
+### 2. Create the **BED12** file
+
+2.1. In `RNA1` environment and in `~/Bulk_rnaseq/reference/intervals`, run:
 
 ```bash
 gtfToGenePred gencode.v38.annotation.gtf.gz gencode.v38.annotation.genepred
 genePredToBed gencode.v38.annotation.genepred gencode.v38.annotation.bed
 ```
 
-3. Verify **BED12** file  
+**Expected output**: `~/Bulk_rnaseq/reference/intervals/gencode.v38.annotation.bed`
+
+2.2. Verify **BED12** file  
 
 ```bash
 cd ~/Bulk_rnaseq/reference/intervals
@@ -505,7 +512,7 @@ grep "chrY" gencode.v38.annotation.bed | head -1
 grep "chrX" gencode.v38.annotation.bed | head -1
 ```
 
-Expected output:
+**Expected output**:
 
 ```bash
 chr1	11868	14409	ENST00000456328.2	0	+	14409	14409	0	3	359,109,1189,	0,744,1352,
@@ -520,15 +527,15 @@ chrX	253742	255091	ENST00000431238.7	0	+	255091	255091	0	2	104,155,	0,1194,
 > [!IMPORTANT]  
 > It's advisable to have two versions of the **BED12** file: one with and the other without the prefix "**chr**". This is because the chromosome naming must match between the HISAT2 alignment file (`.bam`) and the annotation file (**BED12**). Also, the "chrM", "chrX" and "chrY" should change to "MT", "X" and "Y", respectively.  
 
-4. Create a **BED12** file without the prefix "**chr**" and changing "chrM" to "MT"
+### 3. Create a **BED12** file without the prefix "**chr**" and change "**chrM**" to "**MT**"
 
-4.1. Use `sed` command: replace ‘chrM’ to ‘MT’ and strip ‘chr’
+3.1. Use `sed` command: replace ‘chrM’ to ‘MT’ and strip ‘chr’
 
 ```bash
 sed -E 's/^chrM/MT/; s/^chr//' gencode.v38.annotation.bed > gencode.v38.annotation.nochr.bed
 ```
 
-4.2. Verify the new BED12 `gencode.v38.annotation.nochr.bed`  
+3.2. Verify the new BED12 `gencode.v38.annotation.nochr.bed`  
 
 ```bash
 head -2 gencode.v38.annotation.nochr.bed
@@ -550,11 +557,11 @@ X	253742	255091	ENST00000431238.7	0	+	255091	255091	0	2	104,155,	0,1194,
 > [!NOTE]  
 > The **BED12** file will be used later in **Part II** of the tutorial to determine library strandedness before read quantification.  
   
-4.3. Verify whether **BED12** file has empty lines (rows)
+3.3. Verify whether **BED12** file has empty lines (rows)
 
 For some bioinformatic tools, the presence of empty lines in the **BED12** file might stop any analysis.
 
-4.3.1. Count the number of empty lines
+3.3.1. Count the number of empty lines
 
 ```bash
 grep -c '^$' gencode.v38.annotation.nochr.bed
@@ -565,7 +572,7 @@ Output: **There's exactly 1 empty line**
 1
 ```
 
-4.3.2. Find where this empty line is
+3.3.2. Find where this empty line is
 
 ```bash
 grep -n '^$' gencode.v38.annotation.nochr.bed
@@ -577,13 +584,13 @@ Output: **The empty line is at line 237013**
 237013:
 ```
 
-4.3.3. Remove the empty line and save it as clean **BED12**
+3.3.3. Remove the empty line and save it as clean **BED12**
 
 ```bash
 sed '/^$/d' gencode.v38.annotation.nochr.bed > gencode.v38.annotation.nochr.clean.bed
 ```
 
-4.3.4. Verify
+3.3.4. Verify
 
 ```bash
 grep -c '^$' gencode.v38.annotation.nochr.clean.bed
@@ -594,6 +601,8 @@ Output: There's no empty line
 ```bash
 0
 ```
+
+<br>  
 
 ---
 
