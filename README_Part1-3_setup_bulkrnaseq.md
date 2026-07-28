@@ -204,7 +204,7 @@ You should see `(sra)` appear followed by the user name and directory.
 > If you don't have installed the conda environment `sra`, which contains the SRA Toolkit and other dependencies,  
 then follow instructions right here 👉 [Part I - Preparation & setup - Find & download small-sized FASTQ datasets for cancer gene panels](https://github.com/bioinfo-frano/NGS_Workflow_Tutorial/blob/main/README_Part1-3_setup.md)
 
-3.3. Open `sra_PRJNA437330.sh` and copy/paste the bash script here below, which includes in this order:
+3.5. Open `sra_PRJNA437330.sh` and copy/paste the bash script here below, which includes in this order:
 
 - prefetch  
 - vdb-validate  
@@ -243,7 +243,7 @@ done
 
 ```
 
-3.4. Save and execute `sra_PRJNA437330.sh`
+3.6. Save and execute `sra_PRJNA437330.sh`
 
 ```bash
 cd path/to/Bulk_rnaseq/data
