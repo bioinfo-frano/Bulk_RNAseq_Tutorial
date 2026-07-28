@@ -639,8 +639,9 @@ Bulk_rnaseq/
 
 ---
 
-If you have reached the end of **PART I**, I congratulate you!!  
-Continue to the 👉 [Part II – Secondary analysis](README_Part2-3_secondary_bulkrnaseq.md), where you'll start with the preprocessing analysis to alignment till the generation of raw counts tables, using bash and nextflow scripting explained step-by-step.
+Congratulations if you have reached the end of **PART I**!🤓 👍🏾  
+
+Continue to the 👉 [Part II – Preprocessing & Secondary analysis](README_Part2-3_preprocess_secanalysis_bulkrnaseq.md), where you'll start with the quality control (QC), trimming and filtering of reads followed by alignment analysis till the generation of raw counts tables. For this, bash and nextflow scripting will be used and explained step-by-step.
 
 Go back to the top of 👉 [Part I – Setup & data preparation](README_Part1-3_setup_bulkrnaseq.md#part-i--setup--data-preparation)
 

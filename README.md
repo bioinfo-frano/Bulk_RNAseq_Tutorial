@@ -67,7 +67,7 @@ Here you'll start stepwise the preprocessing and secondary analysis of datasets,
 6. Visualization (`IGV`)
 
 ➡️ **Start here:**  
-👉 [Part II – Preprocessing & Secondary analysi](README_Part2-3_preprocess_secanalysis_bulkrnaseq.md)
+👉 [Part II – Preprocessing & Secondary analysis](README_Part2-3_preprocess_secanalysis_bulkrnaseq.md)
 
 ---
 
