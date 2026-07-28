@@ -148,6 +148,7 @@ Note down the SRA Runs:
 ![**SRA Run Selector**](images/geo_bulkrnaseq_sraselector_salmo3.png)   
 
 <br>  
+
 > [!NOTE]  
 > The SRA runs will be sometimes called just simply "**samples**"
 
