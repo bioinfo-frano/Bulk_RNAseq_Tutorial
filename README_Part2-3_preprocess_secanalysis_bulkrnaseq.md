@@ -21,13 +21,13 @@ In this second part of bulk RNA-seq analysis, the two datasets downloaded in [Pa
 
 In more details, **preprocessing** consists of quality control (QC) of raw reads and, depending on the results, the reads are trimmed and filtered by length and quality (Phred score) to retain only high quality reads with minimal adapter contamination. After these QC steps, the **secondary analysis** starts with the mapping or alignment of the quality-improved datasets to the reference genome, followed by flagging of PCR duplicates and quantification of aligned pair-end reads.
 
-The way to assign all these processes in a predetermined order, ensuring that each step in these processes is consistent across data and platforms is by drafting a bioinformatic pipeline. Such pipelines utilize a programming or workflow language, allowing these processes to be portable, (if possible) parallelizable, consistent, and interoperable. These pipelines can be implemented using a variety of workflow systems, for example:
+The way to assign all these processes in a predetermined order, ensuring that each step in these processes is consistent across data and platforms is by drafting a ***bioinformatic pipeline***. Such pipelines utilize a programming or workflow language, allowing these processes to be portable, (if possible) parallelizable, consistent, and interoperable. These pipelines can be implemented using a variety of workflow systems, for example:
 
 - **Bash**: simple, transparent, ideal for small workflows. More details:  
     - [How to write a bash script](https://www.youtube.com/watch?v=F-gskSl4pwQ)
     
 - **Nextflow** & **Snakemake**: reproducible, scalable, cloud‑ready, container‑friendly. More details:  
-    - [An introduction to Nextflow](https://www.commonwl.org)  
+    - [An introduction to Nextflow](https://www.youtube.com/watch?v=Gq1KiMJyNB4&t=1705s)  
     - [An introduction to Snakemake](https://www.youtube.com/watch?v=tUTcfoMQl98&t=136s)
 - **CWL** (Common Workflow Language) — standardized, portable workflows across platforms. More details:  
     - <https://www.commonwl.org>
