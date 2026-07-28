@@ -124,19 +124,26 @@ mkdir -p Bulk_rnaseq/{data,scripts,reference/intervals}
 ### 2. Select the datasets
 
 2.1. Go to GEO accession: [**GSE111546**](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE111546)  
-
+  
+  
+2.2. Click on **GSE111545** <br>  
 ![GEO. Choose "bulk RNA-seq" option](images/geo_bulkrnaseq_salmo1.png)   
    
 
-2.2. Click on ![**SRA Run Selector**](images/geo_bulkrnaseq_sraselector_salmo3.png)   
-  
-<br>  
+2.3. Scroll down and click on BioProject:	**PRJNA437330**  
 
+In **PRJNA437330**, scroll down and click **SRA Experiments** as shown below:
+
+![**BioProject - SRA Experiments**](images/bioproject_sra_1.png)  
+  
+   
 This will send you to the **SRA Run Selector**, BioProject **PRJNA437330**.  
 Note down the SRA Runs:  
 - `SRR6815993` (status: Uninfected; time: 6h)   
 - `SRR6816017` (status: Infected  ; time: 6h)   
-  
+
+![**SRA Run Selector**](images/geo_bulkrnaseq_sraselector_salmo3.png)   
+
 ### 3. Create a Bash script to download the samples using **SRA Toolkit**
   
 3.1. Go to Terminal, navigate to `Bulk_rnaseq/data`  
