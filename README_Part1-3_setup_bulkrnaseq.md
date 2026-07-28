@@ -134,7 +134,7 @@ mkdir -p Bulk_rnaseq/{data,scripts,reference/intervals}
 
 Now, you'll be sent to NCBI - BioProject **PRJNA437330**: scroll down and click on **SRA Experiments** as shown below:
 
-![**BioProject - SRA Experiments**](images/bioproject_sra_1.png)   
+   
   
    
 This will send you to the **SRA Run Selector**, BioProject **PRJNA437330**.  
