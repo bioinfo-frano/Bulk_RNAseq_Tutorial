@@ -138,18 +138,23 @@ Scroll down and click on **SRA Experiments** as shown below:
 
 ![**BioProject - SRA Experiments**](images/bioproject_sra_1.png)  
    
-2.5. You are in SRA BioProject:	**PRJNA437330**.  
+2.5. You are in SRA. Here, there are gathered all samples from BioProject	**PRJNA437330**
 Click on any link
 <br>
 
 ![**BioProject - SRA Experiments**](images/bioproject_sra_2.png)  
 
-2.6. Click on "**all runs**". This will send you to the **SRA Run Selector**, BioProject **PRJNA437330**.
+<br>  
+
+2.6. Click on "**All runs**".  
 <br>  
 
 ![**BioProject - SRA Experiments**](images/bioproject_sra_3.png)  
 
-2.7. Select and Note down the these SRA Runs:  
+<br>  
+This will send you to the **SRA Run Selector**, BioProject **PRJNA437330**.  
+  
+2.7. Select and note down the these SRA Runs (datasets):  
 - `SRR6815993` (status: Uninfected; time: 6h)   
 - `SRR6816017` (status: Infected  ; time: 6h)   
 <br>  
@@ -158,6 +163,8 @@ Click on any link
 
 <br>  
 These samples will be used for preprocessing and secondary analysis.  
+
+<br>  
   
 > [!NOTE]  
 > An SRA run will be sometimes called just simply "**sample**" or "**dataset**, which is a folder containing the paired-ends R1 and R2 **FASTQ** files.
