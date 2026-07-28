@@ -136,11 +136,20 @@ mkdir -p Bulk_rnaseq/{data,scripts,reference/intervals}
 Scroll down and click on **SRA Experiments** as shown below:
 <br>
 
-![**BioProject - SRA Experiments**](images/bioproject_sra_1.png)
+![**BioProject - SRA Experiments**](images/bioproject_sra_1.png)  
    
-   
-2.5. This will send you to the **SRA Run Selector**, BioProject **PRJNA437330**.  
-Note down the SRA Runs:  
+2.5. You are in SRA BioProject:	**PRJNA437330**.  
+Click on any link
+<br>
+
+![**BioProject - SRA Experiments**](images/bioproject_sra_2.png)  
+
+2.6. Click on "**all runs**". This will send you to the **SRA Run Selector**, BioProject **PRJNA437330**.
+<br>  
+
+![**BioProject - SRA Experiments**](images/bioproject_sra_3.png)  
+
+2.7. Select and Note down the these SRA Runs:  
 - `SRR6815993` (status: Uninfected; time: 6h)   
 - `SRR6816017` (status: Infected  ; time: 6h)   
 <br>  
@@ -148,18 +157,20 @@ Note down the SRA Runs:
 ![**SRA Run Selector**](images/geo_bulkrnaseq_sraselector_salmo3.png)   
 
 <br>  
-
+These samples will be used for preprocessing and secondary analysis.  
+  
 > [!NOTE]  
-> An SRA run will be sometimes called just simply "**sample**" or "**dataset**, which is a folder with the paired-ends R1 and R2 **FASTQ** files.
+> An SRA run will be sometimes called just simply "**sample**" or "**dataset**, which is a folder containing the paired-ends R1 and R2 **FASTQ** files.
 
 
 ### 3. Create a Bash script to download the samples using **SRA Toolkit**
   
 3.1. Go to Terminal, navigate to `Bulk_rnaseq/data`  
 
-3.2. Create the file `sra_PRJNA437330.sh`. You can use:
-  - `nano` or any script/text editor (e.g. Atom, Sublime)
-  - `touch`.
+3.2. Create the file `sra_PRJNA437330.sh`. You can create this file using:
+  - `nano` or `vim` 
+  - `touch`
+  - any script/text editor (e.g. Atom, Sublime)
 
 3.3. Grant execute permissions:
 
@@ -219,7 +230,7 @@ done
 
 ```
 
-3.4. Execute `sra_PRJNA437330.sh`
+3.4. Save and execute `sra_PRJNA437330.sh`
 
 ```bash
 cd path/to/Bulk_rnaseq/data
