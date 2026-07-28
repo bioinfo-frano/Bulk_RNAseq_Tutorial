@@ -132,14 +132,14 @@ mkdir -p Bulk_rnaseq/{data,scripts,reference/intervals}
 
 2.3. Scroll down and click on BioProject:	**PRJNA437330**  
 
-Now, you'll be sent to NCBI - BioProject **PRJNA437330**.  
+2.4. Now, you'll be sent to NCBI - BioProject **PRJNA437330**.  
 Scroll down and click on **SRA Experiments** as shown below:
 <br>
 
 ![**BioProject - SRA Experiments**](images/bioproject_sra_1.png)
    
    
-This will send you to the **SRA Run Selector**, BioProject **PRJNA437330**.  
+2.5. This will send you to the **SRA Run Selector**, BioProject **PRJNA437330**.  
 Note down the SRA Runs:  
 - `SRR6815993` (status: Uninfected; time: 6h)   
 - `SRR6816017` (status: Infected  ; time: 6h)   
