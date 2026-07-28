@@ -352,7 +352,7 @@ The indexes **genome_rep(above 2.2.0)** and **genome_snp_rep(above 2.2.0)** corr
 
 1.1. Navigate to the path: `~/Bulk_rnaseq/scripts`
 <br>  
-1.2. Save it as: `RNA1_environment.yml`  
+1.2. Save it as: `RNA1_environment.yml`
 <br>  
 1.3. Copy/paste the script here below in to the `.yml` file. Then, save it.
 
