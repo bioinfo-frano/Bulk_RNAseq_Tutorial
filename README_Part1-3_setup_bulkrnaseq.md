@@ -98,7 +98,8 @@ In Terminal, create all directories at once:
 ```bash
 mkdir -p Bulk_rnaseq/{data,scripts,reference/intervals}  
 ```
-
+<br>
+  
 ---
 
 ## II. Find & download paired-end RNA-seq datasets 
@@ -281,7 +282,7 @@ mkdir -p ~/Bulk_rnaseq/reference/hisat2_index
 cd ~/Bulk_rnaseq/reference/hisat2_index
 ```
 
-2. Download and extract indexes:
+2. **Download and extract indexes**:
 
 Go to: <http://daehwankimlab.github.io/hisat2/download/#h-sapiens>
 
@@ -299,7 +300,7 @@ tar -zxf grch38_tran.tar.gz
 
 <br>
 
-2. Expected output:
+3. **Expected output**:
 
 ```bash
 Bulk_rnaseq/
@@ -341,14 +342,19 @@ The indexes **genome_rep(above 2.2.0)** and **genome_snp_rep(above 2.2.0)** corr
 > [!WARNING]  
 > Building a human HISAT2 index from scratch can take a considerable amount of time and disk space, so we use the pre-built indexes provided by the HISAT2 developers.
   
+<br>
+  
 ---
 
 ## IV. Create a Conda environment
 
 ### 1. Create `.yml` file with all dependencies for conda `RNA1` environment. Use `touch` or script/text editor  
 
-1.1. Save it as: `RNA1_environment.yml`  
-1.2. Save it in path: `~/Bulk_rnaseq/scripts`  
+1.1. Navigate to the path: `~/Bulk_rnaseq/scripts`
+<br>  
+1.2. Save it as: `RNA1_environment.yml`  
+<br>  
+1.3. Copy/paste the script here below in to the `.yml` file. Then, save it.
 
 ```yml
 name: RNA1
@@ -413,7 +419,7 @@ cd ~/Bulk_rnaseq/scripts
 conda env create -f RNA1_environment.yml
 ```
 
-Expected output:
+**Expected output**:
 
 ```bash
 Downloading and Extracting Packages:
@@ -433,7 +439,7 @@ Executing transaction: done
 
 ### 3. Verify `RNA1`
 
-3.1. Activate `RNA1`
+3.1. Activate `RNA1`, check the list of dependencies and verify (some) installations
 
 ```bash
 conda activate RNA1
@@ -452,6 +458,8 @@ infer_experiment.py --help   # from rseqc
 gtfToGenePred                # from ucsc-gtftogenepred
 genePredToBed                # from ucsc-genepredtobed
 ```
+
+<br>  
 
 ---
 
