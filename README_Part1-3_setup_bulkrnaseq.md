@@ -48,12 +48,11 @@ Optional, but highly recommended too:
 >  
 >  WSL2 provides a genuine Linux environment inside Windows, ensuring compatibility with Conda, Bash scripts, bioinformatics software, and Nextflow workflows used throughout this tutorial.  
 >
-> Please watch this [YouTube](https://www.youtube.com/watch?v=1XuoUlaIEFo) video to learn how to install **WSL2** and Linux Ubuntu on your Windows.
+> Please watch this [YouTube](https://www.youtube.com/watch?v=1XuoUlaIEFo) video to learn how to install **WSL2** and **Linux Ubuntu** on your Windows.
 >  
 > Alternatives such as **Git Bash** or **Cygwin** may work for some basic commands, but **they are not recommended** for running the complete pipelines described in this tutorial.  
 >  
-> Once you have completed the **WSL2** installation, you can continue following this tutorial. This means:   
-> Once you open the **WSL2 Ubuntu terminal** on Windows, all steps—from installing Miniconda (**Linux version**), creating conda environments, to running the bash scripts and Nextflow pipelines—must be performed within your **WSL2 Ubuntu terminal**.  
+> Once you have completed the **WSL2** and **Ubuntu** installation, you can continue following this tutorial. This means, when you open the **WSL2 Ubuntu terminal** on Windows, all steps—from installing Miniconda (**Linux version**), creating conda environments, to running the bash scripts and Nextflow pipelines must be performed within your **WSL2 Ubuntu terminal**.  
 >  
 > **For Windows 7 or 8 users**: Upgrading to Windows 10 (version 2004, Build 19041 or higher, Home or Pro) or Windows 11 is strongly recommended to use **WSL2**. The upgrade is free, and you will need a valid Windows license key for activation. Please also ensure your system meets the minimum hardware requirements.  
 
@@ -297,8 +296,10 @@ wget -nc https://genome-idx.s3.amazonaws.com/hisat/grch38_tran.tar.gz
 # 2. Decompress AND extract the archive
 tar -zxf grch38_tran.tar.gz
 ```
-sra_PRJNA437330.sh
-Expected output:
+
+<br>
+
+2. Expected output:
 
 ```bash
 Bulk_rnaseq/
@@ -331,14 +332,14 @@ Bulk_rnaseq/
 ```
 
 > [!IMPORTANT]  
-> In the HISAT2 website, choose the option **genome_tran** → `grch38_tran.tar.gz` because it has Genome + transcript annotations (exons + splice junctions). This is the recommended index for RNA‑seq, because HISAT2 can use known splice sites to improve alignment accuracy.  
-Other alteratives such as **genome** and **genome_snp** are used when you **don't** need splice‑aware improvements from transcript annotations and when you consider known human SNPs during alignment, respectively.  
+> In the HISAT2 website, choose the option **genome_tran** → `grch38_tran.tar.gz` because it has the reference genome + splice-site junctions + transcript annotations (exons + splice junctions). This is the recommended index for RNA‑seq, because **HISAT2** can use known splice sites to improve alignment accuracy.  
+Alteratives indexes such as **genome** and **genome_snp** are used when you **don't** need splice‑aware improvements from transcript annotations and when you consider known human SNPs during alignment, respectively.  
 The alternative **genome_snp_tran** is when you want both variant‑aware mapping and splice‑aware mapping. It's substantially larger and might be unnecessary for this bulk RNA-seq workflow.  
-The indexes **genome_rep(above 2.2.0)** and **genome_snp_rep(above 2.2.0)** correspond to studies nvolving repetitive elements (TEs, LINEs, SINEs) and Genome + SNPs + repeat annotations, respectively.
+The indexes **genome_rep(above 2.2.0)** and **genome_snp_rep(above 2.2.0)** correspond to studies involving repetitive elements (TEs, LINEs, SINEs) and genome + SNPs + repeat annotations, respectively.
 
   
-> [!NOTE]  
-> Building a human HISAT2 index from scratch can take considerable time and disk space, so we use the pre-built indexes provided by the HISAT2 developers.
+> [!WARNING]  
+> Building a human HISAT2 index from scratch can take a considerable amount of time and disk space, so we use the pre-built indexes provided by the HISAT2 developers.
   
 ---
 
