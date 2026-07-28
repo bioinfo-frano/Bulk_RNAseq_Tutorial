@@ -33,12 +33,12 @@ The way to assign all these processes in a predetermined order, ensuring that ea
     - <https://www.commonwl.org>
 
 - **WDL** (Workflow Description Language) + **Cromwell** — used by Broad Institute; strong support for large genomics pipelines. More details:   
-    - <https://github.com/broadinstitute/cromwell>  
-    - <https://www.youtube.com/watch?v=w0IUd-x_9NU>
+    - [Welcome to Cromwel - GitHub](https://github.com/broadinstitute/cromwell)  
+    - [Intro to learning miniwdl for WDL](https://www.youtube.com/watch?v=w0IUd-x_9NU)
 
 - **Galaxy**: GUI*‑based workflow system for non‑programmers who would like to learn bioinformatics
 (*GUI: Graphical User Interface). More details:  
-    - <https://www.youtube.com/watch?v=k6fTVIR4GME>
+    - [What is Galaxy?](https://www.youtube.com/watch?v=k6fTVIR4GME)
 
 In this tutorial, we will implement the pipeline using **Bash** and **Nextflow**. **Bash** is ideal for learning the underlying commands and logic of each step. **Nextflow** adds reproducibility, scalability, and the ability to resume failed jobs—valuable skills for real-world research.  
 
