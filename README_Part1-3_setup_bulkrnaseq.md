@@ -130,6 +130,7 @@ mkdir -p Bulk_rnaseq/{data,scripts,reference/intervals}
 
 2.2. Click on ![**SRA Run Selector**](images/geo_bulkrnaseq_sraselector_salmo3.png)   
   
+<br>
 This will send you to the **SRA Run Selector**, BioProject **PRJNA437330**.  
 Note down the SRA Runs:  
 - `SRR6815993` (status: Uninfected; time: 6h)   
