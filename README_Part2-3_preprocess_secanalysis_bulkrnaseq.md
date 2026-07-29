@@ -218,15 +218,15 @@ Bulk_rnaseq/
 
 ![**MultiQC of raw datasets**](images/multiqc_raw_samples_1.png)   
 
-<br>
 
-### 2. Trimming/filtering of reads + post QC: Cutdapt + FastQC & MultiQC
+
+### 2. Trimming/filtering of reads + QC: Cutdapt + FastQC & MultiQC
 
 For the second part of the **preprocessing** bash script:  
 
 1. Copy/paste/save the **trimming/filtering of reads** and **post trimming QC** part to the `RNA1_01_bulkrnaseq_preprocessing.sh` file  
 
-**Bash script: raw datasets QC**  
+**Bash script: Trimming/filtering + QC**  
   
 ```bash
 # ------- Trimming & filtering -------
