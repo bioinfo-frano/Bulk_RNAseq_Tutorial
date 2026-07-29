@@ -147,7 +147,7 @@ multiqc \
 <br>
 
 > [!NOTE]  
-> The variable `DATA_DIR="$1"` at the top of the bash script indicates the script where the path to the working directory, in this case is `/path/to/Bulk_rnaseq`, is located. The `$1` is a **command‑line argument** that you must provide when running the script.
+> The line `DATA_DIR="$1"` at the top of the bash script indicates the script where the path to the project folder directory, in this case is `/path/to/Bulk_rnaseq`, is located. The `$1` is a **command‑line argument** that you must provide when running the script.
 > **This is important**: You cannot simply run `./RNA1_01_bulkrnaseq_preprocessing.sh` because the script expects you to **pass the path** as an argument.
 > 
 > **Correct usage**:
@@ -155,7 +155,12 @@ multiqc \
 > ./RNA1_01_bulkrnaseq_preprocessing.sh /path/to/Bulk_rnaseq
 > ```
 >
-> Replace `/path/to/Bulk_rnaseq` with the actual path to your projrct folder.
+> **Incorrect usage** (will fail):
+> ```bash
+> ./RNA1_01_bulkrnaseq_preprocessing.sh
+> ```
+>
+> Replace `/path/to/Bulk_rnaseq` with the actual path to your project folder.
 
 <br>
 
