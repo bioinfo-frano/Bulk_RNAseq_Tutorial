@@ -88,13 +88,6 @@ chmod u+x RNA1_01_bulkrnaseq_preprocessing.sh
 ```
 
 4. Open the `.sh`. Use a text/script editor, e.g. nano, vim, etc. and copy/paste/save the bash script below   
-  
-5. Run the script: go to `Bulk_rnaseq/scripts` and run it with the working directory `Bulk_rnaseq`
-
-```bash
-cd path/to/Bulk_rnaseq/scripts
-./RNA1_01_bulkrnaseq_preprocessing.sh /path/to/Bulk_rnaseq
-```
 
 **Bash script**  
 
@@ -146,6 +139,18 @@ multiqc \
   -o "$QC_DIR_MULTIQC"    # \ --no-data-dir
 
 ```
+
+5. Running the script: In `Bulk_rnaseq/scripts` run the `.sh` with the working directory `~/Bulk_rnaseq`
+
+```bash
+./RNA1_01_bulkrnaseq_preprocessing.sh /path/to/Bulk_rnaseq
+```
+
+<br>
+
+> [!NOTE]  
+> The variable `DATA_DIR="$1"` indicates the working directory, in this case is `/path/to/Bulk_rnaseq`.  
+> This means that it's not enough to run the `.sh` with `./RNA1_01_bulkrnaseq_preprocessing.sh` because the bash script is expecting the directory **$1**, which is specific to your computer.
 
 <br>
 
