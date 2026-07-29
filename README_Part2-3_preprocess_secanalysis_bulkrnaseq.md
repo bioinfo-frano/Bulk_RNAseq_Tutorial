@@ -205,10 +205,12 @@ Bulk_rnaseq/
 **FastQC** reports, for both samples and for each R1 and R2, show:
 
 - Sequence length of 75bp and zero sequences flagged as poor quality  
-- Good **Per base sequence quality **, but the first 5bp show lower quality than the rest  
+- Good **Per base sequence quality**, but the first 5bp show lower quality than the rest  
 - Warning sign in **Per base sequence content**  
 - Levels of **duplication** high
 - There are **overrepresented sequences**
+
+<br>
 
 **MultiQC** report: since the quality of reads and bp is excellent, the most important issue are the overrepresented sequences and the adapter content 
 
@@ -219,7 +221,7 @@ Bulk_rnaseq/
   
 ### 2. Trimming/filtering of reads + post QC: Cutdapt + FastQC & MultiQC
 
-For second part of the **preprocessing** bash script:  
+For the second part of the **preprocessing** bash script:  
 
 - Copy/paste/save the **trimming/filtering of reads** and **post trimming QC** part to the `RNA1_01_bulkrnaseq_preprocessing.sh` file  
 
