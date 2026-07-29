@@ -50,6 +50,7 @@ Both pipelines will cover **preprocessing** and **secondary analysis** of the da
 > - A raw count matrix (`raw_counts.txt`) ready for differential expression analysis
 > - Experience running the same pipeline with **Bash** and **Nextflow**
 
+---
 
 ## Pipeline overview
 
@@ -69,6 +70,7 @@ The following table summarizes the steps, tools, inputs, and outputs, and descri
 | 8. Post-Alignment QC | `RSeQC` + `MultiQC` | Dedup BAM + BED12 | QC reports + MultiQC summary | Assess alignment quality, read distribution, and splice junction annotation |
 | 9. Visualization | `IGV` | Dedup BAM + BAI | Interactive genome browser view | Visualize aligned reads, splice junctions, and coverage across genomic regions |
 
+---
 
 ## Bash: Preprocessing  
 
@@ -200,7 +202,7 @@ Bulk_rnaseq/
     └── RNA1_01_bulkrnaseq_preprocessing.sh
 ```
 
-7. FastQC and MultiQC reports
+7. **FastQC** and **MultiQC** reports
 
 **FastQC** reports, for both samples and for each R1 and R2, show:
 
@@ -218,7 +220,6 @@ Bulk_rnaseq/
 
 <br>
 
-  
 ### 2. Trimming/filtering of reads + post QC: Cutdapt + FastQC & MultiQC
 
 For the second part of the **preprocessing** bash script:  
@@ -328,7 +329,7 @@ multiqc \
 > `-u / -U`: Remove the first 5 bases from Read 1 and Read 2 before quality trimming.  
 > `-q 24,24`: Trim low-quality bases from both the 5′ and 3′ ends of Read 1 and Read 2 using a Phred quality cutoff of 24. Quality trimming is performed before adapter trimming.  
 > `-m`: Discard reads shorter than the specified minimum length after trimming.  
-> `"$LOGS/cutadapt_${SAMPLE}.log" 2>&1`: Save both the standard output and error messages to a separate log file for each sample.  
+> `"$LOGS/cutadapt_${SAMPLE}.log" 2>&1`: Redirect both the standard output (stdout) and standard error (stderr) to a single log file for each sample. During a successful run, the log mainly contains Cutadapt's processing summary; if any errors occur, they are written to the same file.  
 >
 > **Order of Cutadapt operations**: 
 > 1. Remove the first 5 bases (`-u / -U`).
