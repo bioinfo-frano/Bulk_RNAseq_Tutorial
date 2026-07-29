@@ -4,14 +4,12 @@
 
 - [Introduction](#introduction)  
 - [Pipeline overview](#pipeline-overview)  
-- [Bash pipeline](#bash-pipeline)
-    - [I. Bash: Preprocessing](#i-bash-preprocessing)  
-    - [II. Bash: Alignment and mark duplicates](#ii-bash-alignment-and-mark-duplicates)  
-    - [III. Bash: Gene-level paired-end read quantification](#iii-bash-gene-level-paired-end-read-quantification)  
-
-    - [I. Nextflow: Preprocessing](#i-nextflow-preprocessing)  
-    - [II. Nextflow: Alignment and mark duplicates](#ii-nextflow-alignment-and-mark-duplicates)  
-    - [III. Nextflow: Gene-level paired-end read quantification](#iii-nextflow-gene-level-paired-end-read-quantification)  
+- [I. Bash: Preprocessing](#i-bash-preprocessing)  
+- [II. Bash: Alignment and mark duplicates](#ii-bash-alignment-and-mark-duplicates)  
+- [III. Bash: Gene-level paired-end read quantification](#iii-bash-gene-level-paired-end-read-quantification)  
+- [I. Nextflow: Preprocessing](#i-nextflow-preprocessing)  
+- [II. Nextflow: Alignment and mark duplicates](#ii-nextflow-alignment-and-mark-duplicates)  
+- [III. Nextflow: Gene-level paired-end read quantification](#iii-nextflow-gene-level-paired-end-read-quantification)  
 - [Visualization](#visualization)
 
 
