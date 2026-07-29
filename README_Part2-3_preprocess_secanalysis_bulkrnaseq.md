@@ -342,9 +342,7 @@ multiqc \
 
 
 
-2. Folder structure:  
-
-
+2. Folder structure: Output files from trimmed datasets and post QC.  
 
 See:
 - `~/Bulk_rnaseq/results/qc_trimmed`  
