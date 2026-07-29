@@ -387,7 +387,7 @@ Bulk_rnaseq/
 
 ```
 
-3. FastQC and MultiQC reports
+3. **FastQC** and **MultiQC** reports
 
 **FastQC** reports, for both samples and for each R1 and R2, show:
 
