@@ -72,6 +72,8 @@ The following table summarizes the steps, tools, inputs, and outputs, and descri
 
 ## Bash: Preprocessing  
 
+### 1. QC report of raw datasets: FastQC and MultiQC  
+
 Follow these steps. They are simple: once created the executable `.sh`, copy/paste/save the bash script below. Then, run it from `Bulk_rnaseq/scripts`.
 
 1. Navigate to `Bulk_rnaseq/scripts`  
@@ -85,10 +87,9 @@ touch RNA1_01_bulkrnaseq_preprocessing.sh
 chmod u+x RNA1_01_bulkrnaseq_preprocessing.sh
 ```
 
-4. Open the `.sh`. Use a text/script editor, e.g. nano, vim, etc. and copy/paste/save the bash script below   
+4. Open the `.sh`. Use a text/script editor, e.g. nano, vim, etc. and copy/paste/save the **bash script** below   
 
-**Bash script**  
-
+**Bash script: raw datasets QC**
 ```bash
 #!/bin/bash
 
@@ -147,7 +148,8 @@ multiqc \
 <br>
 
 > [!NOTE]  
-> The line `DATA_DIR="$1"` at the top of the bash script indicates the script where the path to the project folder directory, in this case is `/path/to/Bulk_rnaseq`, is located. The `$1` is a **command‑line argument** that you must provide when running the script.
+> The line `DATA_DIR="$1"` at the top of the bash script indicates the script where the path to the project folder directory, in this case is `/path/to/Bulk_rnaseq`, is located. The `$1` is a **command‑line argument** that you must provide when running the script.  
+>
 > **This is important**: You cannot simply run `./RNA1_01_bulkrnaseq_preprocessing.sh` because the script expects you to **pass the path** as an argument.
 > 
 > **Correct usage**:
@@ -164,7 +166,7 @@ multiqc \
 
 <br>
 
-### Folder structure: Output files from **preprocessing**
+6. Folder structure: Output files from **raw datasets QC**. See `~Bulk_rnaseq/results/qc_raw`
 
 ```bash
 Bulk_rnaseq/
@@ -195,13 +197,28 @@ Bulk_rnaseq/
 ```
 
 
-### FastQC and MultiQC reports
+7. FastQC and MultiQC reports
 
+**FastQC** for both samples, R1 and R2, reports show:
 
+- the sequence length is 75bp and zero sequences flagged as poor quality  
+- a good per base quality sequence, but the first 5bp and the last bp show lower quality  
+- warning in per base sequence  
+- level of duplication high
+- overrepresented sequences
 
+**MultiQC** report: since the quality of reads and bp is excellent, the most important issue are the overrepresented sequences and the adapter content 
 
+![**MultiQC of raw datasets**](images/multiqc_raw_samples_1.png)   
 
----
+<br>
+
+The full MultiQC report here 👉 ![**MultiQC report - raw datasets**](images/multiqc_raw_samples_1.png)
+
+<br>  
+
+  
+### 2. Trimming/filtering of reads: Cutdapt 
 
 ```bash
 # ------- Trimming & filtering -------
