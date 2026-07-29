@@ -342,7 +342,9 @@ multiqc \
 
 
 
-2. Folder structure:
+2. Folder structure:  
+
+
 
 See:
 - `~/Bulk_rnaseq/results/qc_trimmed`  
@@ -350,6 +352,40 @@ See:
 - `~/Bulk_rnaseq/results/logs`
 
 ```bash
+Bulk_rnaseq/
+├── data
+│   ├── PRJNA437330
+│   │   ├── SRR6815993
+│   │   │   └── raw_fastq
+│   │   │       ├── SRR6815993_1.fastq.gz
+│   │   │       └── SRR6815993_2.fastq.gz
+│   │   └── SRR6816017
+│   │       └── raw_fastq
+│   │           ├── SRR6816017_1.fastq.gz
+│   │           └── SRR6816017_2.fastq.gz
+│   └── sra_PRJNA437330.sh
+├── reference
+├── results
+│   ├── logs
+│   │   ├── cutadapt_SRR6815993.log
+│   │   └── cutadapt_SRR6816017.log
+│   ├── qc_raw
+│   ├── qc_trimmed
+│   │   ├── fastq_trimmed
+│   │   │   ├── SRR6815993_R1.trimmed_fastqc.{html,zip}
+│   │   │   ├── SRR6815993_R2.trimmed_fastqc.{html,zip}
+│   │   │   ├── SRR6816017_R1.trimmed_fastqc.{html,zip}
+│   │   │   └── SRR6816017_R2.trimmed_fastqc.{html,zip}
+│   │   └── multiqc_trimmed
+│   │       ├── multiqc_data
+│   │       └── multiqc_report.html
+│   └── trimmed
+│       ├── SRR6815993_R1.trimmed.fastq.gz
+│       ├── SRR6815993_R2.trimmed.fastq.gz
+│       ├── SRR6816017_R1.trimmed.fastq.gz
+│       └── SRR6816017_R2.trimmed.fastq.gz
+└── scripts
+    └── RNA1_01_bulkrnaseq_preprocessing.sh
 
 ```
 
