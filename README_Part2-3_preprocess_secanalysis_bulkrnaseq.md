@@ -4,8 +4,8 @@
 
 - [Introduction](#introduction)  
 - [Pipeline overview](#pipeline-overview)  
-- [Bash: Preprocessing](#i-bash-preprocessing)  
-- [Bash: Alignment and mark duplicates](#ii-bash-alignment-and-mark-duplicates)  
+- [Bash: Preprocessing](#bash-preprocessing)  
+- [Bash: Alignment and mark duplicates](#bash-alignment-and-mark-duplicates)  
 - [Bash: Gene-level paired-end read quantification](#iii-bash-gene-level-paired-end-read-quantification)  
 - [Nextflow: Preprocessing](#i-nextflow-preprocessing)  
 - [Nextflow: Alignment and mark duplicates](#ii-nextflow-alignment-and-mark-duplicates)  
