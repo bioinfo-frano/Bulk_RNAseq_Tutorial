@@ -23,6 +23,9 @@ I would strongly suggest the following tutorials, so that you train yourself in 
 - [Command Line Basics for Beginners - Full Course - freeCodeCamp.org - YouTube](https://www.youtube.com/watch?v=mABpAI-pCw0)    
 - [MASTERING Command Prompt Basics! | Tutorial (for Windows) - Skill Foundry - YouTube](https://www.youtube.com/watch?v=QBWX_4ho8D4)   
 - [Bash Scripting Tutorial for Beginners  - TechWorld with Nana - YouTube](https://www.youtube.com/watch?v=PNhq_4d-5ek)   
+- [Bash Scripting Tutorial for Beginners  - freeCodeCamp.org - YouTube](https://www.youtube.com/watch?v=PNhq_4d-5ek)   
+- [How To Write Bash Scripts In Linux - Complete Guide - YouTube](https://www.youtube.com/watch?v=2733cRPudvI&list=PLT98CRl2KxKGj-VKtApD8-zCqSaN2mD4w)  
+
 
 Optional, but highly recommended too:   
   
