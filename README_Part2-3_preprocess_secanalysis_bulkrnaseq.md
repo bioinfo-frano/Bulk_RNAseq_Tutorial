@@ -74,8 +74,9 @@ The following table summarizes the steps, tools, inputs, and outputs, and descri
 
 ### 1. QC report of raw datasets: FastQC and MultiQC  
 
-Follow these steps. They are simple: once created the executable `.sh`, copy/paste/save the bash script below. Then, run it from `Bulk_rnaseq/scripts`.
-
+As shown in [Part I](README_Part1-3_setup_bulkrnaseq.md#part-i--setup--data-preparation), to develop a bash script, you have to create an executable `.sh` file and next copy/paste/save the bash script below into the `.sh` file. Then, run it from `~/Bulk_rnaseq/scripts`.
+<br>
+**Steps**:  
 1. Navigate to `Bulk_rnaseq/scripts`  
 2. Create `RNA1_01_bulkrnaseq_preprocessing.sh`  
 3. Grant execute permissions  
@@ -89,7 +90,8 @@ chmod u+x RNA1_01_bulkrnaseq_preprocessing.sh
 
 4. Open the `.sh`. Use a text/script editor, e.g. nano, vim, etc. and copy/paste/save the **bash script** below   
 
-**Bash script: raw datasets QC**
+**Bash script: raw datasets QC**  
+
 ```bash
 #!/bin/bash
 
@@ -135,8 +137,10 @@ done
 
 multiqc \
   "$QC_DIR_FASTQC" \
-  -o "$QC_DIR_MULTIQC"    # \ --no-data-dir
+  -o "$QC_DIR_MULTIQC"    
 
+
+# ------- Trimming & filtering -------            # to be continue
 ```
 
 5. Running the script: In `Bulk_rnaseq/scripts` run the `.sh` with the working directory `~/Bulk_rnaseq`
@@ -196,16 +200,15 @@ Bulk_rnaseq/
     └── RNA1_01_bulkrnaseq_preprocessing.sh
 ```
 
-
 7. FastQC and MultiQC reports
 
-**FastQC** for both samples, R1 and R2, reports show:
+**FastQC** reports, for both samples and for each R1 and R2, show:
 
-- the sequence length is 75bp and zero sequences flagged as poor quality  
-- a good per base quality sequence, but the first 5bp and the last bp show lower quality  
-- warning in per base sequence  
-- level of duplication high
-- overrepresented sequences
+- Sequence length of 75bp and zero sequences flagged as poor quality  
+- Good **Per base sequence quality **, but the first 5bp show lower quality than the rest  
+- Warning sign in **Per base sequence content**  
+- Levels of **duplication** high
+- There are **overrepresented sequences**
 
 **MultiQC** report: since the quality of reads and bp is excellent, the most important issue are the overrepresented sequences and the adapter content 
 
@@ -213,12 +216,14 @@ Bulk_rnaseq/
 
 <br>
 
-The full MultiQC report here 👉 ![**MultiQC report - raw datasets**](images/multiqc_raw_samples_1.png)
-
-<br>  
-
   
-### 2. Trimming/filtering of reads: Cutdapt 
+### 2. Trimming/filtering of reads + post QC: Cutdapt + FastQC & MultiQC
+
+For second part of the **preprocessing** bash script:  
+
+- Copy/paste/save the **trimming/filtering of reads** and **post trimming QC** part to the `RNA1_01_bulkrnaseq_preprocessing.sh` file  
+
+<br>
 
 ```bash
 # ------- Trimming & filtering -------
@@ -296,7 +301,8 @@ multiqc \
 
 ```
 
-
+> [!NOTE]  
+> fff
 
 
 
