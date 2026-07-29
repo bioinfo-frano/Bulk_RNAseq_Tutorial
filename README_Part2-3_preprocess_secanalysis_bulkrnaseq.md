@@ -223,10 +223,10 @@ Bulk_rnaseq/
 
 For the second part of the **preprocessing** bash script:  
 
-- Copy/paste/save the **trimming/filtering of reads** and **post trimming QC** part to the `RNA1_01_bulkrnaseq_preprocessing.sh` file  
+1. Copy/paste/save the **trimming/filtering of reads** and **post trimming QC** part to the `RNA1_01_bulkrnaseq_preprocessing.sh` file  
 
-<br>
-
+**Bash script: raw datasets QC**  
+  
 ```bash
 # ------- Trimming & filtering -------
 
@@ -304,10 +304,68 @@ multiqc \
 ```
 
 > [!NOTE]  
-> fff
+> **How the for loop works**:
+> 
+> The `for` loop processes both samples (`SRR6815993` and `SRR6816017`) automatically. 
+>
+> There is no single correct way to write a `for` loop in Bash. You can implement it in different ways, as long as it correctly iterates over the input files.
+>
+> `SAMPLE_DIR` contains the full paths within `$PROJECT_PATH/*`, which are:
+>
+> - `path/to/Bulk_rnaseq/data/PRJNA437330/SRR6815993`  
+> - `path/to/Bulk_rnaseq/data/PRJNA437330/SRR6816017`  
+>
+> `SAMPLE` contains only the **sample ID**, extracted from `SAMPLE_DIR` using the `basename` command:  
+> - `SRR6815993`  
+> - `SRR6816017`  
+>
+> **Cutadapt options used**:  
+>
+> `-a / -A`: Remove Illumina Nextera adapter sequences from Read 1 and Read 2.
+> `--poly-a`: Trim poly-A tails from Read 1 and poly-T heads from Read 2 after adapter trimming.
+> `-u / -U`: Remove the first 5 bases from Read 1 and Read 2 before quality trimming.
+> `-q 24,24`: Trim low-quality bases from both the 5′ and 3′ ends of Read 1 and Read 2 using a Phred quality cutoff of 24. Quality trimming is performed before adapter trimming.
+> `-m`: Discard reads shorter than the specified minimum length after trimming.
+> `"$LOGS/cutadapt_${SAMPLE}.log" 2>&1`: Save both the standard output and error messages to a separate log file for each sample.
+> **Order of Cutadapt operations**: 
+> 1. Remove the first 5 bases (`-u / -U`).
+> 2. Perform quality trimming (`-q`).
+> 3. Remove adapter sequences (`-a / -A`).
+> 4. Trim poly-A tails (R1) and poly-T heads (R2) (`--poly-a`).
+> 5. Discard reads shorter than 30 nt (`-m`).
 
 
 
+
+
+2. Folder structure:
+
+See:
+- `~/Bulk_rnaseq/results/qc_trimmed`  
+- `~/Bulk_rnaseq/results/trimmed`  
+- `~/Bulk_rnaseq/results/logs`
+
+```bash
+
+```
+
+3. FastQC and MultiQC reports
+
+**FastQC** reports, for both samples and for each R1 and R2, show:
+
+- Sequence length of 75bp and zero sequences flagged as poor quality  
+- Good **Per base sequence quality**, but the first 5bp show lower quality than the rest  
+- Warning sign in **Per base sequence content**  
+- Levels of **duplication** high
+- There are **overrepresented sequences**
+
+<br>
+
+**MultiQC** report: since the quality of reads and bp is excellent, the most important issue are the overrepresented sequences and the adapter content 
+
+![**MultiQC of raw datasets**](images/multiqc_raw_samples_2.png)   
+
+<br>
 
 
 <br>
