@@ -321,12 +321,13 @@ multiqc \
 >
 > **Cutadapt options used**:  
 >
-> `-a / -A`: Remove Illumina Nextera adapter sequences from Read 1 and Read 2.
-> `--poly-a`: Trim poly-A tails from Read 1 and poly-T heads from Read 2 after adapter trimming.
-> `-u / -U`: Remove the first 5 bases from Read 1 and Read 2 before quality trimming.
-> `-q 24,24`: Trim low-quality bases from both the 5′ and 3′ ends of Read 1 and Read 2 using a Phred quality cutoff of 24. Quality trimming is performed before adapter trimming.
-> `-m`: Discard reads shorter than the specified minimum length after trimming.
-> `"$LOGS/cutadapt_${SAMPLE}.log" 2>&1`: Save both the standard output and error messages to a separate log file for each sample.
+> `-a / -A`: Remove Illumina Nextera adapter sequences from Read 1 and Read 2.  
+> `--poly-a`: Trim poly-A tails from Read 1 and poly-T heads from Read 2 after adapter trimming.  
+> `-u / -U`: Remove the first 5 bases from Read 1 and Read 2 before quality trimming.  
+> `-q 24,24`: Trim low-quality bases from both the 5′ and 3′ ends of Read 1 and Read 2 using a Phred quality cutoff of 24. Quality trimming is performed before adapter trimming.  
+> `-m`: Discard reads shorter than the specified minimum length after trimming.  
+> `"$LOGS/cutadapt_${SAMPLE}.log" 2>&1`: Save both the standard output and error messages to a separate log file for each sample.  
+>
 > **Order of Cutadapt operations**: 
 > 1. Remove the first 5 bases (`-u / -U`).
 > 2. Perform quality trimming (`-q`).
