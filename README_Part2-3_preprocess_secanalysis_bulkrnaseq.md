@@ -302,7 +302,9 @@ multiqc \
   -o $QC_DIR_MULTIQC_TRIM
 
 ```
-
+<br>
+ 
+ 
 > [!NOTE]  
 > **How the for loop works**:
 > 
