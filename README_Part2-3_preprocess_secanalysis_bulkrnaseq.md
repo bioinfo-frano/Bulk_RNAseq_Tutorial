@@ -5,8 +5,11 @@
 - [Introduction](#introduction)  
 - [Pipeline overview](#pipeline-overview)  
 - [Bash: Preprocessing](#bash-preprocessing)  
-- [Bash: Alignment and mark duplicates](#bash-alignment-and-mark-duplicates)  
-- [Bash: Gene-level paired-end read quantification](#iii-bash-gene-level-paired-end-read-quantification)  
+    - [1. QC report of raw datasets](#bash-preprocessing)  
+    - [2. Trimming & filtering of reads + QC](#bash-preprocessing)  
+- [Bash: Secondary analysis](#bash-alignment-and-mark-duplicates) 
+    - [1. Alignment and mark duplicates](#bash-alignment-and-mark-duplicates)  
+    - [2. Strandedness & Gene-level paired-end read quantification](#iii-bash-gene-level-paired-end-read-quantification)  
 - [Nextflow: Preprocessing](#i-nextflow-preprocessing)  
 - [Nextflow: Alignment and mark duplicates](#ii-nextflow-alignment-and-mark-duplicates)  
 - [Nextflow: Gene-level paired-end read quantification](#iii-nextflow-gene-level-paired-end-read-quantification)  
@@ -17,7 +20,7 @@
 
 In this second part of bulk RNA-seq analysis, the two datasets downloaded in [Part I](README_Part1-3_setup_bulkrnaseq.md#part-i--setup--data-preparation) will be analysed with a series of bioinformatic tools within the conda `RNA1` environment. These tools are used in a predetermined order to evaluate and improve the quality of paired-reads of each dataset before the alignment-based quantification of gene expression takes place.  
 
-In more details, **preprocessing** consists of quality control (QC) of raw reads and, depending on the results, the reads are trimmed and filtered by length and quality (Phred score) to retain only high quality reads with minimal adapter contamination. After these QC steps, the **secondary analysis** starts with the mapping or alignment of the quality-improved datasets to the reference genome, followed by flagging of PCR duplicates and quantification of aligned pair-end reads.
+In more details, **preprocessing** consists of quality control (QC) of raw reads and, depending on the results, the reads are trimmed and filtered by length and quality, according to their Phred score, to retain only high quality reads with minimal adapter contamination. After these QC steps, the **secondary analysis** starts with the mapping or alignment of the quality-improved datasets to the reference genome, followed by flagging of PCR duplicates and quantification of aligned pair-end reads.
 
 The way to assign all these processes in a predetermined order, ensuring that each step in these processes is consistent across data and platforms is by drafting a ***bioinformatic pipeline***. Such pipelines utilize a programming or workflow language, allowing these processes to be portable, (if possible) parallelizable, consistent, and interoperable. These pipelines can be implemented using a variety of workflow systems, for example:
 
@@ -34,9 +37,9 @@ The way to assign all these processes in a predetermined order, ensuring that ea
     - [Welcome to Cromwel - GitHub](https://github.com/broadinstitute/cromwell)  
     - [Intro to learning miniwdl for WDL](https://www.youtube.com/watch?v=w0IUd-x_9NU)
 
-- **Galaxy**: GUI*‑based workflow system for non‑programmers who would like to learn bioinformatics
-(*GUI: Graphical User Interface). More details:  
+- **Galaxy**: *GUI‑based workflow system for non‑programmers who would like to learn bioinformatics. More details:  
     - [What is Galaxy?](https://www.youtube.com/watch?v=k6fTVIR4GME)
+***GUI**: Graphical User Interface  
 
 In this tutorial, we will implement the pipeline using **Bash** and **Nextflow**. **Bash** is ideal for learning the underlying commands, bioinformatics tools, and the logic of each step. **Nextflow** adds reproducibility, scalability, and the ability to resume failed jobs, which are valuable skills for real-world research.  
 
@@ -76,7 +79,7 @@ The following table summarizes the steps, tools, inputs, and outputs, and descri
 
 ### 1. QC report of raw datasets: FastQC and MultiQC  
 
-As shown in [Part I](README_Part1-3_setup_bulkrnaseq.md#part-i--setup--data-preparation), to develop a bash script, you have to create an executable `.sh` file and next copy/paste/save the bash script below into the `.sh` file. Then, run it from `~/Bulk_rnaseq/scripts`.
+As shown in [Part I - Find & download paired-end RNA-seq datasets](README_Part1-3_setup_bulkrnaseq.md#part-i--setup--data-preparation), to develop a bash script, you have to create an executable `.sh` file and next copy/paste/save the bash script below into the `.sh` file. Then, run it from `~/Bulk_rnaseq/scripts`.
 <br>
 **Steps**:  
 1. Navigate to `Bulk_rnaseq/scripts`  
@@ -220,7 +223,7 @@ Bulk_rnaseq/
 
 
 
-### 2. Trimming/filtering of reads + QC: Cutdapt + FastQC & MultiQC
+### 2. Trimming & filtering of reads + QC: Cutadapt + FastQC & MultiQC
 
 For the second part of the **preprocessing** bash script:  
 
