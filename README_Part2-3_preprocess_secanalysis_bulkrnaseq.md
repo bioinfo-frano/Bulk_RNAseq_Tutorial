@@ -406,8 +406,9 @@ Bulk_rnaseq/
 
 **MultiQC** report:  
 
-- There's a  wider range of sequence lengths; however, most of the reads are 70bp
-- Quality of reads improved even more, and content of overrepresented sequences and adapters is almost negligible.  
+- **Sequence Length Distribution**: There's a wider range of sequence lengths; however, most of the reads are 70bp
+- **Mean Quality Scores**: Quality of reads improved even more
+- **Overrepresented sequences by sample** & **Adapter Content**: content of overrepresented sequences and adapters is almost negligible.  
 
 <br>
 
@@ -557,14 +558,14 @@ multiqc \
 >
 > - Sample identity
 > - Sequencing library
-> - Platform information
+> - Platform informatio
 > - Compatibility with downstream analysis tools
 >
 > A second `for` loop runs **Picard** `MarkDuplicates` on each sorted BAM file and flags those duplicated reads, generating a `.dedup.bam` file per sample, and one duplication metrics report `*_dedup_metrics.txt` per sample.  
 >
 > Duplicate reads are flagged, **NOT removed**, because option: `REMOVE_DUPLICATES=false`. This preserves all reads while allowing downstream tools to identify PCR duplicates if needed.
 >
-> Finally, each `.dedup.bam` file is indexed with `samtools index`, generating a corresponding `.dedup.bam.bai` file. The `.dedup.bam` and `.dedup.bam.bai` are required for efficient read alignment visualization in **IGV**.  
+> Finally, each `.dedup.bam` file is indexed with `samtools index`, generating a corresponding `.dedup.bam.bai` file. The `.dedup.bam` and `.dedup.bam.bai` are required for efficient read alignment visualization with **IGV**.  
 
     
 3. **Folder structure**: Output files alignment and post QC.  
@@ -607,13 +608,70 @@ Bulk_rnaseq/
     └── RNA1_02_bulkrnaseq_alignment_markdup.sh
 ```
     
-3. **MultiQC** report
+3. **MultiQC** report  
 
-- ddd
-- ppp
+- **HISAT2**: Pair-ends (PE) reads mapped uniquely  
+  - `SRR6815993`: 83.1% ✅  
+  - `SRR6816017`: 77.4% ✅  
+  
+- **Mark Duplicates**:   
+
+| **Sample**    | **Unique Pairs** | **Duplicate Pairs nonoptical** |
+| :---          | :---             | :---                           | 
+| `SRR6815993`  | 64.6%            | 26.6%                          |
+| `SRR6816017`  | 53.7%            | 37.1%                          |
+
+**Optical duplicates**: It's an artifact in which a single amplification cluster, incorrectly detected as multiple clusters by the optical sensor of the sequencing instrument [MarkDuplicates(Picard)](https://gatk.broadinstitute.org/hc/en-us/articles/360036834611-MarkDuplicates-Picard). This parameter was not calculated, and to do so, it's necessary to add the option `--READ_NAME_REGEX` and `--OPTICAL_DUPLICATE_PIXEL_DISTANCE ` to **MarkDuplicates**.
+**Duplicate Pairs nonoptical**: It's another type of artifact in which identical DNA/RNA fragments are generated during library preparation, primarily via PCR amplification, rather than imaging or clustering errors on the sequencer.
+
+> [!NOTE]  
+> **Optical Duplicates in SRA Data**:
+> 
+> In the MarkDuplicates metrics file, you may see `READ_PAIR_OPTICAL_DUPLICATES = 0`. This is because SRA datasets often have **stripped read names** that lack flow cell metadata (tile, cluster, X/Y coordinates). Without this information, Picard cannot distinguish optical duplicates (flow cell artifacts) from PCR duplicates.
+> 
+> **How to check your data**:
+> ```bash
+> zcat SRR6815993_1.fastq.gz | head -4
+> ```
+> 
+> **If you see**:
+> ```
+> @SRR6815993.1 1 length=75
+NGCTGGGACTACAGGCGCATGTCACCACGCCNA...
+> ```
+> This means that the header doesn't have the read names, it lacks flow cell/tile/cluster info → **Optical duplicates cannot be calculated**.
+> 
+> **If you see**:
+> ```
+> @A00489:123:HF7K2DMXX:1:1101:10000:10000 1:N:0:ATCACG
+> ```
+> The read names contain full flow cell metadata → Optical duplicates **can** be calculated.
+> 
+> **What to do**:
+> - If your data is from SRA (like this tutorial): **Accept that optical duplicates are not calculable** – this is normal.
+> - If your data is from your own sequencing run: Use the original FASTQ files with full read names.
+> - Even without optical duplicate detection, other duplication metrics (`PERCENT_DUPLICATION`, `ESTIMATED_LIBRARY_SIZE`, and the duplicate set histogram) are still valid and useful for QC.
+> 
+> **Key takeaway**: The absence of optical duplicate detection is **not an error** – it's a limitation of the SRA data format. It does not affect the quality of your gene-level count matrix.
 
 <br>
+
+![**MultiQC of HISAT2 and MarkDuplicates**](images/multiqc_hisat2_md_samples_1.png)   
+
+- **Cutadapt**: Pairs passing filters
+  - `SRR6815993`: 83.1% ✅  
+  - `SRR6816017`: 77.4% ✅  
+- **Cutadapt**: Trimmed Sequence Lengths (3') shows some few reads trimmed in 3'.  
+
 <br>
+
+
+![**MultiQC of HISAT2 and MarkDuplicates**](images/multiqc_cutadapt_samples_1.png)  
+
+
+<br>
+
+
 If you have reached the end of **PART I**, I congratulate you!!  
 Continue to the 👉 [Part II – Secondary analysis](README_Part2-3_secondary_bulkrnaseq.md), where you'll start with the preprocessing analysis to alignment till the generation of raw counts tables, using bash and nextflow scripting explained step-by-step.
 
