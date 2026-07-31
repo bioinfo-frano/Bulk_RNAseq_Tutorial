@@ -38,8 +38,8 @@ The way to assign all these processes in a predetermined order, ensuring that ea
     - [Intro to learning miniwdl for WDL](https://www.youtube.com/watch?v=w0IUd-x_9NU)
 
 - **Galaxy**: *GUI‑based workflow system for non‑programmers who would like to learn bioinformatics. More details:  
-    - [What is Galaxy?](https://www.youtube.com/watch?v=k6fTVIR4GME)
-***GUI**: Graphical User Interface  
+    - [What is Galaxy?](https://www.youtube.com/watch?v=k6fTVIR4GME)  
+    - ***GUI**: Graphical User Interface  
 
 In this tutorial, we will implement the pipeline using **Bash** and **Nextflow**. **Bash** is ideal for learning the underlying commands, bioinformatics tools, and the logic of each step. **Nextflow** adds reproducibility, scalability, and the ability to resume failed jobs, which are valuable skills for real-world research.  
 
@@ -213,7 +213,7 @@ Bulk_rnaseq/
 - Good **Per base sequence quality**, but the first 5bp show lower quality than the rest  
 - Warning sign in **Per base sequence content**  
 - Levels of **duplication** high
-- There are **overrepresented sequences**
+- There are **overrepresented sequences** and observed **adapter content**
 
 <br>
 
@@ -343,8 +343,6 @@ multiqc \
 
 
 
-
-
 2. Folder structure: Output files from trimmed datasets and post QC.  
 
 See:
@@ -392,19 +390,19 @@ Bulk_rnaseq/
 
 3. **FastQC** and **MultiQC** reports
 
-**FastQC** reports, for both samples and for each R1 and R2, show:
+**FastQC** reports after trimming and filtering of reads, for both samples and for each R1 and R2, show:
 
-- Sequence length of 75bp and zero sequences flagged as poor quality  
-- Good **Per base sequence quality**, but the first 5bp show lower quality than the rest  
+- Sequence length of 30 - 70bp and zero sequences flagged as poor quality  
+- Improved **Per base sequence quality**
 - Warning sign in **Per base sequence content**  
 - Levels of **duplication** high
-- There are **overrepresented sequences**
+- Less than 1% of reads with **overrepresented sequences** and less than 0.1% with **adapter content**
 
 <br>
 
 **MultiQC** report: since the quality of reads and bp is excellent, the most important issue are the overrepresented sequences and the adapter content 
 
-![**MultiQC of raw datasets**](images/multiqc_raw_samples_2.png)   
+![**MultiQC of raw datasets**](images/multiqc_aftertrimming_samples_1.png)   
 
 <br>
 
