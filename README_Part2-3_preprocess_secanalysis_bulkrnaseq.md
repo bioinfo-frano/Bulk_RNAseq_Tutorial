@@ -420,7 +420,7 @@ Bulk_rnaseq/
 
 ### 1. Alignment, mark duplicates and QC: HISAT2 + MarkDuplicates + MultiQC
 
-1. Create another `sh` to execute alignment of reads to HISAT2-reference indexes and mark all those reads that might be a product of PCR duplication.
+1. Create another `.sh` script to to perform read alignment with **HISAT2**, mark potential PCR duplicates, and generate a post-alignment QC report.
 
 ```bash
 # Run these commands one by one
@@ -547,29 +547,33 @@ multiqc \
  
  
 > [!NOTE]  
-> **How the for loops in the alignment ad mark duplicates work**:
+> **How the alignment and mark duplicates loops work**:
 >
-> This time, all trimmed samples (input) are in `~/Bulk_rnaseq/results/trimmed`   
+> At this stage of the pipeline, the input files are the trimmed paired-end FASTQ files located in `~/Bulk_rnaseq/results/trimmed`   
 >
-> The `for` loop processes both samples (`SRR6815993` and `SRR6816017`) automatically. Therefore, it was created a list called `SAMPLES`, which has the sample IDs. However, it is highly advisable to include during the alignment the read group (RG) information, which is gathered in a list called `SAMPLE_NAMES`. The `for` loop will run the alignment, incorporate the RG information, generate a sorted BAM file, and output a log per each trimmed sample.
+> The `for` loop processes both samples (`SRR6815993` and `SRR6816017`) automatically. The script defines a list called `SAMPLES`, which stores the sequencing accession IDs. A second list, `SAMPLE_NAMES`, stores descriptive sample names that are added to the BAM file as **read group** (**RG**) metadata during alignment. During each iteration, the loop aligns one sample, adds the corresponding RG information, sorts the alignments with `samtools sort`, and saves a separate HISAT2 log file for that sample.
 >
-> Adding RG information during the alignment with `HISAT2`, similar with `BWA-MEM` and `STAR`, is necessary for tracking:
-> - Sample identities
-> - Prevent technical batch errors
-> - Meet downstream software requirements
+> Including **RG** information during alignment (by aligners such as **HISAT2**, **BWA-MEM**, and **STAR**), is considered a good practice because it allows downstream tools to distinguish sequencing libraries and samples. Then, **RG** provides info about:
 >
-> A dedicated `for` loop to mark duplicates, using `MarkDuplicates`, takes each sorted BAM file and flags those duplicated reads, generating a `.dedup.bam` file per sample, and creates a `.txt` report file per sample. **Important**: the duplicated reads are flagged, **NOT** removed.
+> - Sample identity
+> - Sequencing library
+> - Platform informatio
+> - Compatibility with downstream analysis tools
 >
-> Finally, the `.dedup.bam` files are indexed with `samtools index`, generating `.dedup.bam.bai` per sample. The `.dedup.bam` and `.dedup.bam.bai` are necessary for reads alignment visualization with **IGV**.  
+> A second `for` loop runs **Picard** `MarkDuplicates` on each sorted BAM file and flags those duplicated reads, generating a `.dedup.bam` file per sample, and one duplication metrics report `*_dedup_metrics.txt` per sample.  
+>
+> Duplicate reads are flagged, **NOT removed**, because option: `REMOVE_DUPLICATES=false`. This preserves all reads while allowing downstream tools to identify PCR duplicates if needed.
+>
+> Finally, each `.dedup.bam` file is indexed with `samtools index`, generating a corresponding `.dedup.bam.bai` file. The `.dedup.bam` and `.dedup.bam.bai` are required for efficient read alignment visualization in **IGV**.  
 
     
-2. **Folder structure**: Output files from trimmed datasets and post QC.  
+3. **Folder structure**: Output files alignment and post QC.  
 
 See:
 - `~/Bulk_rnaseq/results/alignment`  
 - `~/Bulk_rnaseq/results/logs`  
 - `~/Bulk_rnaseq/results/qc_post_align`
-- `~/Bulk_rnaseq/results/scripts`
+- `~/Bulk_rnaseq/scripts`
 
 ```bash
 Bulk_rnaseq/
