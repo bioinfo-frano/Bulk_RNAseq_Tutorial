@@ -175,7 +175,7 @@ multiqc \
 
 <br>
 
-6. Folder structure: Output files from **raw datasets QC**. See `~Bulk_rnaseq/results/qc_raw`
+6. **Folder structure**: Output files from **raw datasets QC**. See `~Bulk_rnaseq/results/qc_raw`
 
 ```bash
 Bulk_rnaseq/
@@ -217,7 +217,10 @@ Bulk_rnaseq/
 
 <br>
 
-**MultiQC** report: since the quality of reads and bp is excellent, the most important issue are the overrepresented sequences and the adapter content 
+**MultiQC** report:  
+Since the quality of reads and bp is excellent, the most important issue are the overrepresented sequences and the adapter content 
+
+<br>
 
 ![**MultiQC of raw datasets**](images/multiqc_raw_samples_1.png)   
 
@@ -400,13 +403,25 @@ Bulk_rnaseq/
 
 <br>
 
-**MultiQC** report: since the quality of reads and bp is excellent, the most important issue are the overrepresented sequences and the adapter content 
+**MultiQC** report:  
+
+- There's a  wider range of sequence lengths; however, most of the reads are 70bp
+- Quality of reads improved even more, and content of overrepresented sequences and adapters is almost negligible.  
+
+<br>
 
 ![**MultiQC of raw datasets**](images/multiqc_aftertrimming_samples_1.png)   
 
 <br>
 
+## Bash: Secondary analysis
 
+### 1. Alignment and mark duplicates: HISAT2 + MarkDuplicates
+
+
+    
+    
+    
 <br>
 <br>
 If you have reached the end of **PART I**, I congratulate you!!  
