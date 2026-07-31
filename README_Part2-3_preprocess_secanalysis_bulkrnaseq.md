@@ -77,7 +77,7 @@ The following table summarizes the steps, tools, inputs, and outputs, and descri
 
 ## Bash: Preprocessing  
 
-### 1. QC report of raw datasets: FastQC and MultiQC  
+### 1. QC report of raw datasets: FastQC & MultiQC  
 
 As shown in [Part I - Find & download paired-end RNA-seq datasets](README_Part1-3_setup_bulkrnaseq.md#part-i--setup--data-preparation), to develop a bash script, you have to create an executable `.sh` file and next copy/paste/save the bash script below into the `.sh` file. Then, run it from `~/Bulk_rnaseq/scripts`.
 <br>
@@ -416,10 +416,176 @@ Bulk_rnaseq/
 
 ## Bash: Secondary analysis
 
-### 1. Alignment and mark duplicates: HISAT2 + MarkDuplicates
+### 1. Alignment, mark duplicates and QC: HISAT2 + MarkDuplicates + MultiQC
 
+1. Create another `sh` to execute alignment of reads to HISAT2-reference indexes and mark all those reads that might be a product of PCR duplication.
 
+```bash
+# Run these commands one by one
+cd path/to/Bulk_rnaseq/scripts
+touch RNA1_02_bulkrnaseq_alignment_markdup.sh
+chmod u+x RNA1_02_bulkrnaseq_alignment_markdup.sh
+```
+
+4. Open the `.sh`. Use a text/script editor, e.g. nano, vim, etc. and copy/paste/save the **bash script** below   
+
+**Bash script: Alignment + mark duplicates + QC**  
+
+```bash
+#!/bin/bash
+
+set -euo pipefail
+
+# Set variables as path
+DATA_DIR="$1"               # /path/to/Bulk_rnaseq
+PROJECT="PRJNA437330"
+PROJECT_PATH="$DATA_DIR/data/$PROJECT"
+THREADS=4
+RESULTS="$DATA_DIR/results"
+RAW_FASTQ_DIR=$PROJECT_PATH/*/raw_fastq     # To expand the '*' (placeholder for "SRR..." datasets) do not use quotation marks
+TRIMMED="$RESULTS/trimmed"
+LOGS="$RESULTS/logs"
+HISAT2_INDEX="$DATA_DIR/reference/hisat2_index/grch38_tran"
+ALIGNMENT="$RESULTS/alignment"
+QC_POST_ALIGN="$RESULTS/qc_post_align"
+
+# ------- Aligment: HISAT2 -------
+
+# Create folders for alignment (in case they don't exist)
+mkdir -p "$ALIGNMENT"
+mkdir -p "$LOGS"
+
+# Define sample IDs and names as indexed arrays (compatible with Bash 3.x)
+SAMPLES=("SRR6815993" "SRR6816017")
+SAMPLE_NAMES=("6h_Mock" "6h_STM-D23580_inv")
+
+# For looping the alignment per sample
+for i in "${!SAMPLES[@]}"; do
+  SAMPLE_ID="${SAMPLES[$i]}"
+  SAMPLE_NAME="${SAMPLE_NAMES[$i]}"
+
+  # Input trimmed fastq files
+  R1_TRIM="$TRIMMED/${SAMPLE_ID}_R1.trimmed.fastq.gz"
+  R2_TRIM="$TRIMMED/${SAMPLE_ID}_R2.trimmed.fastq.gz"
+
+  echo "########################"
+  echo "## Running HISAT2     ##"
+  echo "## Sample: $SAMPLE_ID ##"
+  echo "########################"
+
+  hisat2 \
+    -x "$HISAT2_INDEX/genome_tran" \
+    -1 "$R1_TRIM" \
+    -2 "$R2_TRIM" \
+    --rg-id "${SAMPLE_ID}" \
+    --rg "SM:${SAMPLE_NAME}" \
+    --rg "LB:RNAseq" \
+    --rg "PL:ILLUMINA" \
+    --rg "PU:HiSeq4000" \
+    --new-summary \
+    --summary-file "$LOGS/${SAMPLE_ID}.hisat2.log" \
+    -p "$THREADS" \
+  | samtools sort \
+    -@ "$THREADS" \
+    -m 500M \
+    -o "$ALIGNMENT/${SAMPLE_ID}.sorted.bam"
+
+    echo "✅ Alignment complete for $SAMPLE_ID"
+    echo "Output: $ALIGNMENT/${SAMPLE_ID}.sorted.bam"
+    echo
+
+done
+
+# ------- Mark duplicates: Picard -------
+# NOTE: This code is only for flagging duplicates, not for their removal
+# NOTE: From *.sorted.bam (Alignment)-> Mark duplicates: dedup.bam + dedup.bam.bai (samtools index)
+
+# For looping the Markduplicates per sample
+for i in "${!SAMPLES[@]}"; do
+  SAMPLE_ID="${SAMPLES[$i]}"
+
+  echo "################################"
+  echo "## Running MarkDuplicates     ##"
+  echo "## Sample: $SAMPLE_ID         ##"
+  echo "################################"
+
+  picard MarkDuplicates \
+    I="$ALIGNMENT/${SAMPLE_ID}.sorted.bam" \
+    O="$ALIGNMENT/${SAMPLE_ID}.dedup.bam" \
+    M="$LOGS/${SAMPLE_ID}_dedup_metrics.txt" \
+    REMOVE_DUPLICATES=false \
+    CREATE_INDEX=false \
+    VALIDATION_STRINGENCY=SILENT
+
+    echo "✅ Duplicate marking complete for $SAMPLE_ID"
+    echo "Output: $ALIGNMENT/${SAMPLE_ID}.dedup.bam"
+    echo "Metrics: $LOGS/${SAMPLE_ID}_dedup_metrics.txt"
+
+    # Index the dedup BAM for IGV visualization
+    echo "🔍 Indexing BAM file..."
+    samtools index "$ALIGNMENT/${SAMPLE_ID}.dedup.bam"
+    echo "✅ Indexing complete"
+
+done
+
+# ------- MultiQC Postalignment -------
+
+mkdir -p "$QC_POST_ALIGN"
+
+echo "################################"
+echo "## Running MultiQC            ##"
+echo "## Directory: $QC_POST_ALIGN  ##"
+echo "################################"
+
+multiqc \
+  "$LOGS" \
+  -o "$QC_POST_ALIGN"
+
+```
     
+> [!NOTE]  
+> **How the for loop works**:
+> 
+> The `for` loop processes both samples (`SRR6815993` and `SRR6816017`) automatically. 
+    
+2. Folder structure: Output files from trimmed datasets and post QC.  
+
+See:
+- `~/Bulk_rnaseq/results/qc_trimmed`  
+- `~/Bulk_rnaseq/results/trimmed`  
+- `~/Bulk_rnaseq/results/logs`
+
+```bash
+Bulk_rnaseq/
+├── data
+├── reference
+├── results
+│   ├── alignment
+│   │   ├── SRR6815993.dedup.bam
+│   │   ├── SRR6815993.dedup.bam.bai
+│   │   ├── SRR6815993.sorted.bam
+│   │   ├── SRR6815993_chr_prefix.txt
+│   │   ├── SRR6816017.dedup.bam
+│   │   ├── SRR6816017.dedup.bam.bai
+│   │   ├── SRR6816017.sorted.bam
+│   │   └── SRR6816017_chr_prefix.txt
+│   ├── logs
+│   │   ├── SRR6815993.hisat2.log
+│   │   ├── SRR6815993_dedup_metrics.txt
+│   │   ├── SRR6816017.hisat2.log
+│   │   ├── SRR6816017_dedup_metrics.txt
+│   │   ├── cutadapt_SRR6815993.log
+│   │   └── cutadapt_SRR6816017.log
+│   ├── qc_post_align
+│   │   ├── multiqc_data
+│   │   └── multiqc_report.html
+│   ├── qc_raw
+│   ├── qc_trimmed
+│   └── trimmed
+└── scripts
+    ├── RNA1_01_bulkrnaseq_preprocessing.sh
+    └── RNA1_02_bulkrnaseq_alignment_markdup.sh
+```
     
     
 <br>
