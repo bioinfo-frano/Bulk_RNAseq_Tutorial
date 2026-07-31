@@ -352,6 +352,7 @@ See:
 - `~/Bulk_rnaseq/results/qc_trimmed`  
 - `~/Bulk_rnaseq/results/trimmed`  
 - `~/Bulk_rnaseq/results/logs`
+- `~/Bulk_rnaseq/results/scripts`
 
 ```bash
 Bulk_rnaseq/
@@ -412,7 +413,8 @@ Bulk_rnaseq/
 
 ![**MultiQC of raw datasets**](images/multiqc_aftertrimming_samples_1.png)   
 
-<br>
+---
+
 
 ## Bash: Secondary analysis
 
@@ -427,7 +429,7 @@ touch RNA1_02_bulkrnaseq_alignment_markdup.sh
 chmod u+x RNA1_02_bulkrnaseq_alignment_markdup.sh
 ```
 
-4. Open the `.sh`. Use a text/script editor, e.g. nano, vim, etc. and copy/paste/save the **bash script** below   
+2. Open the `.sh`. Use a text/script editor, e.g. nano, vim, etc. and copy/paste/save the **bash script** below   
 
 **Bash script: Alignment + mark duplicates + QC**  
 
@@ -497,8 +499,6 @@ for i in "${!SAMPLES[@]}"; do
 done
 
 # ------- Mark duplicates: Picard -------
-# NOTE: This code is only for flagging duplicates, not for their removal
-# NOTE: From *.sorted.bam (Alignment)-> Mark duplicates: dedup.bam + dedup.bam.bai (samtools index)
 
 # For looping the Markduplicates per sample
 for i in "${!SAMPLES[@]}"; do
@@ -543,17 +543,33 @@ multiqc \
 
 ```
     
+<br>
+ 
+ 
 > [!NOTE]  
-> **How the for loop works**:
-> 
-> The `for` loop processes both samples (`SRR6815993` and `SRR6816017`) automatically. 
+> **How the for loops in the alignment ad mark duplicates work**:
+>
+> This time, all trimmed samples (input) are in `~/Bulk_rnaseq/results/trimmed`   
+>
+> The `for` loop processes both samples (`SRR6815993` and `SRR6816017`) automatically. Therefore, it was created a list called `SAMPLES`, which has the sample IDs. However, it is highly advisable to include during the alignment the read group (RG) information, which is gathered in a list called `SAMPLE_NAMES`. The `for` loop will run the alignment, incorporate the RG information, generate a sorted BAM file, and output a log per each trimmed sample.
+>
+> Adding RG information during the alignment with `HISAT2`, similar with `BWA-MEM` and `STAR`, is necessary for tracking:
+> - Sample identities
+> - Prevent technical batch errors
+> - Meet downstream software requirements
+>
+> A dedicated `for` loop to mark duplicates, using `MarkDuplicates`, takes each sorted BAM file and flags those duplicated reads, generating a `.dedup.bam` file per sample, and creates a `.txt` report file per sample. **Important**: the duplicated reads are flagged, **NOT** removed.
+>
+> Finally, the `.dedup.bam` files are indexed with `samtools index`, generating `.dedup.bam.bai` per sample. The `.dedup.bam` and `.dedup.bam.bai` are necessary for reads alignment visualization with **IGV**.  
+
     
-2. Folder structure: Output files from trimmed datasets and post QC.  
+2. **Folder structure**: Output files from trimmed datasets and post QC.  
 
 See:
-- `~/Bulk_rnaseq/results/qc_trimmed`  
-- `~/Bulk_rnaseq/results/trimmed`  
-- `~/Bulk_rnaseq/results/logs`
+- `~/Bulk_rnaseq/results/alignment`  
+- `~/Bulk_rnaseq/results/logs`  
+- `~/Bulk_rnaseq/results/qc_post_align`
+- `~/Bulk_rnaseq/results/scripts`
 
 ```bash
 Bulk_rnaseq/
@@ -587,7 +603,11 @@ Bulk_rnaseq/
     └── RNA1_02_bulkrnaseq_alignment_markdup.sh
 ```
     
-    
+3. **MultiQC** report
+
+- ddd
+- ppp
+
 <br>
 <br>
 If you have reached the end of **PART I**, I congratulate you!!  
