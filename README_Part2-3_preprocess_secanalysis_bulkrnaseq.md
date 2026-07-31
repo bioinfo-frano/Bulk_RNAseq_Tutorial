@@ -557,7 +557,7 @@ multiqc \
 >
 > - Sample identity
 > - Sequencing library
-> - Platform informatio
+> - Platform information
 > - Compatibility with downstream analysis tools
 >
 > A second `for` loop runs **Picard** `MarkDuplicates` on each sorted BAM file and flags those duplicated reads, generating a `.dedup.bam` file per sample, and one duplication metrics report `*_dedup_metrics.txt` per sample.  
