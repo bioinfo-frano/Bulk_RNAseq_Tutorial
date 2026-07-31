@@ -346,13 +346,13 @@ multiqc \
 
 
 
-2. Folder structure: Output files from trimmed datasets and post QC.  
+2. **Folder structure**: Output files from trimmed datasets and post QC.  
 
 See:
 - `~/Bulk_rnaseq/results/qc_trimmed`  
 - `~/Bulk_rnaseq/results/trimmed`  
 - `~/Bulk_rnaseq/results/logs`
-- `~/Bulk_rnaseq/results/scripts`
+- `~/Bulk_rnaseq/scripts`
 
 ```bash
 Bulk_rnaseq/
@@ -421,7 +421,7 @@ Bulk_rnaseq/
 
 ### 1. Alignment, mark duplicates and QC: HISAT2 + MarkDuplicates + MultiQC
 
-1. Create another `.sh` script to to perform read alignment with **HISAT2**, mark potential PCR duplicates, and generate a post-alignment QC report.
+1. Create another `.sh` script to perform read alignment with **HISAT2**, mark potential PCR duplicates, and generate a post-alignment QC report.
 
 ```bash
 # Run these commands one by one
@@ -621,24 +621,25 @@ Bulk_rnaseq/
 | `SRR6815993`  | 64.6%            | 26.6%                          |
 | `SRR6816017`  | 53.7%            | 37.1%                          |
 
-**Optical duplicates**: It's an artifact in which a single amplification cluster, incorrectly detected as multiple clusters by the optical sensor of the sequencing instrument [MarkDuplicates(Picard)](https://gatk.broadinstitute.org/hc/en-us/articles/360036834611-MarkDuplicates-Picard). This parameter was not calculated, and to do so, it's necessary to add the option `--READ_NAME_REGEX` and `--OPTICAL_DUPLICATE_PIXEL_DISTANCE ` to **MarkDuplicates**.
-**Duplicate Pairs nonoptical**: It's another type of artifact in which identical DNA/RNA fragments are generated during library preparation, primarily via PCR amplification, rather than imaging or clustering errors on the sequencer.
+**Optical duplicates**: It's when a single amplification cluster is incorrectly detected as multiple clusters by the optical sensor of the sequencing instrument 👉 [Documentation: MarkDuplicates (Picard)](https://gatk.broadinstitute.org/hc/en-us/articles/360036834611-MarkDuplicates-Picard).   
+This parameter was not calculated, and to do so, it's necessary to add the option `--READ_NAME_REGEX` and `--OPTICAL_DUPLICATE_PIXEL_DISTANCE ` to **MarkDuplicates**.  
+**Duplicate Pairs nonoptical**: Another type of artifact, where identical DNA/RNA fragments are generated during library preparation, primarily via PCR amplification, rather than imaging or clustering errors on the sequencer.
 
 > [!NOTE]  
 > **Optical Duplicates in SRA Data**:
 > 
-> In the MarkDuplicates metrics file, you may see `READ_PAIR_OPTICAL_DUPLICATES = 0`. This is because SRA datasets often have **stripped read names** that lack flow cell metadata (tile, cluster, X/Y coordinates). Without this information, Picard cannot distinguish optical duplicates (flow cell artifacts) from PCR duplicates.
+> In the MarkDuplicates metrics file, you may see `READ_PAIR_OPTICAL_DUPLICATES = 0`. This is because SRA datasets often have **stripped read names**, which means that lack flow cell metadata (tile, cluster, X/Y coordinates). Without this information, Picard cannot distinguish optical duplicates (flow cell artifacts) from PCR duplicates.
 > 
 > **How to check your data**:
 > ```bash
-> zcat SRR6815993_1.fastq.gz | head -4
+> zcat SRR6815993_1.fastq.gz | head -1
 > ```
 > 
-> **If you see**:
+> **If you see a header like this one**:
 > ```
 > @SRR6815993.1 1 length=75
-NGCTGGGACTACAGGCGCATGTCACCACGCCNA...
 > ```
+>
 > This means that the header doesn't have the read names, it lacks flow cell/tile/cluster info → **Optical duplicates cannot be calculated**.
 > 
 > **If you see**:
