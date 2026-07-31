@@ -622,8 +622,14 @@ Bulk_rnaseq/
 | `SRR6816017`  | 53.7%            | 37.1%                          |
 
 **Optical duplicates**: It's when a single amplification cluster is incorrectly detected as multiple clusters by the optical sensor of the sequencing instrument 👉 [Documentation: MarkDuplicates (Picard)](https://gatk.broadinstitute.org/hc/en-us/articles/360036834611-MarkDuplicates-Picard).   
-This parameter was not calculated, and to do so, it's necessary to add the option `--READ_NAME_REGEX` and `--OPTICAL_DUPLICATE_PIXEL_DISTANCE ` to **MarkDuplicates**.  
+This parameter was not calculated, and to do so, it's necessary to add the option `--READ_NAME_REGEX` and `--OPTICAL_DUPLICATE_PIXEL_DISTANCE ` to **MarkDuplicates** chunk.  
 **Duplicate Pairs nonoptical**: Another type of artifact, where identical DNA/RNA fragments are generated during library preparation, primarily via PCR amplification, rather than imaging or clustering errors on the sequencer.
+
+<br>
+
+![**MultiQC of HISAT2 and MarkDuplicates**](images/multiqc_hisat2_md_samples_1.png)   
+
+<br>
 
 > [!NOTE]  
 > **Optical Duplicates in SRA Data**:
@@ -649,15 +655,13 @@ This parameter was not calculated, and to do so, it's necessary to add the optio
 > The read names contain full flow cell metadata → Optical duplicates **can** be calculated.
 > 
 > **What to do**:
-> - If your data is from SRA (like this tutorial): **Accept that optical duplicates are not calculable** – this is normal.
+> - If your bulk RA-seq data is from SRA (like this tutorial): **Accept that optical duplicates cannot be calculable** – this is normal.
 > - If your data is from your own sequencing run: Use the original FASTQ files with full read names.
 > - Even without optical duplicate detection, other duplication metrics (`PERCENT_DUPLICATION`, `ESTIMATED_LIBRARY_SIZE`, and the duplicate set histogram) are still valid and useful for QC.
 > 
 > **Key takeaway**: The absence of optical duplicate detection is **not an error** – it's a limitation of the SRA data format. It does not affect the quality of your gene-level count matrix.
 
 <br>
-
-![**MultiQC of HISAT2 and MarkDuplicates**](images/multiqc_hisat2_md_samples_1.png)   
 
 - **Cutadapt**: Pairs passing filters
   - `SRR6815993`: 83.1% ✅  
