@@ -219,7 +219,7 @@ Bulk_rnaseq/
 <br>
 
 **MultiQC** report:  
-Since the quality of reads and bp is excellent, the most important issue are the overrepresented sequences and the adapter content 
+Since the quality of reads and bp is excellent, the most important issue are the overrepresented sequences and the adapter content. See the snapshot of the MutiQC report below, showing the overrepresented and adapter sequences content in R1 & R2 of both samples (`SRR6816017`, `SRR6815993`).
 
 <br>
 
@@ -409,7 +409,7 @@ Bulk_rnaseq/
 
 - **Sequence Length Distribution**: There's a wider range of sequence lengths; however, most of the reads are 70bp
 - **Mean Quality Scores**: Quality of reads improved even more
-- **Overrepresented sequences by sample** & **Adapter Content**: content of overrepresented sequences and adapters is almost negligible.  
+- **Overrepresented sequences by sample** & **Adapter Content**: content of overrepresented sequences and adapters is almost negligible. See the snapshot of the MutiQC report below, showing the overrepresented and adapter sequences content in R1 & R2 of both samples (`SRR6816017`, `SRR6815993`) after trimming.
 
 <br>
 
@@ -553,18 +553,19 @@ multiqc \
 >
 > At this stage of the pipeline, the input files are the trimmed paired-end FASTQ files located in `~/Bulk_rnaseq/results/trimmed`   
 >
-> The `for` loop processes both samples (`SRR6815993` and `SRR6816017`) automatically. The script defines a list called `SAMPLES`, which stores the sequencing accession IDs. A second list, `SAMPLE_NAMES`, stores descriptive sample names that are added to the BAM file as **read group** (**RG**) metadata during alignment. During each iteration, the loop aligns one sample, adds the corresponding RG information, sorts the alignments with `samtools sort`, and saves a separate HISAT2 log file for that sample.
+> The `for` loop processes both samples (`SRR6815993` and `SRR6816017`) automatically. The script defines a list called `SAMPLES`, which stores the sequencing accession IDs. A second list, `SAMPLE_NAMES`, stores descriptive sample names that are added to the BAM file as **read group** (**RG**) metadata during alignment. During each iteration, the loop aligns one sample, adds the corresponding **RG** information, sorts the alignments with `samtools sort`, and saves a separate HISAT2 log file for that sample.
 >
-> Including **RG** information during alignment (by aligners such as **HISAT2**, **BWA-MEM**, and **STAR**), is considered a good practice because it allows downstream tools to distinguish sequencing libraries and samples. Then, **RG** provides info about:
+> Including **RG** information during alignment (by aligners such as **HISAT2**, **BWA-MEM**, and **STAR**), is considered good practice because it allows downstream tools to distinguish sequencing libraries and samples. The **RG** provides information about:
 >
-> - Sample identity
-> - Sequencing library
-> - Platform informatio
-> - Compatibility with downstream analysis tools
+> - **ID**: Sample identifier (`SRR6815993` and `SRR6816017`)
+> - **SM**: Name of biological sample (`6h_Mock`, `6h_STM-D23580_inv`)
+> - **LB**: Library. The authors stated that "Barcoded Illumina sequencing libraries (Nextera XT...) were generated...", which means that samples `SRR6815993` and `SRR6816017` had unique barcode identifiers (each barcoded sample represents a separate physical library). Therefore, `LB` is set to the sample ID `SRR6815993` and `SRR6816017`
+> - **PL**: Platform information (`ILLUMINA`)
+> - **PU**: Platform unit. A platform unit should identify the flowcell + lane + index, e.g. `HF7K2DMXX.1.ATCACG`. Not available in SRA metadata and stripped from FASTQ headers. Thus, it will be treated as `unknown` (Picard MarkDuplicates and featureCounts work without it)
 >
 > A second `for` loop runs **Picard** `MarkDuplicates` on each sorted BAM file and flags those duplicated reads, generating a `.dedup.bam` file per sample, and one duplication metrics report `*_dedup_metrics.txt` per sample.  
 >
-> Duplicate reads are flagged, **NOT removed**, because option: `REMOVE_DUPLICATES=false`. This preserves all reads while allowing downstream tools to identify PCR duplicates if needed.
+> Duplicate reads are flagged, **NOT removed**, because of the option: `REMOVE_DUPLICATES=false` is used. This preserves all reads while allowing downstream tools to identify PCR duplicates if needed.
 >
 > Finally, each `.dedup.bam` file is indexed with `samtools index`, generating a corresponding `.dedup.bam.bai` file. The `.dedup.bam` and `.dedup.bam.bai` are required for efficient read alignment visualization with **IGV**.  
 
