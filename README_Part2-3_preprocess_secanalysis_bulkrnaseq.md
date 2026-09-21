@@ -483,9 +483,9 @@ for i in "${!SAMPLES[@]}"; do
     -2 "$R2_TRIM" \
     --rg-id "${SAMPLE_ID}" \
     --rg "SM:${SAMPLE_NAME}" \
-    --rg "LB:RNAseq" \
+    --rg "LB:${SAMPLE_ID}" \
     --rg "PL:ILLUMINA" \
-    --rg "PU:HiSeq4000" \
+    --rg "PU:unknown" \
     --new-summary \
     --summary-file "$LOGS/${SAMPLE_ID}.hisat2.log" \
     -p "$THREADS" \
