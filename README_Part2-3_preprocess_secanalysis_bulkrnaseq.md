@@ -561,7 +561,7 @@ multiqc \
 > - **SM**: Name of biological sample (`6h_Mock`, `6h_STM-D23580_inv`)
 > - **LB**: Library. The authors stated that "Barcoded Illumina sequencing libraries (Nextera XT...) were generated...", which means that samples `SRR6815993` and `SRR6816017` had unique barcode identifiers (each barcoded sample represents a separate physical library). Therefore, `LB` is set to the sample ID `SRR6815993` and `SRR6816017`
 > - **PL**: Platform information (`ILLUMINA`)
-> - **PU**: Platform unit. A platform unit should identify the flowcell + lane + index, e.g. `HF7K2DMXX.1.ATCACG`. Not available in SRA metadata and stripped from FASTQ headers. Thus, it will be treated as `unknown` (Picard MarkDuplicates and featureCounts work without `PU`)
+> - **PU**: Platform unit. A platform unit should identify the flowcell + lane + index, e.g. `HF7K2DMXX.1.ATCACG`. This information is not available in the SRA metadata and is stripped from the FASTQ headers. Thus, `PU` is set to the value `unknown`.Picard MarkDuplicates does not require this field (`PU`).
 >
 > A second `for` loop runs **Picard** `MarkDuplicates` on each sorted BAM file and flags those duplicated reads, generating a `.dedup.bam` file per sample, and one duplication metrics report `*_dedup_metrics.txt` per sample.  
 >
