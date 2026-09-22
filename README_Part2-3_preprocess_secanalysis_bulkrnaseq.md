@@ -689,7 +689,7 @@ During the library preparation, using a **stranded** (strand-specific) library r
 See these papers for more details:  
 - [Comprehensive comparative analysis of strand-specific RNA sequencing methods](https://www.nature.com/articles/nmeth.1491)  
 - [Comparison of stranded and non-stranded RNA-seq transcriptome profiling and investigation of gene overlap](https://link.springer.com/article/10.1186/s12864-015-1876-7)  
-- [how_are_we_stranded_here: quick determination of RNA‑Seq strandedness](https://pmc.ncbi.nlm.nih.gov/articles/PMC8783475/)  
+- [Signal & Kahlke, 2021: how_are_we_stranded_here: quick determination of RNA‑Seq strandedness](https://pmc.ncbi.nlm.nih.gov/articles/PMC8783475/)  
 
 **Assuming a stranded library as unstranded** can result in **over 10% false positives** and **over 6% false negatives** in downstream differential expression results (Signal et al., *BMC Bioinformatics*, 2022).  
 The strandedness information **is not available** for RNA-sequencing samples in repositories such as ENA or SRA, and **publications often do not report this information in the methods**. In fact, a randomised investigation of 50 ENA paired-end studies found that only 56% explicitly stated or mentioned strandedness in their methods (Signal et al., 2022). Therefore, **it is important to determine the strandedness of our datasets**.
