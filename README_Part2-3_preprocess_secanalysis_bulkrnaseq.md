@@ -683,18 +683,18 @@ This parameter was not calculated, and to do so, it's necessary to add the optio
 
 ### 2. Determination of strandedness
 
-During transcription, RNA polymerase reads the **template** strand in the 3'→5' direction and synthesizes mRNA in the 5'→3' direction. The opposite strand is the **coding** strand, which has the same sequence as the mRNA. Genes can be encoded on either strand, producing overlapping mRNAs.
-During the library preparation, using a stranded or strand-specific library keeps the information about the original strand of DNA from which the original mRNA was transcribed. This improves **transcript annotation** and **quantification**, particularly when distinguishing overlapping genes, antisense transcripts, and non-coding RNAs transcribed from opposite strands. In contrast, conventional non-stranded RNA-seq libraries lose information about the strand of origin during double-stranded cDNA library preparation.
+During transcription, RNA polymerase reads the **template** strand in the 3'→5' direction and synthesizes mRNA in the 5'→3' direction. The opposite strand is the **coding** strand, which has the same sequence as the mRNA. Genes can be encoded on either strand, producing overlapping mRNAs when transcribed from opposite strands.
+During the library preparation, using a **stranded** (strand-specific) library retains the information about the original strand of DNA from which the mRNA was transcribed. This improves **transcript annotation** and **quantification**, particularly when distinguishing overlapping genes, antisense transcripts, and non-coding RNAs transcribed from opposite strands. In contrast, conventional **non-stranded** RNA-seq libraries lose information about the strand of origin during double-stranded cDNA preparation.
 
-See this paper for more details:  
+See these papers for more details:  
 - [Comprehensive comparative analysis of strand-specific RNA sequencing methods](https://www.nature.com/articles/nmeth.1491)  
 - [Comparison of stranded and non-stranded RNA-seq transcriptome profiling and investigation of gene overlap](https://link.springer.com/article/10.1186/s12864-015-1876-7)  
 - [how_are_we_stranded_here: quick determination of RNA‑Seq strandedness](https://pmc.ncbi.nlm.nih.gov/articles/PMC8783475/)  
 
-**Defining a stranded library as unstranded** can result in over 10% false positives and over 6% false negatives in downstream differential expression results.  
-The strandedness information **is not available** for RNA-sequencing samples in repositories such as ENA or SRA, and **publications often do not report this information in the methods**. Therefore, it's important to determine the strandedness of our datasets.
+**Assuming a stranded library as unstranded** can result in **over 10% false positives** and **over 6% false negatives** in downstream differential expression results (Signal et al., *BMC Bioinformatics*, 2022).  
+The strandedness information **is not available** for RNA-sequencing samples in repositories such as ENA or SRA, and **publications often do not report this information in the methods**. In fact, a randomised investigation of 50 ENA paired-end studies found that only 56% explicitly stated or mentioned strandedness in their methods (Signal et al., 2022). Therefore, **it is important to determine the strandedness of our datasets**.
 
-`infer_experiment.py` from the package **RSeQC** is one of the tools used to determine the strandedness of RNA-seq data. The tool requires a **.bed** and a**.bam** file.  It compares the orientation of aligned reads against known gene annotations to infer strandedness.
+`infer_experiment.py` from the package **RSeQC** is one of the tools used to determine the strandedness of RNA-seq data. The tool requires a **.bed** and a**.bam** alignment file. It compares the orientation of aligned reads against known gene annotations to infer strandedness.
   
 `infer_experiment.py` reports three possible outcomes:
 
