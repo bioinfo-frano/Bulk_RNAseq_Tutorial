@@ -804,8 +804,8 @@ done
 
 <br>
 
-Output:
-Sample: **SRR6815993.dedup.bam**
+Output:  
+Sample: **SRR6815993.dedup.bam**  
 
 
 ```bash
@@ -815,8 +815,8 @@ Fraction of reads explained by "1++,1--,2+-,2-+": 0.4421
 Fraction of reads explained by "1+-,1-+,2++,2--": 0.4472
 ```
 <br>
-Output:
-Sample: **SRR6816017.dedup.bam**
+Output:  
+Sample: **SRR6816017.dedup.bam**  
 
 
 ```bash
@@ -827,7 +827,7 @@ Fraction of reads explained by "1+-,1-+,2++,2--": 0.4422
 ```
 <br>
 
-**Interpretation**
+**Interpretation**  
 Read: 
 - R1 = 1
 - R2 = 2
