@@ -533,7 +533,7 @@ for i in "${!SAMPLES[@]}"; do
 
 done
 
-# ------- MultiQC Postalignment -------
+# ------- MultiQC Post-alignment -------
 
 mkdir -p "$QC_POST_ALIGN"
 
@@ -626,9 +626,16 @@ Bulk_rnaseq/
 | `SRR6815993`  | 64.6%            | 26.6%                          |
 | `SRR6816017`  | 53.7%            | 37.1%                          |
 
-**Optical duplicates**: It's when a single amplification cluster is incorrectly detected as multiple clusters by the optical sensor of the sequencing instrument 👉 [Documentation: MarkDuplicates (Picard)](https://gatk.broadinstitute.org/hc/en-us/articles/360036834611-MarkDuplicates-Picard).   
-This parameter was not calculated, and to do so, it's necessary to add the option `--READ_NAME_REGEX` and `--OPTICAL_DUPLICATE_PIXEL_DISTANCE ` to **MarkDuplicates** chunk.  
-**Duplicate Pairs nonoptical**: Another type of artifact, where identical DNA/RNA fragments are generated during library preparation, primarily via PCR amplification, rather than imaging or clustering errors on the sequencer.
+<br>
+
+> [!IMPORTANT]  
+> It's importat to notice the difference between **optical** and **non optical duplicates** and 
+> **Optical duplicates**: It's a type of sequencing artefact, which happens when a single amplification cluster is incorrectly detected as multiple clusters by the optical sensor of the sequencing instrument 👉 [Documentation: MarkDuplicates (Picard)](https://gatk.broadinstitute.org/hc/en-us/articles/360036834611-MarkDuplicates-Picard).   
+> To calculate this parameter, the optical duplicates parameter was not calculated. To do so, it's necessary to add the option `--READ_NAME_REGEX` and `--OPTICAL_DUPLICATE_PIXEL_DISTANCE ` to **MarkDuplicates** chunk.  
+>
+> **Duplicate Pairs nonoptical**: Another type of artifact, where identical DNA/RNA fragments are generated during library preparation, primarily via PCR amplification, rather than from optical sensor errors on the sequencer.
+>
+> <https://www.reddit.com/r/bioinformatics/comments/1as62s3/can_anyone_help_me_figure_out_what_is_duplicate/>
 
 <br>
 
@@ -639,7 +646,7 @@ This parameter was not calculated, and to do so, it's necessary to add the optio
 > [!NOTE]  
 > **Optical Duplicates in SRA Data**:
 > 
-> In the MarkDuplicates metrics file, you may see `READ_PAIR_OPTICAL_DUPLICATES = 0`. This is because SRA datasets often have **stripped read names**, which means that lack flow cell metadata (tile, cluster, X/Y coordinates). Without this information, Picard cannot distinguish optical duplicates (flow cell artifacts) from PCR duplicates.
+> In the MarkDuplicates metrics file, you may see `READ_PAIR_OPTICAL_DUPLICATES = 0`. This is because SRA datasets often have **stripped read names**, which means that flow cell metadata doesn't have information about tile, cluster, and X/Y coordinates. Without this information, Picard cannot distinguish optical duplicates (flow cell artifacts) from PCR duplicates.
 > 
 > **How to check your data**:
 > ```bash
@@ -668,10 +675,11 @@ This parameter was not calculated, and to do so, it's necessary to add the optio
 
 <br>
 
-- **Cutadapt**: Pairs passing filters
-  - `SRR6815993`: 83.1% ✅  
-  - `SRR6816017`: 77.4% ✅  
-- **Cutadapt**: "Trimmed Sequence Lengths (3')" shows some few reads trimmed in 3'.  
+- **Cutadapt**: 
+  - Filtered Reads
+    - `SRR6815993`: 97.2% ✅  
+    - `SRR6816017`: 96.2% ✅  
+  - Trimmed Sequence Lengths (3'): shows the amount of reads trimmed in x amount of bases from their 3' end. Example, when x-axis shows 10bp length trimmmed and 5000 read counts in y-axis means that there are 5000 reads had 10bp trimmed from 3' end.
 
 <br>
 
@@ -692,9 +700,9 @@ See these papers for more details:
 - [Signal & Kahlke, 2021: how_are_we_stranded_here: quick determination of RNA‑Seq strandedness](https://pmc.ncbi.nlm.nih.gov/articles/PMC8783475/)  
 
 **Assuming a stranded library as unstranded** can result in **over 10% false positives** and **over 6% false negatives** in downstream differential expression results (Signal et al., *BMC Bioinformatics*, 2022).  
-The strandedness information **is not available** for RNA-sequencing samples in repositories such as ENA or SRA, and **publications often do not report this information in the methods**. In fact, a randomised investigation of 50 ENA paired-end studies found that only 56% explicitly stated or mentioned strandedness in their methods (Signal et al., 2022). Therefore, **it is important to determine the strandedness of our datasets**.
+The strandedness information **is not available** for RNA-sequencing samples in repositories such as ENA or SRA, and **publications often do not report this information in the methods**. In fact, a randomised investigation of 50 ENA paired-end studies found that only 56% explicitly stated or mentioned strandedness in their methods (Signal et al., *BMC Bioinformatics*, 2022). Therefore, **it is important to determine the strandedness of our datasets**.
 
-`infer_experiment.py` from the package **RSeQC** is one of the tools used to determine the strandedness of RNA-seq data. The tool requires a **.bed** and a**.bam** alignment file. It compares the orientation of aligned reads against known gene annotations to infer strandedness.
+`infer_experiment.py` from the package **RSeQC** is one of the tools used to determine the strandedness of RNA-seq data. The tool requires a **.bed** and a **.bam** alignment file. It compares the orientation of aligned reads against known gene annotations to infer strandedness.
   
 `infer_experiment.py` reports three possible outcomes:
 
@@ -705,10 +713,140 @@ The strandedness information **is not available** for RNA-sequencing samples in 
 - **Unstranded**: reads map to both strands with roughly equal frequency
 
 
-**Before** testing strandedness, you must verify that the chromosome naming matches between your HISAT2 alignment file (.bam) and the annotation file (BED12).
+**Before** testing strandedness, you must verify that the chromosome naming between your HISAT2 alignment file, **.bam**, and the annotation file, **BED12**, match.  
 
+If you don't remember how the **BED12** file was created, check the **chapter V** "Create a BED12 file" from 👉 [Part I – Setup & data preparation](README_Part1-3_setup_bulkrnaseq.md#part-i--setup--data-preparation)
 
+<br> Let's observe both files
 
+**SRR6815993.dedup.bam**
+
+```bash
+samtools view -h SRR6815993.dedup.bam | head -26
+```
+
+Output:
+
+```bash
+@HD	VN:1.6	SO:coordinate
+@SQ	SN:1	LN:248956422
+@SQ	SN:10	LN:133797422
+@SQ	SN:11	LN:135086622
+...
+@SQ	SN:20	LN:64444167
+@SQ	SN:21	LN:46709983
+@SQ	SN:3	LN:198295559
+...
+@SQ	SN:8	LN:145138636
+@SQ	SN:9	LN:138394717
+@SQ	SN:MT	LN:16569
+@SQ	SN:X	LN:156040895
+@SQ	SN:Y	LN:57227415
+```
+
+**SRR6816017.dedup.bam**
+
+```bash
+samtools view -h SRR6816017.dedup.bam | head -26
+```
+
+Output:
+
+```bash
+@HD	VN:1.6	SO:coordinate
+@SQ	SN:1	LN:248956422
+@SQ	SN:10	LN:133797422
+@SQ	SN:11	LN:135086622
+...
+@SQ	SN:20	LN:64444167
+@SQ	SN:21	LN:46709983
+@SQ	SN:3	LN:198295559
+...
+@SQ	SN:8	LN:145138636
+@SQ	SN:9	LN:138394717
+@SQ	SN:MT	LN:16569
+@SQ	SN:X	LN:156040895
+@SQ	SN:Y	LN:57227415
+```
+
+Chromosomes don't show prefix `chr` for both datasets.
+
+Since it was created a **BED12** file without `chr` prefix called `gencode.v38.annotation.nochr.clean.bed`, then we can use this for the strandedness analysis.
+
+<br>
+
+Now, check the strandedness:
+
+```bash
+STRANDED="$RESULTS/strandedness"
+BED12_NOCHR="$DATA_DIR/reference/intervals/gencode.v38.annotation.nochr.clean.bed"
+COUNTS_DIR="$RESULTS/raw_counts"
+
+# ------- Strandedness -------
+
+mkdir -p "$STRANDED"
+
+for i in "${!SAMPLES[@]}"; do
+  SAMPLE_ID="${SAMPLES[$i]}"
+
+  echo "###########################################"
+  echo "## Running RSeQC (infer_experiment.py)   ##"
+  echo "## Sample: $SAMPLE_ID                    ##"
+  echo "###########################################"
+
+infer_experiment.py \
+  -r "$BED12_NOCHR" \
+  -i "$ALIGNMENT/${SAMPLE_ID}.dedup.bam" \
+  > "$STRANDED/${SAMPLE_ID}_strandedness.txt"
+
+done
+```
+
+Sample: **SRR6815993.dedup.bam**
+Output:
+
+```bash
+This is PairEnd Data
+Fraction of reads failed to determine: 0.1107
+Fraction of reads explained by "1++,1--,2+-,2-+": 0.4421
+Fraction of reads explained by "1+-,1-+,2++,2--": 0.4472
+```
+<br>
+Sample: **SRR6816017.dedup.bam**
+Output:
+
+```bash
+This is PairEnd Data
+Fraction of reads failed to determine: 0.1150
+Fraction of reads explained by "1++,1--,2+-,2-+": 0.4428
+Fraction of reads explained by "1+-,1-+,2++,2--": 0.4422
+```
+<br>
+
+**Interpretation**
+Read: 
+- R1 = 1
+- R2 = 2
+Read strand: + or -
+Gene strand: + or -
+
+So `1++` means: "Read 1 mapped to the + strand, and the gene is on the + strand."  
+**Positive / Sense strand**: forward or coding strand that shares the same sequence direction and 5' - 3' orientation as the corresponding mRNA.
+
+Group/Pattern 1: `"1++,1--,2+-,2-+": 0.4428` → Forward stranded
+Group/Pattern 2: `"1+-, 1-+, 2++, 2--": 0.4422` → Reverse stranded
+
+Both configurations occur at almost exactly the same frequency: 44.28% vs 44.22%
+
+This is typical of an **unstrained library**
+
+**Interpreting the Two Fractions**
+
+| **Library type**     | **Fraction 1** (`1++,1--,2+-,2-+`) | **Fraction 2** (`1+-,1-+,2++,2--`) |
+|:---------------------|:-----------------------------------|:-----------------------------------|
+| **Forward stranded** | **High** (> 0.7)                   | Low (< 0.2)                        |
+| **Reverse stranded** | Low (< 0.2)                        | **High** (> 0.7)                   |
+| **Unstranded**       | **~0.45**                          | **~0.45**                          |
 
 
 
