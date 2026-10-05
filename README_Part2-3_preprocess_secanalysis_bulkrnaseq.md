@@ -802,8 +802,11 @@ infer_experiment.py \
 done
 ```
 
-Sample: **SRR6815993.dedup.bam**
+<br>
+
 Output:
+Sample: **SRR6815993.dedup.bam**
+
 
 ```bash
 This is PairEnd Data
@@ -812,8 +815,9 @@ Fraction of reads explained by "1++,1--,2+-,2-+": 0.4421
 Fraction of reads explained by "1+-,1-+,2++,2--": 0.4472
 ```
 <br>
-Sample: **SRR6816017.dedup.bam**
 Output:
+Sample: **SRR6816017.dedup.bam**
+
 
 ```bash
 This is PairEnd Data
