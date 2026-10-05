@@ -815,6 +815,7 @@ Fraction of reads explained by "1++,1--,2+-,2-+": 0.4421
 Fraction of reads explained by "1+-,1-+,2++,2--": 0.4472
 ```
 <br>
+
 Output:  
 Sample: **SRR6816017.dedup.bam**  
 
@@ -828,17 +829,18 @@ Fraction of reads explained by "1+-,1-+,2++,2--": 0.4422
 <br>
 
 **Interpretation**  
-Read: 
+
+Read:  
 - R1 = 1
 - R2 = 2
-Read strand: + or -
-Gene strand: + or -
+Read strand: + or -  
+Gene strand: + or -  
 
 So `1++` means: "Read 1 mapped to the + strand, and the gene is on the + strand."  
 **Positive / Sense strand**: forward or coding strand that shares the same sequence direction and 5' - 3' orientation as the corresponding mRNA.
 
-Group/Pattern 1: `"1++,1--,2+-,2-+": 0.4428` → Forward stranded
-Group/Pattern 2: `"1+-, 1-+, 2++, 2--": 0.4422` → Reverse stranded
+Group/Pattern 1: `"1++,1--,2+-,2-+": 0.4428` → **Forward stranded**   
+Group/Pattern 2: `"1+-, 1-+, 2++, 2--": 0.4422` → **Reverse stranded**  
 
 Both configurations occur at almost exactly the same frequency: 44.28% vs 44.22%
 
