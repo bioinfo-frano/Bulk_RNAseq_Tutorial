@@ -946,7 +946,76 @@ Fraction of reads explained by "1+-,1-+,2++,2--": 0.10   ← Low (Group 2)
 
 ### 3. featureCounts: Gene-level paired-end read quantification
 
+Up to this point, the reads have been trimmed and quality checked, aligned, and the strandedness determined. The next step is the counting of "genes". In this case, a counted "gene"  corresponds to a molecule of mRNA or even non-coding RNA, depending of the type of library prep kit used. Technically talking, a counted "gene" means that one pair-end read (R1 and R2) is aligning to the exon(s) of a gene. In this way, the amount of stacked read pairs is quantified as a proxy of the level of gene expression. The tool that calculates this, considering the strandedness and the meta-data of genes is **featureCounts**.  
+**featureCounts** is a highly efficient general-purpose read summarization program that counts mapped reads for genomic features such as genes, exons, promoter, gene bodies, genomic bins and chromosomal locations. It can be used to count both RNA-seq and genomic DNA-seq reads (Subread website, see documentation below).
 
+**Documentation**
+1. [Subread](https://subread.sourceforge.net/featureCounts.html)  
+2. [featureCounts](https://subread.sourceforge.net/featureCounts.html)  
+
+<br>
+
+
+**Bash script: featureCounts**
+
+```bash
+BED12_NOCHR="$DATA_DIR/reference/intervals/gencode.v38.annotation.nochr.clean.bed"
+COUNTS_DIR="$RESULTS/raw_counts"
+INTERVAL_GTF="$DATA_DIR/reference/intervals/gencode.v38.annotation.gtf.gz"
+QC_POST_STRAND_COUNTS="$RESULTS/qc_strandedness_rawcounts"
+QC_POST_ALIGN_RSEQC="$RESULTS/qc_post_align_rseqc"
+
+mkdir -p "$COUNTS_DIR"
+
+Build an array of BAM files
+BAM_FILES=()   # ← Initialize empty array
+
+for i in "${!SAMPLES[@]}"; do
+  SAMPLE_ID="${SAMPLES[$i]}"
+  BAM_FILES+=("$ALIGNMENT/${SAMPLE_ID}.dedup.bam")
+done
+
+echo "BAM files to process: ${BAM_FILES[@]}"
+echo ""
+
+echo "####################################"
+echo "## Running featureCounts          ##"
+echo "## Generating combined count      ##"
+echo "## matrix for all samples         ##"
+echo "####################################"
+
+echo
+
+featureCounts \
+  -T "$THREADS" \
+  --countReadPairs \
+  -s 0 \
+  -a "$INTERVAL_GTF" \
+  -o "$COUNTS_DIR/raw_counts.txt" \
+  -t exon \
+  -g gene_id \
+  --extraAttributes gene_name \
+  -p \
+  "${BAM_FILES[@]}"
+
+echo
+echo "########################################"
+echo "## featureCounts completed successfully"
+echo "########################################"
+echo "Output: $COUNTS_DIR/raw_counts.txt"
+echo "Summary: $COUNTS_DIR/raw_counts.txt.summary"
+
+echo
+echo "Summary statistics:"
+echo "========================================"
+cat "$COUNTS_DIR/raw_counts.txt.summary"
+echo "========================================"
+
+```
+
+<br>
+
+The output of featureCounts will show a `.txt` file containing table, showing metadata per gene from the 1-6 columns, and the so-called **raw counts** on the seventh column, counting the counting information. This is per dataset and the columns are: Geneid, Chr (chromosome), Start, End, Strand, Length, SRR6815993.dedup.bam (dataset) 
 
 
 <br>
