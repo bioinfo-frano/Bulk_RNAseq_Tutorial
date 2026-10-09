@@ -6,7 +6,7 @@
 - [Pipeline overview](#pipeline-overview)  
 - [Bash: Preprocessing](#bash-preprocessing)  
     - [1. QC report of raw datasets](#bash-preprocessing)  
-    - [2. Trimming / filtering of reads & QC](#2-trimming-/-filtering-of-reads--qc-cutadapt--fastqc--multiqc)
+    - [2. Trimming / filtering of reads & QC](#2-trimmingfiltering--qc-cutadapt--fastqc--multiqc)
 - [Bash: Secondary analysis](#bash-secondary-analysis) 
     - [1. Alignment / marking duplicates & QC](#bash-secondary-analysis)  
     - [2. Determination of strandedness](#2-determination-of-strandedness)  
