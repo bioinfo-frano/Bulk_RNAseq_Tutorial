@@ -1020,9 +1020,19 @@ echo "========================================"
 
 The output of featureCounts will show a `.txt` file containing a table, showing metadata per gene in columns 1-6, and the so-called **raw counts** on the seventh column, which shows the counting information. **The count column is named after each BAM file** and the columns are: Geneid, Chr (chromosome), Start, End, Strand, Length, SRR6815993.dedup.bam (dataset) 
 
-**MAKE A GTF FILE WITHOUT "chr" PREFIX, AND THE RUN THE FEATURE COUNT AND QC ALL OVER AGAIN**
 
-# Create a GTF without "chr" prefix, matching the BAM
+
+<br>
+<br>
+<br>
+**MAKE A GTF FILE WITHOUT "chr" PREFIX, AND THE RUN THE FEATURE COUNT AND QC ALL OVER AGAIN**
+# 1. Confirm the GTF now uses "MT" for mitochondria (not "M" or "chrM")
+zcat gencode.v38.annotation.nochr.gtf.gz | grep -v '^#' | awk '$1=="MT"' | head -1
+
+# 2. Confirm the output Chr column shows "1" not "chr1"
+head -3 results/raw_counts/raw_counts.txt | cut -f1,2
+
+Create a GTF without "chr" prefix, matching the BAM
 zcat gencode.v38.annotation.gtf.gz | sed 's/^chr//' | gzip > gencode.v38.annotation.nochr.gtf.gz
 INTERVAL_GTF="$DATA_DIR/reference/intervals/gencode.v38.annotation.nochr.gtf.gz"
 
