@@ -910,7 +910,6 @@ Fraction of reads explained by "1++,1--,2+-,2-+": 0.10   ← Low (Group 1)
 Fraction of reads explained by "1+-,1-+,2++,2--": 0.79   ← High (Group 2) → reverse stranded
 ```
 
-<br>
 **Forward-Stranded Example: Two Genes, Same Kit**  
 Take a **forward-stranded kit** (ligation-based directional method) and the same two genes:  
 
