@@ -946,11 +946,13 @@ Fraction of reads explained by "1+-,1-+,2++,2--": 0.10   ← Low (Group 2)
 
 ### 3. featureCounts: Gene-level paired-end read quantification
 
-Up to this point, the reads have been trimmed and quality checked, aligned, and the strandedness determined. The next step is the counting of "genes". In this case, a counted "gene"  corresponds to a molecule of mRNA or even non-coding RNA, depending of the type of library prep kit used. Technically talking, a counted "gene" means that one pair-end read (R1 and R2) is aligning to the exon(s) of a gene. In this way, the amount of stacked read pairs is quantified as a proxy of the level of gene expression. The tool that calculates this, considering the strandedness and the meta-data of genes is **featureCounts**.  
+Up to this point, the reads have been trimmed and quality checked, aligned, and the strandedness determined. The next step is the counting of "genes". In this case, a '**gene**' refers to a genomic locus, and the '**count**' represents the number of read pairs (fragments) that align to its exons. Each counted fragment (R1 + R2) originates from an mRNA (or non‑coding RNA) molecule present in the sample, so its abundance serves as a proxy for gene expression.  
+The tool that calculates this, which considers the strandedness and the metadata of genes, is **featureCounts**.  
+<br>
 **featureCounts** is a highly efficient general-purpose read summarization program that counts mapped reads for genomic features such as genes, exons, promoter, gene bodies, genomic bins and chromosomal locations. It can be used to count both RNA-seq and genomic DNA-seq reads (Subread website, see documentation below).
 
-**Documentation**
-1. [Subread](https://subread.sourceforge.net/featureCounts.html)  
+**Documentation**  
+1. [Subread](https://subread.sourceforge.net)  
 2. [featureCounts](https://subread.sourceforge.net/featureCounts.html)  
 
 <br>
@@ -967,7 +969,7 @@ QC_POST_ALIGN_RSEQC="$RESULTS/qc_post_align_rseqc"
 
 mkdir -p "$COUNTS_DIR"
 
-Build an array of BAM files
+# Build an array of BAM files
 BAM_FILES=()   # ← Initialize empty array
 
 for i in "${!SAMPLES[@]}"; do
@@ -989,6 +991,7 @@ echo
 featureCounts \
   -T "$THREADS" \
   --countReadPairs \
+  # -s 0: unstranded library (see strandedness section)
   -s 0 \
   -a "$INTERVAL_GTF" \
   -o "$COUNTS_DIR/raw_counts.txt" \
@@ -1015,8 +1018,13 @@ echo "========================================"
 
 <br>
 
-The output of featureCounts will show a `.txt` file containing table, showing metadata per gene from the 1-6 columns, and the so-called **raw counts** on the seventh column, counting the counting information. This is per dataset and the columns are: Geneid, Chr (chromosome), Start, End, Strand, Length, SRR6815993.dedup.bam (dataset) 
+The output of featureCounts will show a `.txt` file containing a table, showing metadata per gene in columns 1-6, and the so-called **raw counts** on the seventh column, which shows the counting information. **The count column is named after each BAM file** and the columns are: Geneid, Chr (chromosome), Start, End, Strand, Length, SRR6815993.dedup.bam (dataset) 
 
+**MAKE A GTF FILE WITHOUT "chr" PREFIX, AND THE RUN THE FEATURE COUNT AND QC ALL OVER AGAIN**
+
+# Create a GTF without "chr" prefix, matching the BAM
+zcat gencode.v38.annotation.gtf.gz | sed 's/^chr//' | gzip > gencode.v38.annotation.nochr.gtf.gz
+INTERVAL_GTF="$DATA_DIR/reference/intervals/gencode.v38.annotation.nochr.gtf.gz"
 
 <br>
 <br>
