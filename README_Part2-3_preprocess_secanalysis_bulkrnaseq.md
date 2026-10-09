@@ -10,7 +10,7 @@
 - [Bash: Secondary analysis](#bash-secondary-analysis) 
     - [1. Alignment / marking duplicates & QC](#bash-secondary-analysis)  
     - [2. Determination of strandedness](#2-determination-of-strandedness)  
-    - [3. Gene-level paired-end read quantification](#iii-bash-gene-level-paired-end-read-quantification)  
+    - [3. Gene-level paired-end read quantification](#3-featurecounts-gene---level-paired-end-read-quantification)  
 - [Nextflow: Preprocessing](#i-nextflow-preprocessing)  
 - [Nextflow: Alignment and mark duplicates](#ii-nextflow-alignment-and-mark-duplicates)  
 - [Nextflow: Gene-level paired-end read quantification](#iii-nextflow-gene-level-paired-end-read-quantification)  
@@ -942,7 +942,9 @@ Fraction of reads explained by "1+-,1-+,2++,2--": 0.10   ← Low (Group 2)
 
 **In summary**: "Stranded" refers to the protocol's ability to preserve strand-of-origin information, not to a preference for one chromosomal strand over the other. Both forward-stranded and reverse-stranded kits work for all genes. The difference is purely in the read orientation relative to the mRNA — and that difference is what `infer_experiment.py` detects and what `featureCounts -s` must match. Within stranded kits, the read orientation can be forward (sense) or reverse (antisense), depending on the chemistry. Most modern Illumina stranded kits are reverse-stranded (dUTP method). The strandedness is a property of the protocol, not of any individual gene.
 
+<br>
 
+### 3. featureCounts: Gene-level paired-end read quantification
 
 
 
