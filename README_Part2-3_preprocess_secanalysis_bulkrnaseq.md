@@ -865,6 +865,8 @@ The strandedness **describes** the relationship between the sequencing read and 
 | Reverse stranded (antisense) | R1 maps to the opposite strand of the mRNA | Group 2 high (`1+-,1-+,2++,2--`) |
 | Unstranded | No strand information preserved | Both groups ≈ 45% |
 
+<br>
+
 > [!IMPORTANT]  
 > A stranded kit preserves strand information for every transcript, **regardless of whether** the gene sits on the + strand or the − strand of the chromosome. The kit does not "prefer" genes on one strand. Whether the strandedness of reads is forward, reverse, or unstranded is crucially important for setting up the right `-s` parameter in featureCounts. If your library is reverse-stranded but you use `-s 1` (which means **forward stranded**), many reads will be discarded — sometimes half of them. This is the most common cause **of missing or under-counted genes.**
 
@@ -880,14 +882,75 @@ The **dUTP method is by far the most common library kit in modern RNA-seq**, whi
 
 The kit's chemistry determines the read orientation regardless of which gene you're looking at. So:
 
-- A **reverse-stranded kit** always produces reads where R1 is antisense to the mRNA — for every gene, whether it's on the + or − strand.
-- A **forward-stranded kit** always produces reads where R1 is sense to the mRNA — again, for every gene.
+- A **reverse-stranded kit** always produces reads where R1 is antisense to the mRNA, for every gene, whether it's on the + or − strand. In other words, in a reverse-stranded library, R1 is the **reverse complement of the mRNA (antisense)**
+- A **forward-stranded kit** always produces reads where R1 is sense to the mRNA, for every gene, whether it's on the + or − strand. In other words, in a forward-stranded library, R1 is the **same sequence as the mRNA (sense)**
 
 This is why `infer_experiment.py` reports a single strandedness value for the whole library, not per-gene. The strandedness is a property of the protocol, not of any individual gene.
 
 <br>
 
+**Practica example**
+
+**Reverse-Stranded Example: Two Genes, Same Kit**  
+Take a **reverse-stranded kit** (dUTP method — the most common modern protocol) and two genes:  
+
+| Gene | Gene strand | R1 maps to | R2 maps to | R1 vs. mRNA | `infer_experiment.py` codes |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Gene A | + | − | + | Antisense | R1: `1-+` · R2: `2++` |
+| Gene B | − | + | − | Antisense | R1: `1+-` · R2: `2--` |
+
+All four codes fall into **Group 2** (`1+-,1-+,2++,2--`), which is diagnostic of a **reverse-stranded** library.  
+
+In `infer_experiment.py` output, this group would show a fraction **> 0.7**, while Group 1 (`1++,1--,2+-,2-+`) would be **< 0.2**:  
+
+```bash
+This is PairEnd Data
+Fraction of reads failed to determine: 0.11
+Fraction of reads explained by "1++,1--,2+-,2-+": 0.10   ← Low (Group 1)
+Fraction of reads explained by "1+-,1-+,2++,2--": 0.79   ← High (Group 2) → reverse stranded
+```
+
+<br>
+**Forward-Stranded Example: Two Genes, Same Kit**  
+Take a **forward-stranded kit** (ligation-based directional method) and the same two genes:
+
+Gene	Gene strand	R1 maps to	R2 maps to	R1 vs. mRNA	infer_experiment.py codes
+Gene A	+	+	−	Sense	R1: 1++ · R2: 2-+
+Gene B	−	−	+	Sense	R1: 1-- · R2: 2+-
+
+| Gene | Gene strand | R1 maps to | R2 maps to | R1 vs. mRNA | `infer_experiment.py` codes |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Gene A | + | + | - | Sense | R1: `1++` · R2: `2+-` |
+| Gene B | − | - | + | Sense | R1: `1--` · R2: `2-+` |
+
+
+All four codes fall into **Group 1** (`1++,1--,2+-,2-+`), which is diagnostic of a **forward-stranded** library.  
+
+In `infer_experiment.py` output, this group would show a fraction > 0.7, while Group 2 (1+-,1-+,2++,2--) would be < 0.2:
+
+```bash
+This is PairEnd Data
+Fraction of reads failed to determine: 0.11
+Fraction of reads explained by "1++,1--,2+-,2-+": 0.79   ← High (Group 1) → forward stranded
+Fraction of reads explained by "1+-,1-+,2++,2--": 0.10   ← Low (Group 2)
+```
+
+**Why this matters**: (because) The strandedness information must be passed to `featureCounts` via the `-s` parameter to ensure correct gene counting.
+
+| Library type | Group 1 (`1++,1--,2+-,2-+`) | Group 2 (`1+-,1-+,2++,2--`) | featureCounts `-s` parameter |
+| :--- | :--- | :--- | :--- |
+| Forward stranded | High (> 0.7) | Low (< 0.2) | `-s 1` |
+| Reverse stranded | Low (< 0.2) | High (> 0.7) | `-s 2` |
+| Unstranded | ~0.45 | ~0.45 | `-s 0` |
+
+<br>
+
 **In summary**: "Stranded" refers to the protocol's ability to preserve strand-of-origin information, not to a preference for one chromosomal strand over the other. Both forward-stranded and reverse-stranded kits work for all genes. The difference is purely in the read orientation relative to the mRNA — and that difference is what `infer_experiment.py` detects and what `featureCounts -s` must match. Within stranded kits, the read orientation can be forward (sense) or reverse (antisense), depending on the chemistry. Most modern Illumina stranded kits are reverse-stranded (dUTP method). The strandedness is a property of the protocol, not of any individual gene.
+
+
+
+
+
 
 <br>
 <br>
