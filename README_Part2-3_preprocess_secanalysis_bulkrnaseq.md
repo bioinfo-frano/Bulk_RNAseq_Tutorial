@@ -831,8 +831,8 @@ Fraction of reads explained by "1+-,1-+,2++,2--": 0.4422
 **Interpretation**  
 
 Read:  
-- R1 = 1
-- R2 = 2
+- R1 = 1  
+- R2 = 2  
 Read strand: + or -  
 Gene strand: + or -  
 
@@ -844,9 +844,9 @@ Group/Pattern 2: `"1+-, 1-+, 2++, 2--": 0.4422` → **Reverse stranded**
 
 Both configurations occur at almost exactly the same frequency: 44.28% vs 44.22%
 
-This is typical of an **unstrained library**
+This is typical of an **unstranded** library
 
-**Interpreting the Two Fractions**
+<br>
 
 | **Library type**     | **Fraction 1** (`1++,1--,2+-,2-+`) | **Fraction 2** (`1+-,1-+,2++,2--`) |
 |:---------------------|:-----------------------------------|:-----------------------------------|
@@ -855,9 +855,42 @@ This is typical of an **unstrained library**
 | **Unstranded**       | **~0.45**                          | **~0.45**                          |
 
 
+<br>
 
+The strandedness **describes** the relationship between the sequencing read and the original mRNA.
 
+| Library type | Relationship | What `infer_experiment.py` shows |
+| :--- | :--- | :--- |
+| Forward stranded (sense) | R1 maps to the same strand as the mRNA | Group 1 high (`1++,1--,2+-,2-+`) |
+| Reverse stranded (antisense) | R1 maps to the opposite strand of the mRNA | Group 2 high (`1+-,1-+,2++,2--`) |
+| Unstranded | No strand information preserved | Both groups ≈ 45% |
 
+> [!IMPORTANT]  
+> A stranded kit preserves strand information for every transcript, **regardless of whether** the gene sits on the + strand or the − strand of the chromosome. The kit does not "prefer" genes on one strand. Whether the strandedness of reads is forward, reverse, or unstranded is crucially important for setting up the right `-s` parameter in featureCounts. If your library is reverse-stranded but you use `-s 1` (which means **forward stranded**), many reads will be discarded — sometimes half of them. This is the most common cause **of missing or under-counted genes.**
+
+A kit is either unstranded or stranded, and if it's stranded, it is specifically either forward-stranded or reverse-stranded. The forward/reverse distinction is not optional — it's baked into the chemistry of the kit.
+
+The distinction comes from which strand of the cDNA is sequenced. Two common mechanisms:
+| Mechanism | Result | Example kits |
+| :--- | :--- | :--- |
+| **dUTP method**: dUTP is incorporated during second-strand synthesis, then the second strand is degraded before sequencing. Only the first strand (antisense to mRNA) is read. | Reverse stranded | Illumina TruSeq Stranded mRNA, Illumina Stranded Total RNA, NEB Ultra II Directional |
+| **Ligation-based directional methods**: Adapters are ligated in a specific orientation that preserves the original mRNA strand as the read. | Forward stranded | Some older ligation-based kits, certain Lexogen protocols |
+
+The **dUTP method is by far the most common library kit in modern RNA-seq**, which is why most modern stranded kits are reverse-stranded.
+
+The kit's chemistry determines the read orientation regardless of which gene you're looking at. So:
+
+- A **reverse-stranded kit** always produces reads where R1 is antisense to the mRNA — for every gene, whether it's on the + or − strand.
+- A **forward-stranded kit** always produces reads where R1 is sense to the mRNA — again, for every gene.
+
+This is why `infer_experiment.py` reports a single strandedness value for the whole library, not per-gene. The strandedness is a property of the protocol, not of any individual gene.
+
+<br>
+
+**In summary**: "Stranded" refers to the protocol's ability to preserve strand-of-origin information, not to a preference for one chromosomal strand over the other. Both forward-stranded and reverse-stranded kits work for all genes. The difference is purely in the read orientation relative to the mRNA — and that difference is what `infer_experiment.py` detects and what `featureCounts -s` must match. Within stranded kits, the read orientation can be forward (sense) or reverse (antisense), depending on the chemistry. Most modern Illumina stranded kits are reverse-stranded (dUTP method). The strandedness is a property of the protocol, not of any individual gene.
+
+<br>
+<br>
 
 If you have reached the end of **PART I**, I congratulate you!!  
 Continue to the 👉 [Part II – Secondary analysis](README_Part2-3_secondary_bulkrnaseq.md), where you'll start with the preprocessing analysis to alignment till the generation of raw counts tables, using bash and nextflow scripting explained step-by-step.
