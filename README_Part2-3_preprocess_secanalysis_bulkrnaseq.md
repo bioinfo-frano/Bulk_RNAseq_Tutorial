@@ -6,10 +6,10 @@
 - [Pipeline overview](#pipeline-overview)  
 - [Bash: Preprocessing](#bash-preprocessing)  
     - [1. QC report of raw datasets](#bash-preprocessing)  
-    - [2. Trimming & filtering of reads + QC](#bash-preprocessing)  
-- [Bash: Secondary analysis](#bash-alignment-and-mark-duplicates) 
-    - [1. Alignment and mark duplicates](#bash-alignment-and-mark-duplicates)  
-    - [2. Determination of strandedness](#determination-of-strandedness)  
+    - [2. Trimming / filtering of reads & QC](#2-trimming--filtering-of-reads--qc-cutadapt--fastqc--multiqc)
+- [Bash: Secondary analysis](#bash-secondary-analysis) 
+    - [1. Alignment / marking duplicates & QC](#bash-secondary-analysis)  
+    - [2. Determination of strandedness](#2-determination-of-strandedness)  
     - [3. Gene-level paired-end read quantification](#iii-bash-gene-level-paired-end-read-quantification)  
 - [Nextflow: Preprocessing](#i-nextflow-preprocessing)  
 - [Nextflow: Alignment and mark duplicates](#ii-nextflow-alignment-and-mark-duplicates)  
@@ -228,7 +228,7 @@ Since the quality of reads and bp is excellent, the most important issue are the
 
 
 
-### 2. Trimming & filtering of reads + QC: Cutadapt + FastQC & MultiQC
+### 2. Trimming/filtering & QC: Cutadapt & FastQC & MultiQC
 
 For the second part of the **preprocessing** bash script.
 <br>
