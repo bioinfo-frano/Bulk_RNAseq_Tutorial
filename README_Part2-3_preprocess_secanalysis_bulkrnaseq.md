@@ -889,7 +889,7 @@ This is why `infer_experiment.py` reports a single strandedness value for the wh
 
 <br>
 
-**Practica example**
+**Practical example**
 
 **Reverse-Stranded Example: Two Genes, Same Kit**  
 Take a **reverse-stranded kit** (dUTP method — the most common modern protocol) and two genes:  
@@ -912,11 +912,7 @@ Fraction of reads explained by "1+-,1-+,2++,2--": 0.79   ← High (Group 2) → 
 
 <br>
 **Forward-Stranded Example: Two Genes, Same Kit**  
-Take a **forward-stranded kit** (ligation-based directional method) and the same two genes:
-
-Gene	Gene strand	R1 maps to	R2 maps to	R1 vs. mRNA	infer_experiment.py codes
-Gene A	+	+	−	Sense	R1: 1++ · R2: 2-+
-Gene B	−	−	+	Sense	R1: 1-- · R2: 2+-
+Take a **forward-stranded kit** (ligation-based directional method) and the same two genes:  
 
 | Gene | Gene strand | R1 maps to | R2 maps to | R1 vs. mRNA | `infer_experiment.py` codes |
 | :--- | :--- | :--- | :--- | :--- | :--- |
